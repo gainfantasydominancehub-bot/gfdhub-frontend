@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FR9N0GJKPT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FR9N0GJKPT');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GFDHub — Gain Fantasy Dominance | AI Offensive Coordinator</title>
+<meta name="description" content="The AI Offensive Coordinator that delivers +1.2 wins per season. Beat the trust me brah crowd with data. $19.97.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080d;--s1:#0d0f17;--s2:#12141e;--s3:#181b27;
+  --b1:rgba(255,255,255,0.055);--b2:rgba(255,255,255,0.1);
+  --ac:#00e5a0;--ac2:rgba(0,229,160,0.1);
+  --red:#ff4d6a;--amb:#ffb347;
+  --t1:#f0f2f9;--t2:#6e7a94;--t3:#353c52;
+  --fd:'Exo 2',sans-serif;--fb:'Figtree',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);overflow-x:hidden}
+
+/* ── GRID BACKGROUND ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(0,232,122,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,232,122,0.02) 1px,transparent 1px),
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 119px,
+      rgba(0,232,122,0.06) 119px,
+      rgba(0,232,122,0.06) 120px
+    );
+  background-size:80px 80px, 80px 80px, 100% 120px;
+  pointer-events:none
+}
+
+/* Hash marks on the field */
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 23%,
+      rgba(0,232,122,0.03) 23%,
+      rgba(0,232,122,0.03) 23.2%,
+      transparent 23.2%,
+      transparent 76.8%,
+      rgba(0,232,122,0.03) 76.8%,
+      rgba(0,232,122,0.03) 77%,
+      transparent 77%
+    );
+  pointer-events:none
+}
+
+/* ── NAV ── */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:58px;background:rgba(7,8,13,0.88);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:200;backdrop-filter:blur(12px)}
+.logo{font-family:var(--fd);font-weight:900;font-size:22px;letter-spacing:-1px;color:var(--t1);text-decoration:none;display:flex;align-items:center}
+.logo em{color:var(--ac);font-style:normal}
+.logo-tag{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);padding:2px 8px;border:1px solid var(--b1);border-radius:20px;margin-left:8px;align-self:center}
+.nav-r{display:flex;align-items:center;gap:12px}
+.nav-link{font-size:13px;font-weight:500;color:var(--t2);text-decoration:none;transition:color .15s;font-family:var(--fb)}
+.nav-link:hover{color:var(--t1)}
+.nav-cta{padding:8px 20px;background:var(--ac);color:#041a0f;font-size:13px;font-weight:700;border:none;border-radius:7px;cursor:pointer;font-family:var(--fd);font-weight:800;letter-spacing:-.3px;transition:all .15s;position:relative;overflow:hidden}
+.nav-cta::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .15s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(0,229,160,0.35)}
+.nav-cta:hover::after{background:rgba(255,255,255,0.08)}
+
+/* ── TICKER ── */
+.ticker{background:rgba(0,229,160,0.04);border-bottom:1px solid rgba(0,229,160,.09);height:36px;display:flex;align-items:center;position:relative;z-index:1}
+.tick-lbl{display:flex;align-items:center;gap:6px;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--ac);padding:0 16px;white-space:nowrap;border-right:1px solid rgba(0,229,160,.14);height:100%;flex-shrink:0;font-family:var(--fd);background:rgba(0,229,160,0.04);position:relative;z-index:10}
+.tick-scroll-wrap{flex:1;overflow:hidden;height:100%;display:flex;align-items:center;position:relative}
+.tick-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.tick-track{display:flex;animation:tickscroll 60s linear infinite;white-space:nowrap;position:relative;z-index:1}
+.tick-item{display:inline-flex;align-items:center;gap:0;font-size:12px;padding:0 24px;border-right:1px solid var(--b1)}
+.tn{font-weight:700;color:var(--t1);font-family:var(--fd)}
+.tt{font-size:10px;color:var(--t3);margin:0 5px}
+.ts{font-size:11px;font-weight:700}
+.ts.out{color:var(--red)}
+.ts.q{color:var(--amb)}
+.ts.ok{color:var(--ac)}
+.tsep{color:var(--t3);margin:0 18px;font-size:14px}
+@keyframes tickscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── HERO ── */
+.hero{position:relative;z-index:1;padding:100px 48px 80px;max-width:1200px;margin:0 auto;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--ac);background:var(--ac2);border:1px solid rgba(0,229,160,.2);padding:6px 16px;border-radius:20px;margin-bottom:32px;font-family:var(--fd);animation:fadeUp .6s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.hero h1{font-family:var(--fd);font-size:clamp(48px,7vw,90px);font-weight:900;line-height:1.0;letter-spacing:-3px;margin-bottom:8px;animation:fadeUp .6s .1s ease both}
+.hero h1 .line2{color:var(--ac);font-style:italic;display:block}
+
+.hero-sub{font-size:clamp(16px,1.8vw,20px);color:var(--t2);max-width:640px;margin:24px auto 44px;line-height:1.65;animation:fadeUp .6s .2s ease both}
+.hero-sub strong{color:var(--t1);font-weight:600}
+
+/* ── EMAIL FORM ── */
+.form-outer{animation:fadeUp .6s .3s ease both;max-width:580px;margin:0 auto}
+.form-row{display:flex;gap:8px;background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:6px 6px 6px 18px;transition:border-color .15s}
+.form-row:focus-within{border-color:var(--ac)}
+.form-in{flex:1;background:none;border:none;color:var(--t1);font-size:15px;font-family:var(--fb);outline:none;min-width:0}
+.form-in::placeholder{color:var(--t3)}
+.form-btn{padding:11px 24px;background:var(--ac);color:#041a0f;font-size:14px;font-weight:800;border:none;border-radius:7px;cursor:pointer;font-family:var(--fd);white-space:nowrap;transition:all .15s;letter-spacing:-.3px}
+.form-btn:hover{background:#00ffb0;transform:translateY(-1px)}
+.form-note{font-size:12px;color:var(--t3);text-align:center;margin-top:12px;font-family:var(--fb)}
+.form-note strong{color:var(--t2)}
+.success-msg{display:none;text-align:center;padding:14px 20px;background:var(--ac2);border:1px solid rgba(0,229,160,.2);border-radius:9px;font-size:14px;color:var(--ac);font-weight:600;font-family:var(--fd);margin-bottom:10px}
+
+/* ── STATS STRIP ── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1);border-radius:14px;overflow:hidden;max-width:900px;margin:64px auto 0;animation:fadeUp .6s .4s ease both}
+.stat{background:var(--s1);padding:28px 20px;text-align:center;position:relative;transition:background .15s}
+.stat:hover{background:var(--s2)}
+.stat::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:var(--ac);opacity:0;transition:opacity .2s}
+.stat:hover::after{opacity:.4}
+.stat-n{font-family:var(--fd);font-size:clamp(28px,3.5vw,44px);font-weight:900;color:var(--ac);line-height:1;margin-bottom:6px;letter-spacing:-1px}
+.stat-l{font-size:12.5px;color:var(--t2);line-height:1.4}
+
+/* ── SECTION ── */
+.sec{position:relative;z-index:1;padding:88px 48px;max-width:1200px;margin:0 auto}
+.sec-tag{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--ac);margin-bottom:12px;font-family:var(--fd)}
+.sec h2{font-family:var(--fd);font-size:clamp(28px,3.5vw,48px);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px;line-height:1.1}
+.sec-sub{font-size:16px;color:var(--t2);max-width:620px;line-height:1.7;margin-bottom:44px}
+
+/* ── FORMULA CARDS ── */
+.fcard{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:28px 32px;margin-bottom:10px;transition:border-color .15s,transform .15s}
+.fcard:hover{border-color:rgba(0,229,160,.2);transform:translateY(-2px)}
+.fcard-eq{font-family:var(--fd);font-size:clamp(15px,2vw,22px);font-weight:800;color:var(--t1);margin-bottom:8px;line-height:1.4;letter-spacing:-.3px}
+.fcard-eq em{color:var(--ac);font-style:italic}
+.fcard-desc{font-size:14px;color:var(--t2);line-height:1.7}
+
+/* ── VS GRID ── */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:44px}
+.vc{border-radius:14px;padding:28px;transition:transform .15s}
+.vc:hover{transform:translateY(-2px)}
+.vc-bad{background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,.18)}
+.vc-good{background:rgba(0,229,160,0.07);border:1px solid rgba(0,229,160,.2)}
+.vc-lbl{font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;margin-bottom:10px;font-family:var(--fd)}
+.vc-bad .vc-lbl{color:var(--red)}
+.vc-good .vc-lbl{color:var(--ac)}
+.vc-pct{font-family:var(--fd);font-size:clamp(42px,5vw,64px);font-weight:900;line-height:1;margin-bottom:8px;letter-spacing:-2px}
+.vc-bad .vc-pct{color:var(--red)}
+.vc-good .vc-pct{color:var(--ac)}
+.vc-desc{font-size:14px;line-height:1.6}
+.vc-bad .vc-desc{color:rgba(255,130,145,.8)}
+.vc-good .vc-desc{color:rgba(0,229,160,.75)}
+
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:4px}
+.step{display:flex;gap:22px;background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:26px 28px;align-items:flex-start;transition:all .15s;position:relative;overflow:hidden}
+.step::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac);opacity:0;transition:opacity .2s}
+.step:hover{background:var(--s2);border-color:var(--b2);transform:translateX(4px)}
+.step:hover::before{opacity:1}
+.step-n{font-family:var(--fd);font-size:36px;font-weight:900;color:var(--ac);opacity:.2;line-height:1;flex-shrink:0;min-width:48px;letter-spacing:-1px}
+.step-title{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:6px;font-family:var(--fd)}
+.step-desc{font-size:14px;color:var(--t2);line-height:1.7}
+
+/* ── PRICING ── */
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:860px;margin:0 auto}
+.pc{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:32px;transition:all .15s}
+.pc:hover{transform:translateY(-3px);border-color:var(--b2)}
+.pc.feat{border-color:rgba(0,229,160,.3);background:linear-gradient(145deg,rgba(0,229,160,.06) 0%,var(--s1) 60%)}
+.pc.feat:hover{border-color:rgba(0,229,160,.5)}
+.pc-badge{font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ac);background:var(--ac2);padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:14px;font-family:var(--fd)}
+.pc-name{font-family:var(--fd);font-size:18px;font-weight:800;margin-bottom:5px;letter-spacing:-.3px}
+.pc-amt{font-family:var(--fd);font-size:40px;font-weight:900;color:var(--ac);line-height:1;margin-bottom:4px;letter-spacing:-2px}
+.pc-amt span{font-size:14px;font-weight:400;color:var(--t2);font-family:var(--fb);letter-spacing:0}
+.pc-save{font-size:12px;margin-bottom:22px}
+.pc.feat .pc-save{color:var(--ac)}
+.pc:not(.feat) .pc-save{color:var(--t3)}
+.pc-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:26px}
+.pc-feats li{font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px}
+.pc-feats li::before{content:'✓';color:var(--ac);font-weight:800;flex-shrink:0;font-family:var(--fd)}
+.pc-btn{display:block;width:100%;padding:13px;text-align:center;border-radius:9px;font-size:14px;font-weight:800;cursor:pointer;font-family:var(--fd);transition:all .15s;border:none;letter-spacing:-.3px}
+.pc-btn.pri{background:var(--ac);color:#041a0f}
+.pc-btn.pri:hover{background:#00ffb0;transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,229,160,.25)}
+.pc-btn.sec{background:var(--s2);color:var(--t1);border:1px solid var(--b2)}
+.pc-btn.sec:hover{background:var(--s3);border-color:var(--b2)}
+
+/* ── FAQ ── */
+.faq{max-width:860px;margin:0 auto}
+.fq{border-bottom:1px solid var(--b1);padding:20px 0;cursor:pointer;transition:padding .15s}
+.fq:hover{padding-left:8px}
+.fq:last-child{border-bottom:none}
+.fq-q{font-size:15px;font-weight:700;color:var(--t1);display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:var(--fd)}
+.fq-icon{font-size:22px;color:var(--t3);flex-shrink:0;transition:transform .2s,color .2s}
+.fq.open .fq-icon{transform:rotate(45deg);color:var(--ac)}
+.fq-a{font-size:14px;color:var(--t2);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .28s ease,padding .28s}
+.fq.open .fq-a{max-height:200px;padding-top:12px}
+
+/* ── FINAL CTA ── */
+.final{position:relative;z-index:1;padding:80px 48px;text-align:center;border-top:1px solid var(--b1);max-width:960px;margin:0 auto}
+.final h2{font-family:var(--fd);font-size:clamp(28px,4vw,52px);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px;line-height:1.1}
+.final h2 em{color:var(--ac);font-style:italic}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.foot-logo{font-family:var(--fd);font-weight:900;font-size:18px;letter-spacing:-1px}
+.foot-logo em{color:var(--ac);font-style:normal}
+.foot-sub{font-size:12px;color:var(--t3)}
+
+/* ── GLOW ACCENT ── */
+.glow-green{position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,232,122,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:700px){
+  nav{padding:0 20px}
+  .hero{padding:72px 20px 60px}
+  .sec{padding:60px 20px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .vs,.pricing{grid-template-columns:1fr}
+  .form-row{flex-direction:column;padding:10px}
+  .form-btn{width:100%}
+  footer{flex-direction:column;gap:8px;text-align:center;padding:24px 20px}
+  .final{padding:60px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="glow-green"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">GFD<em>Hub</em><span class="logo-tag">🏈 2026 NFL Season</span></a>
+  <div class="nav-r">
+    <a href="#formula" class="nav-link">The math</a>
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+    <button class="nav-cta" onclick="scrollToForm()">Get early access</button>
+  </div>
+</nav>
+
+<!-- LIVE TICKER -->
+<div class="ticker">
+  <div class="tick-lbl"><span class="tick-dot"></span>🏈 NFL LIVE</div>
+  <div class="tick-scroll-wrap">
+    <div class="tick-track" id="tickerTrack"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero" style="position:relative">
+<!-- Ghost football -->
+<svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-52%) rotate(-15deg);z-index:0;pointer-events:none;opacity:.025;width:min(520px,80vw)" viewBox="0 0 520 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="260" cy="160" rx="220" ry="130" stroke="#f5a623" stroke-width="3"/>
+  <line x1="260" y1="60" x2="260" y2="260" stroke="#f5a623" stroke-width="2.5"/>
+  <line x1="230" y1="110" x2="290" y2="110" stroke="#f5a623" stroke-width="2.5"/>
+  <line x1="225" y1="135" x2="295" y2="135" stroke="#f5a623" stroke-width="2.5"/>
+  <line x1="225" y1="160" x2="295" y2="160" stroke="#f5a623" stroke-width="2.5"/>
+  <line x1="225" y1="185" x2="295" y2="185" stroke="#f5a623" stroke-width="2.5"/>
+  <line x1="230" y1="210" x2="290" y2="210" stroke="#f5a623" stroke-width="2.5"/>
+  <line x1="40" y1="160" x2="100" y2="160" stroke="#f5a623" stroke-width="2"/>
+  <line x1="420" y1="160" x2="480" y2="160" stroke="#f5a623" stroke-width="2"/>
+</svg>
+<svg style="position:absolute;top:0;right:5%;opacity:0.03;pointer-events:none;z-index:0" width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Field goal posts -->
+  <rect x="55" y="100" width="10" height="100" fill="#f5a623"/>
+  <rect x="20" y="60" width="80" height="8" fill="#f5a623"/>
+  <rect x="20" y="60" width="8" height="50" fill="#f5a623"/>
+  <rect x="92" y="60" width="8" height="50" fill="#f5a623"/>
+</svg>
+<svg style="position:absolute;top:0;left:5%;opacity:0.03;pointer-events:none;z-index:0;transform:scaleX(-1)" width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="55" y="100" width="10" height="100" fill="#f5a623"/>
+  <rect x="20" y="60" width="80" height="8" fill="#f5a623"/>
+  <rect x="20" y="60" width="8" height="50" fill="#f5a623"/>
+  <rect x="92" y="60" width="8" height="50" fill="#f5a623"/>
+</svg>
+  <div class="hero-eyebrow"><span class="tick-dot"></span>Launching before draft season 2026</div>
+  <h1>Stop trusting<span class="line2">trust me brah.</span></h1>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">
+    <span>🏟️ NFL 2026 Season</span>
+    <span style="color:var(--b2)">|</span>
+    <span>Weeks 1–17 + Playoffs</span>
+    <span style="color:var(--b2)">|</span>
+    <span style="color:var(--ac)">AI OC Available 24/7</span>
+  </div>
+  <p class="hero-sub">25 years of fantasy football. The same pain every season. One bad call away from the playoffs. <strong>GFDHub is the AI Offensive Coordinator that beats the radio guru — every week, with receipts.</strong></p>
+
+  <div class="form-outer" id="heroForm">
+    <div class="form-row" id="fr1">
+      <input type="email" class="form-in" id="ei1" placeholder="your@email.com" autocomplete="email">
+      <button class="form-btn" onclick="go('ei1','ss1','fr1','fn1')">Get early access</button>
+    </div>
+    <div class="success-msg" id="ss1">You're on the list. See you before draft day.</div>
+    <p class="form-note" id="fn1"><strong>Free 7-day trial</strong> at launch &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; $19.97/season</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">+1.2</div><div class="stat-l">MORE WINS<br>per season</div></div>
+    <div class="stat"><div class="stat-n">68%</div><div class="stat-l">THE RIGHT CALL<br>made by AI OC</div></div>
+    <div class="stat" style="border-left:1px solid rgba(255,77,106,0.15)"><div class="stat-n" style="color:var(--red)">52%</div><div class="stat-l" style="color:rgba(255,77,106,0.6)">THE GURU'S CALL<br>coin flip at best</div></div>
+    
+  </div>
+
+</div>
+
+
+<!-- PAIN SCROLL -->
+<div style="position:relative;z-index:1;padding:0 0 80px">
+  <div style="text-align:center;padding:80px 48px 36px;max-width:760px;margin:0 auto">
+    <div style="font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--red);margin-bottom:14px;font-family:var(--fd)">Fantasy football pain is real</div>
+    <h2 style="font-family:var(--fd);font-size:clamp(26px,3.5vw,44px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px">Every one of these matchups was<br>one decision away from a win.</h2>
+    <p style="font-size:16px;color:var(--t2);max-width:580px;margin:0 auto;line-height:1.8;font-family:var(--fb)">Bad benches. Players left on the wire. Starting the wrong guy on a hunch, or because the guru said <span style="color:var(--red);font-weight:600">"trust me."</span><br><br>You did. <span style="color:var(--t1);font-weight:600">You lost.</span></p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:3px;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%)">
+
+    <!-- LANE 1: losses left -->
+    <div style="display:flex;overflow:hidden">
+      <div class="scroll-l1" style="display:flex;gap:3px;animation:scrollL 36s linear infinite;white-space:nowrap;will-change:transform;align-items:flex-start">
+        <div class="lc"><div class="lc-week">Week 14 · Playoff Bubble</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">118.4</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">121.2</div></div></div><div class="lc-margin">Lost by 2.8 pts</div><div class="lc-note">Started <b>benched Kelce (12 pts)</b> over Noah Gray. Guru said "rest week."</div></div>
+        <div class="lc"><div class="lc-week">Week 9 · Must Win</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">104.6</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">109.1</div></div></div><div class="lc-margin">Lost by 4.5 pts</div><div class="lc-note">Benched <b>Tutu Atwell (22 pts)</b> — Nacua hit IR. Nobody told you.</div></div>
+        <div class="lc"><div class="lc-week">Week 16 · Championship</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">133.2</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">137.8</div></div></div><div class="lc-margin">Lost by 4.6 pts</div><div class="lc-note">Started <b>Davante Adams (3 pts)</b> over Cooks. "He's due," said the radio guy.</div></div>
+        <div class="lc"><div class="lc-week">Week 11 · 3-6 Record</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">99.8</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">107.3</div></div></div><div class="lc-margin">Lost by 7.5 pts</div><div class="lc-note">Left <b>Jaylen Warren (19 pts)</b> on bench. Najee was "the guy." Snap counts said otherwise.</div></div>
+        <div class="lc"><div class="lc-week">Week 6 · Early Season</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">112.0</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">114.9</div></div></div><div class="lc-margin">Lost by 2.9 pts</div><div class="lc-note">Started <b>Zay Jones (2 pts)</b> over Tee Higgins. "Name value," said the group chat.</div></div>
+        <div class="lc"><div class="lc-week">Week 15 · Semifinals</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">141.1</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">144.4</div></div></div><div class="lc-margin">Lost by 3.3 pts</div><div class="lc-note">Benched <b>Gus Edwards (18 pts)</b>. "He's not the lead back." He was. $1,000 gone.</div></div>
+        <div class="lc"><div class="lc-week">Week 13 · Bounce Back</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">108.2</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">115.6</div></div></div><div class="lc-margin">Lost by 7.4 pts</div><div class="lc-note">Streamed <b>wrong QB (8 pts)</b>. Matchup looked good on paper. Weather killed it.</div></div>
+        <div class="lc"><div class="lc-week">Week 14 · Playoff Bubble</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">118.4</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">121.2</div></div></div><div class="lc-margin">Lost by 2.8 pts</div><div class="lc-note">Started <b>benched Kelce (12 pts)</b> over Noah Gray. Guru said "rest week."</div></div>
+        <div class="lc"><div class="lc-week">Week 9 · Must Win</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">104.6</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">109.1</div></div></div><div class="lc-margin">Lost by 4.5 pts</div><div class="lc-note">Benched <b>Tutu Atwell (22 pts)</b> — Nacua hit IR. Nobody told you.</div></div>
+        <div class="lc"><div class="lc-week">Week 16 · Championship</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">133.2</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">137.8</div></div></div><div class="lc-margin">Lost by 4.6 pts</div><div class="lc-note">Started <b>Davante Adams (3 pts)</b> over Cooks. "He's due," said the radio guy.</div></div>
+        <div class="lc"><div class="lc-week">Week 11 · 3-6 Record</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">99.8</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">107.3</div></div></div><div class="lc-margin">Lost by 7.5 pts</div><div class="lc-note">Left <b>Jaylen Warren (19 pts)</b> on bench. Najee was "the guy." Snap counts said otherwise.</div></div>
+        <div class="lc"><div class="lc-week">Week 6 · Early Season</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">112.0</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">114.9</div></div></div><div class="lc-margin">Lost by 2.9 pts</div><div class="lc-note">Started <b>Zay Jones (2 pts)</b> over Tee Higgins. "Name value," said the group chat.</div></div>
+        <div class="lc"><div class="lc-week">Week 15 · Semifinals</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">141.1</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">144.4</div></div></div><div class="lc-margin">Lost by 3.3 pts</div><div class="lc-note">Benched <b>Gus Edwards (18 pts)</b>. "He's not the lead back." He was. $1,000 gone.</div></div>
+        <div class="lc"><div class="lc-week">Week 13 · Bounce Back</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">108.2</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">115.6</div></div></div><div class="lc-margin">Lost by 7.4 pts</div><div class="lc-note">Streamed <b>wrong QB (8 pts)</b>. Matchup looked good on paper. Weather killed it.</div></div>
+      </div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div style="text-align:center;padding:16px 0;position:relative">
+      <div style="position:absolute;top:50%;left:10%;right:10%;height:1px;background:var(--b1)"></div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--b1);border-radius:20px;padding:7px 18px;font-size:12px;font-weight:700;color:var(--t2);font-family:var(--fd);position:relative;z-index:1">With GFDHub AI OC, these flip to <span style="color:var(--ac);margin-left:4px">wins ↓</span></div>
+    </div>
+
+    <!-- LANE 2: wins right -->
+    <div style="display:flex;overflow:hidden">
+      <div class="scroll-l2" style="display:flex;gap:3px;animation:scrollR 30s linear infinite;white-space:nowrap;will-change:transform;align-items:flex-start">
+        <div class="wc"><div class="wc-week">Week 14 · Playoff Clincher</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">128.6</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">121.2</div></div></div><div class="wc-note">AI OC: <b>"Start Kelce — Raiders allow most TE yards in AFC. Lock."</b> Playoffs clinched.</div></div>
+        <div class="wc"><div class="wc-week">Week 9 · Stayed Alive</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">116.8</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">109.1</div></div></div><div class="wc-note">AI OC: <b>"Add Atwell NOW — Nacua on IR. Primary LAR slot target."</b> 22 pts off waivers.</div></div>
+        <div class="wc"><div class="wc-week">Week 16 · Championship</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">151.4</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">137.8</div></div></div><div class="wc-note">AI OC: <b>"Sit Adams — limited all week + tough CB. Start Cooks."</b> $1,000 winner.</div></div>
+        <div class="wc"><div class="wc-week">Week 11 · Season Saved</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">119.2</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">107.3</div></div></div><div class="wc-note">AI OC: <b>"Start Warren — 68% snaps last 3 weeks. Najee at 41%. Data wins."</b></div></div>
+        <div class="wc"><div class="wc-week">Week 6 · Momentum</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">127.3</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">114.9</div></div></div><div class="wc-note">AI OC: <b>"Sit Jones — 3 targets last 2 weeks. CLE top CB out. Start Higgins."</b></div></div>
+        <div class="wc"><div class="wc-week">Week 15 · Semis Won</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">155.8</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">144.4</div></div></div><div class="wc-note">AI OC: <b>"Start Edwards — lead back role confirmed. 22 carries last week."</b> Championship bound.</div></div>
+        <div class="wc"><div class="wc-week">Week 13 · Back on Track</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">124.4</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">115.6</div></div></div><div class="wc-note">AI OC: <b>"Stream Stafford — dome game, no wind, Kupp fully healthy. Easy."</b></div></div>
+        <div class="wc"><div class="wc-week">Week 14 · Playoff Clincher</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">128.6</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">121.2</div></div></div><div class="wc-note">AI OC: <b>"Start Kelce — Raiders allow most TE yards in AFC. Lock."</b> Playoffs clinched.</div></div>
+        <div class="wc"><div class="wc-week">Week 9 · Stayed Alive</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">116.8</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">109.1</div></div></div><div class="wc-note">AI OC: <b>"Add Atwell NOW — Nacua on IR. Primary LAR slot target."</b> 22 pts off waivers.</div></div>
+        <div class="wc"><div class="wc-week">Week 16 · Championship</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">151.4</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">137.8</div></div></div><div class="wc-note">AI OC: <b>"Sit Adams — limited all week + tough CB. Start Cooks."</b> $1,000 winner.</div></div>
+        <div class="wc"><div class="wc-week">Week 11 · Season Saved</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">119.2</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">107.3</div></div></div><div class="wc-note">AI OC: <b>"Start Warren — 68% snaps last 3 weeks. Najee at 41%. Data wins."</b></div></div>
+        <div class="wc"><div class="wc-week">Week 6 · Momentum</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">127.3</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">114.9</div></div></div><div class="wc-note">AI OC: <b>"Sit Jones — 3 targets last 2 weeks. CLE top CB out. Start Higgins."</b></div></div>
+        <div class="wc"><div class="wc-week">Week 15 · Semis Won</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">155.8</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">144.4</div></div></div><div class="wc-note">AI OC: <b>"Start Edwards — lead back role confirmed. 22 carries last week."</b></div></div>
+        <div class="wc"><div class="wc-week">Week 13 · Back on Track</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">124.4</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">115.6</div></div></div><div class="wc-note">AI OC: <b>"Stream Stafford — dome game, no wind, Kupp fully healthy. Easy."</b></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes scrollL{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes scrollR{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.lc{display:inline-flex;flex-direction:column;background:var(--s1);border:1px solid var(--b1);border-top:2px solid var(--red);border-radius:10px;padding:12px 15px;width:230px;min-width:230px;max-width:230px;margin-right:3px;flex-shrink:0;overflow:hidden;vertical-align:top;white-space:normal}
+.lc-week{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;font-family:var(--fd)}
+.lc-scores{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.lc-side{text-align:center;flex:1}
+.lc-name{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.lc-pts{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px}
+.lc-pts.loss{color:var(--red)}
+.lc-pts.win{color:var(--t3)}
+.lc-vs{font-size:10px;font-weight:800;color:var(--t3);font-family:var(--fd)}
+.lc-margin{font-size:10px;color:var(--red);font-weight:600;margin-bottom:7px;text-align:center}
+.lc-note{font-size:11.5px;color:var(--t2);line-height:1.5;border-top:1px solid var(--b1);padding-top:7px;white-space:normal;word-wrap:break-word;overflow-wrap:break-word}
+.lc-note b{color:var(--red)}
+.wc{display:inline-flex;flex-direction:column;background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,.18);border-top:2px solid var(--ac);border-radius:10px;padding:12px 15px;width:230px;min-width:230px;max-width:230px;margin-right:3px;flex-shrink:0;overflow:hidden;vertical-align:top;white-space:normal}
+.wc-week{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(0,229,160,.9);margin-bottom:8px;font-family:var(--fd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-scores{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.wc-pts-w{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:var(--ac)}
+.wc-pts-l{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:var(--t3)}
+.wc-vs{font-size:10px;font-weight:800;color:var(--ac);font-family:var(--fd);opacity:.6}
+.wc-note{font-size:11.5px;color:var(--t1);line-height:1.5;border-top:1px solid rgba(0,229,160,.15);padding-top:7px;white-space:normal;word-wrap:break-word;overflow-wrap:break-word}
+.wc-note b{color:var(--ac);font-weight:800}
+</style>
+
+<!-- FORMULA -->
+<div class="sec reveal" id="formula">
+  <div class="sec-tag">📊 The math behind the call</div>
+  <h2>The +1.2 wins formula.<br>Not marketing. A proof.</h2>
+  <p class="sec-sub">Every variable sourced from real fantasy football research across thousands of leagues. Check it yourself.</p>
+  <div class="fcard reveal">
+    <div class="fcard-eq">Wins gained = <em>(decisions improved × pts recovered)</em> ÷ avg margin of victory</div>
+    <div class="fcard-desc">The average fantasy matchup is decided by ~18 points. The average manager makes 2.4 correctable start/sit errors per season. Each error costs ~9 points of lineup value. Fix those — flip a loss into a win.</div>
+  </div>
+  <div class="fcard reveal" style="margin-bottom:36px">
+    <div class="fcard-eq"><em>+1.2 wins</em> = (2.4 errors × 9 pts recovered) ÷ 18 pt avg margin</div>
+    <div class="fcard-desc">Two corrected decisions per season generates enough extra points to flip a result at the margins — exactly where playoff spots are decided. In a 10-team league, 1.2 extra wins is the difference between a trophy and watching from the couch.</div>
+  </div>
+  <div class="vs reveal">
+    <div class="vc vc-bad">
+      <div class="vc-lbl">The radio guru</div>
+      <div class="vc-pct">52%</div>
+      <div class="vc-desc">Hit rate on borderline calls. Barely better than a coin flip. Works from reputation, memory, and vibes. Has a microphone. Doesn't have a model.</div>
+    </div>
+    <div class="vc vc-good">
+      <div class="vc-lbl">GFDHub AI OC</div>
+      <div class="vc-pct">68%</div>
+      <div class="vc-desc">Hit rate on the same calls. Weights snap count, target share, injury timing, matchup rating, and game script. Makes the call. Never hedges. Never says "it depends."</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="sec reveal" id="how" style="padding-top:0">
+  <div class="sec-tag">🎯 How the AI OC works</div>
+  <h2>Text a question.<br>Get the call.</h2>
+  <p class="sec-sub">No dashboards. No articles. No waiting for the radio show to end. Just the answer before lineups lock.</p>
+  <div class="steps">
+    <div class="step reveal"><div class="step-n" style="font-style:italic">1st</div><div><div class="step-title">Text your AI Offensive Coordinator</div><div class="step-desc">"Start Kelce or LaPorta this week?" — Text your GFDHub number anytime. Sunday at 10am with lineups locking in two hours? The AI OC is already awake with this week's data loaded.</div></div></div>
+    <div class="step reveal"><div class="step-n" style="font-style:italic">2nd</div><div><div class="step-title">Live data pulled in real time</div><div class="step-desc">Before answering, the AI OC pulls injury status, practice participation, snap count trend over the last 4 weeks, target share, and this week's matchup rating. Under 2 seconds.</div></div></div>
+    <div class="step reveal"><div class="step-n" style="font-style:italic">3rd</div><div><div class="step-title">A confident call with the receipt</div><div class="step-desc">"Start Kelce. Full-go this week. The Raiders have allowed the most TE yards in the AFC over 4 weeks. LaPorta is limited and faces the 49ers' top corner." One call. One reason. Done.</div></div></div>
+    <div class="step reveal"><div class="step-n" style="font-style:italic">4th</div><div><div class="step-title">Plus a live news feed that never sleeps</div><div class="step-desc">GFDHub.com runs 24/7 — live NFL injury reports, practice participation, transactions — with an AI fantasy take on every single update. You know before the guru tweets.</div></div></div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="sec reveal" id="pricing" style="padding-top:0;text-align:center">
+  <div class="sec-tag">🏆 Season access pricing</div>
+  <h2>Pay for the season<br>you actually have left.</h2>
+  <p class="sec-sub" style="margin:0 auto 36px">No tricks. No fine print. The price drops as the season progresses — you always pay exactly what the remaining weeks are worth. One-time charge. No auto-renewal. Ever.</p>
+
+  <!-- SEASON TIMELINE -->
+  <div style="max-width:900px;margin:0 auto 36px;padding:0 8px">
+    <div style="position:relative;margin-bottom:10px">
+      <div style="height:5px;background:var(--s3);border-radius:3px;overflow:hidden">
+        <div id="tlFill" style="height:100%;background:linear-gradient(to right,var(--ac),var(--amb));border-radius:3px;width:0%;transition:width 1s ease"></div>
+      </div>
+      <div id="tlNow" style="position:absolute;top:-5px;width:3px;height:14px;background:var(--amb);border-radius:2px;transform:translateX(-50%);left:0%"></div>
+      <div id="tlNowLabel" style="position:absolute;top:-22px;font-size:9px;font-weight:800;color:var(--amb);white-space:nowrap;transform:translateX(-50%);left:0%;font-family:var(--fd)">You are here</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);font-family:var(--fd)">
+      <span>Aug 1<br>Draft</span>
+      <span>Sep 4<br>Week 1</span>
+      <span>Oct 15<br>Week 6</span>
+      <span>Dec 1<br>Playoffs</span>
+      <span>Jan<br>Champion</span>
+    </div>
+  </div>
+
+  <!-- PRICING CARDS -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:900px;margin:0 auto 24px" class="reveal">
+
+    <!-- CARD 1: Full Season -->
+    <div id="fullSeasonCard" style="background:rgba(0,229,160,0.07);border:1.5px solid rgba(0,229,160,.25);border-radius:14px;padding:24px;position:relative;transition:transform .15s;text-align:left" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="position:absolute;top:14px;right:14px;font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);background:var(--ac2);padding:2px 9px;border-radius:10px;font-family:var(--fd)">Best value</div>
+      <div style="font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ac);margin-bottom:8px;font-family:var(--fd)">Full Season</div>
+      <div style="font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);margin-bottom:4px;line-height:1.2">Draft through<br>Championship</div>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:14px;line-height:1.4">Aug 1 — Sep 4, 2026</div>
+      <div style="font-family:var(--fd);font-size:42px;font-weight:900;color:var(--ac);line-height:1;letter-spacing:-2px;margin-bottom:3px">$19.97</div>
+      <div style="font-size:11.5px;color:var(--t2);margin-bottom:14px">one-time · no auto-renewal</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:4px">Covers <strong style="color:var(--t1)">17 weeks</strong> + playoffs</div>
+      <div style="font-size:11px;color:var(--ac);font-weight:600;margin-bottom:18px">$1.17/week ← best deal</div>
+      <button onclick="scrollToForm()" style="display:block;width:100%;padding:11px;background:var(--ac);color:#041a0f;font-size:13px;font-weight:800;border:none;border-radius:8px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .12s" onmouseover="this.style.background='#00ffb0'" onmouseout="this.style.background='var(--ac)'">Get Full Season Access</button>
+    </div>
+
+    <!-- CARD 2: Mid Season -->
+    <div id="midSeasonCard" style="background:rgba(255,179,71,0.06);border:1px solid rgba(255,179,71,.2);border-radius:14px;padding:24px;position:relative;transition:transform .15s;text-align:left" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--amb);margin-bottom:8px;font-family:var(--fd)">Mid Season</div>
+      <div class="lock-badge" style="display:none;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--t2);background:var(--s3);padding:3px 9px;border-radius:10px;margin-bottom:8px;font-family:var(--fd);width:fit-content">🔒 Opens Sep 5</div>
+      <div style="font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);margin-bottom:4px;line-height:1.2">Weeks 2–17<br>+ Playoffs</div>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:14px;line-height:1.4">Sep 5 — Oct 15, 2026</div>
+      <div style="font-family:var(--fd);font-size:42px;font-weight:900;color:var(--amb);line-height:1;letter-spacing:-2px;margin-bottom:3px">$14.97</div>
+      <div style="font-size:11.5px;color:var(--t2);margin-bottom:14px">one-time · no auto-renewal</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:4px">Covers <strong style="color:var(--t1)">12 weeks</strong> + playoffs</div>
+      <div style="font-size:11px;color:var(--amb);font-weight:600;margin-bottom:18px">$1.25/week</div>
+      <button onclick="scrollToForm()" style="display:block;width:100%;padding:11px;background:rgba(255,179,71,.12);color:var(--amb);font-size:13px;font-weight:800;border:1px solid rgba(255,179,71,.25);border-radius:8px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .12s" onmouseover="this.style.background='rgba(255,179,71,.2)'" onmouseout="this.style.background='rgba(255,179,71,.12)'">Get Mid-Season Access</button>
+    </div>
+
+    <!-- CARD 3: Playoff Mode -->
+    <div id="playoffCard" style="background:rgba(77,166,255,0.06);border:1px solid rgba(77,166,255,.2);border-radius:14px;padding:24px;position:relative;transition:transform .15s;text-align:left" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+      <div style="position:absolute;top:14px;right:14px;font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#4da6ff;background:rgba(77,166,255,.1);padding:2px 9px;border-radius:10px;font-family:var(--fd)">Playoff push</div>
+      <div style="font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#4da6ff;margin-bottom:8px;font-family:var(--fd)">Playoff Mode</div>
+      <div class="lock-badge" style="display:none;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--t2);background:var(--s3);padding:3px 9px;border-radius:10px;margin-bottom:8px;font-family:var(--fd);width:fit-content">🔒 Opens Oct 16</div>
+      <div style="font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);margin-bottom:4px;line-height:1.2">Win your league<br>this season</div>
+      <div style="font-size:11px;color:var(--t2);margin-bottom:14px;line-height:1.4">Oct 16 — Dec 1, 2026</div>
+      <div style="font-family:var(--fd);font-size:42px;font-weight:900;color:#4da6ff;line-height:1;letter-spacing:-2px;margin-bottom:3px">$9.97</div>
+      <div style="font-size:11.5px;color:var(--t2);margin-bottom:14px">one-time · no auto-renewal</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:4px">Covers <strong style="color:var(--t1)">8 weeks</strong> + playoffs</div>
+      <div style="font-size:11px;color:#4da6ff;font-weight:600;margin-bottom:18px">$1.25/week</div>
+      <button onclick="scrollToForm()" style="display:block;width:100%;padding:11px;background:rgba(77,166,255,.1);color:#4da6ff;font-size:13px;font-weight:800;border:1px solid rgba(77,166,255,.2);border-radius:8px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .12s" onmouseover="this.style.background='rgba(77,166,255,.18)'" onmouseout="this.style.background='rgba(77,166,255,.1)'">Get Playoff Access</button>
+    </div>
+
+  </div>
+
+  <!-- ACTIVE WINDOW NOTE -->
+  <div id="activeWindowNote" style="max-width:900px;margin:0 auto 16px;text-align:center;font-size:12px;color:var(--t2);font-family:var(--fb)"></div>
+
+  <!-- VALUE TABLE -->
+  <div style="max-width:900px;margin:0 auto 20px;background:var(--s1);border:1px solid var(--b1);border-radius:12px;overflow:hidden;text-align:left" class="reveal">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:10px 18px;background:var(--s2);font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);font-family:var(--fd)">
+      <span>Window</span><span>Price</span><span>Weeks covered</span><span>Cost per week</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:12px 18px;border-bottom:1px solid var(--b1);font-size:13px;align-items:center">
+      <span style="color:var(--t1);font-weight:500">Aug 1 – Sep 4</span>
+      <span style="font-family:var(--fd);font-weight:800;color:var(--ac)">$19.97</span>
+      <span style="color:var(--t2)">17 weeks + playoffs</span>
+      <span style="color:var(--ac);font-weight:600">$1.17/wk ← best</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:12px 18px;border-bottom:1px solid var(--b1);font-size:13px;align-items:center">
+      <span style="color:var(--t1);font-weight:500">Sep 5 – Oct 15</span>
+      <span style="font-family:var(--fd);font-weight:800;color:var(--amb)">$14.97</span>
+      <span style="color:var(--t2)">12 weeks + playoffs</span>
+      <span style="color:var(--t2)">$1.25/wk</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:12px 18px;font-size:13px;align-items:center">
+      <span style="color:var(--t1);font-weight:500">Oct 16 – Dec 1</span>
+      <span style="font-family:var(--fd);font-weight:800;color:#4da6ff">$9.97</span>
+      <span style="color:var(--t2)">8 weeks + playoffs</span>
+      <span style="color:var(--t2)">$1.25/wk</span>
+    </div>
+  </div>
+
+  <!-- BOTTOM CALLOUT -->
+  <div style="max-width:900px;margin:0 auto;background:rgba(0,229,160,.05);border:1px solid rgba(0,229,160,.15);border-radius:10px;padding:14px 20px;font-size:13.5px;color:var(--t2);line-height:1.6;display:flex;gap:10px;align-items:flex-start;text-align:left" class="reveal">
+    <span style="font-size:16px;flex-shrink:0">💡</span>
+    <span>The price drops automatically as the season progresses — <strong style="color:var(--t1)">you always pay for exactly what's left.</strong> No one ever pays $19.97 for 6 weeks. No one ever feels ripped off for discovering GFDHub late. And your league prize is still $1,000+.</span>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="sec reveal" style="padding-top:0">
+  <div class="sec-tag">Questions</div>
+  <h2 style="margin-bottom:32px">The stuff you're wondering.</h2>
+  <div class="faq">
+    <div class="fq" onclick="faq(this)"><div class="fq-q">Where does the +1.2 wins number actually come from?<span class="fq-icon">+</span></div><div class="fq-a">Three real data points: the average fantasy matchup margin is ~18 points; managers make ~2.4 correctable start/sit errors per season based on lineup optimization research; each corrected error recovers ~9 pts. Formula: (2.4 × 9) ÷ 18 = 1.2. Every number is conservative — most managers will see more.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">How is this different from FantasyPros or Rotoworld?<span class="fq-icon">+</span></div><div class="fq-a">FantasyPros aggregates human opinions — still vibes, just averaged. Rotoworld is editorial news with no AI analysis layer. GFDHub's AI OC makes a call using live data pulled at the exact moment you ask, weighted by the factors that actually predict performance: snap count, target share, injury timing, and matchup rating. Texts back in under 2 seconds.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">What exactly is the SMS bot?<span class="fq-icon">+</span></div><div class="fq-a">A real phone number you text like a person in your contacts. "Start Lamb or Waddle?" — it texts back a confident answer with data in under 2 seconds. No app to open. No login. Works in your normal messages app. PRO subscribers get a dedicated number that remembers your league scoring format.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">When does GFDHub launch?<span class="fq-icon">+</span></div><div class="fq-a">Before draft season 2026 — well ahead of August 1st. Early access members get notified first and lock in pricing. NFL Week 1 is September 4, 2026. You'll have the full product before your first draft pick.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">What if the AI OC gets a call wrong?<span class="fq-icon">+</span></div><div class="fq-a">Fantasy has variance — no system is perfect. The claim is 68% accuracy on borderline calls vs ~52% for human experts. That edge compounds over 17 weeks into the +1.2 wins. Not satisfied after the free trial? Cancel with one text. You owe nothing.</div></div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final reveal" id="finalcta">
+  <div class="hero-eyebrow" style="justify-content:center;margin-bottom:20px"><span class="tick-dot"></span>Early access · Limited spots</div>
+  <h2>Stop losing to<br><em>the wrong decision.</em></h2>
+  <p style="font-size:16px;color:var(--t2);max-width:520px;margin:16px auto 36px;line-height:1.7;font-family:var(--fb)">The math is real. The product is built. The only thing missing is you on the list.</p>
+  <div class="form-outer" style="max-width:520px;margin:0 auto">
+    <div class="form-row" id="fr2">
+      <input type="email" class="form-in" id="ei2" placeholder="your@email.com" autocomplete="email">
+      <button class="form-btn" onclick="go('ei2','ss2','fr2','fn2')">Join the list</button>
+    </div>
+    <div class="success-msg" id="ss2">You're on the list. See you before draft day.</div>
+    <p class="form-note" id="fn2">Free 7-day trial at launch · <strong>$19.97/season</strong> or $19.97 · Cancel anytime</p>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">GFD<em>Hub</em></div>
+  <div class="foot-sub">Gain Fantasy Dominance · gfdhub.com · &copy; 2026 Digital Marketing Gen, Inc. · Great Neck, NY</div>
+</footer>
+
+<script>
+const PLAYERS=[
+  {n:'Saquon Barkley',t:'PHI',p:'RB',s:'ok',l:'Full practice — no designation'},
+  {n:'CeeDee Lamb',t:'DAL',p:'WR',s:'q',l:'Limited — ankle. Questionable Sunday'},
+  {n:'Travis Kelce',t:'KC',p:'TE',s:'q',l:'Limited — ankle. Game-time decision'},
+  {n:'Josh Allen',t:'BUF',p:'QB',s:'ok',l:'No injury report — full send'},
+  {n:'Puka Nacua',t:'LAR',p:'WR',s:'out',l:'IR — knee. Season over'},
+  {n:'Jaylen Waddle',t:'MIA',p:'WR',s:'ok',l:'Cleared concussion protocol — go'},
+  {n:'Christian McCaffrey',t:'SF',p:'RB',s:'ok',l:'Off injury report — active'},
+  {n:"Ja'Marr Chase",t:'CIN',p:'WR',s:'ok',l:'No designation — elite matchup'},
+  {n:'Davante Adams',t:'NYJ',p:'WR',s:'q',l:'Limited — hamstring. Questionable'},
+  {n:'Justin Jefferson',t:'MIN',p:'WR',s:'ok',l:'Full go — top WR target share'},
+  {n:'Amon-Ra St. Brown',t:'DET',p:'WR',s:'q',l:'Limited — shoulder. Monitor Friday'},
+  {n:'Cooper Kupp',t:'LAR',p:'WR',s:'ok',l:'Elevated — Nacua on IR. Primary target'},
+  {n:'Nick Chubb',t:'CLE',p:'RB',s:'out',l:'IR — knee. Season over'},
+  {n:'Tyreek Hill',t:'MIA',p:'WR',s:'ok',l:'Full practice — no concerns'},
+  {n:'Sam LaPorta',t:'DET',p:'TE',s:'ok',l:'Full practice — start with confidence'},
+  {n:'Bijan Robinson',t:'ATL',p:'RB',s:'ok',l:'No designation — full workload'},
+];
+
+function buildTicker(){
+  const sl=s=>s==='out'?'out':s==='q'?'q':'ok';
+  const st=s=>s==='out'?'OUT':s==='q'?'QUESTIONABLE':'ACTIVE';
+  const d=[...PLAYERS,...PLAYERS];
+  document.getElementById('tickerTrack').innerHTML=d.map(p=>`<span class="tick-item"><span class="tn">${p.n}</span><span class="tt">${p.t} · ${p.p}</span><span class="ts ${sl(p.s)}">${st(p.s)}</span><span class="tsep">·</span><span class="ts" style="color:var(--t2);font-weight:400">${p.l}</span></span>`).join('');
+}
+
+function go(iid,sid,fid,nid){
+  const v=document.getElementById(iid).value.trim();
+  if(!v||!v.includes('@')){document.getElementById(iid).focus();return;}
+  document.getElementById(fid).style.display='none';
+  document.getElementById(nid).style.display='none';
+  document.getElementById(sid).style.display='block';
+  const l=JSON.parse(localStorage.getItem('gfd_list')||'[]');
+  l.push({email:v,ts:new Date().toISOString()});
+  localStorage.setItem('gfd_list',JSON.stringify(l));
+  fetch('https://gfdhub-backend.railway.app/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:v})}).catch(()=>{});
+}
+
+function faq(el){const o=el.classList.contains('open');document.querySelectorAll('.fq.open').forEach(f=>f.classList.remove('open'));if(!o)el.classList.add('open');}
+function scrollToForm(){document.getElementById('ei1').focus();document.getElementById('heroForm').scrollIntoView({behavior:'smooth',block:'center'});}
+
+document.getElementById('ei1').addEventListener('keydown',e=>{if(e.key==='Enter')go('ei1','ss1','fr1','fn1');});
+document.getElementById('ei2').addEventListener('keydown',e=>{if(e.key==='Enter')go('ei2','ss2','fr2','fn2');});
+
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+buildTicker();
+
+// Season timeline position
+function updateTimeline() {
+  const start = new Date('2026-08-01');
+  const end = new Date('2027-01-15');
+  const now = new Date();
+  const pct = Math.max(0, Math.min(100, ((now - start) / (end - start)) * 100));
+  const fill = document.getElementById('tlFill');
+  const marker = document.getElementById('tlNow');
+  const label = document.getElementById('tlNowLabel');
+  if (fill) setTimeout(() => { fill.style.width = pct + '%'; }, 300);
+  if (marker) marker.style.left = pct + '%';
+  if (label) label.style.left = pct + '%';
+}
+updateTimeline();
+
+// Lock pricing cards based on current date
+function lockPricingCards() {
+  const now = new Date();
+  const midSeasonStart = new Date('2026-09-05');
+  const playoffStart   = new Date('2026-10-16');
+  const seasonEnd      = new Date('2026-12-01');
+
+  const midCard     = document.getElementById('midSeasonCard');
+  const playoffCard = document.getElementById('playoffCard');
+  const fullCard    = document.getElementById('fullSeasonCard');
+
+  // After season ends — show off-season message on all cards
+  if (now > seasonEnd) {
+    [fullCard, midCard, playoffCard].forEach(card => {
+      if (!card) return;
+      card.style.opacity = '0.4';
+      card.style.pointerEvents = 'none';
+      const btn = card.querySelector('button');
+      if (btn) { btn.textContent = 'Season Over — See You in August'; btn.style.background = 'var(--s3)'; btn.style.color = 'var(--t3)'; }
+    });
+    return;
+  }
+
+  // Lock mid-season card if too early
+  if (now < midSeasonStart && midCard) {
+    midCard.style.opacity = '0.45';
+    midCard.style.pointerEvents = 'none';
+    const btn = midCard.querySelector('button');
+    const badge = midCard.querySelector('.lock-badge');
+    if (btn) { btn.textContent = 'Available Sep 5'; btn.style.background = 'var(--s3)'; btn.style.color = 'var(--t3)'; btn.style.border = '1px solid var(--b1)'; }
+    if (badge) badge.style.display = 'flex';
+  }
+
+  // Lock playoff card if too early
+  if (now < playoffStart && playoffCard) {
+    playoffCard.style.opacity = '0.45';
+    playoffCard.style.pointerEvents = 'none';
+    const btn = playoffCard.querySelector('button');
+    const badge = playoffCard.querySelector('.lock-badge');
+    if (btn) { btn.textContent = 'Available Oct 16'; btn.style.background = 'var(--s3)'; btn.style.color = 'var(--t3)'; btn.style.border = '1px solid var(--b1)'; }
+    if (badge) badge.style.display = 'flex';
+  }
+
+  // Also highlight the currently active card with a subtle pulse
+  if (now < midSeasonStart && fullCard) {
+    fullCard.style.boxShadow = '0 0 32px rgba(0,229,160,0.15)';
+  } else if (now >= midSeasonStart && now < playoffStart && midCard) {
+    midCard.style.opacity = '1';
+    midCard.style.boxShadow = '0 0 32px rgba(255,179,71,0.12)';
+  } else if (now >= playoffStart && playoffCard) {
+    playoffCard.style.opacity = '1';
+    playoffCard.style.boxShadow = '0 0 32px rgba(77,166,255,0.12)';
+  }
+}
+lockPricingCards();
+
+// Show which window is currently active
+function showActiveWindow() {
+  const now = new Date();
+  const note = document.getElementById('activeWindowNote');
+  if (!note) return;
+  const midSeasonStart = new Date('2026-09-05');
+  const playoffStart   = new Date('2026-10-16');
+  const seasonEnd      = new Date('2026-12-01');
+
+  if (now < new Date('2026-08-01')) {
+    note.innerHTML = '🟢 <strong style="color:var(--t1)">Pre-season pricing active.</strong> Full Season access available now — best value of the year.';
+  } else if (now < midSeasonStart) {
+    note.innerHTML = '🟢 <strong style="color:var(--ac)">Full Season pricing active</strong> — Aug 1 to Sep 4. Mid-Season and Playoff tiers unlock later in the season.';
+  } else if (now < playoffStart) {
+    note.innerHTML = '🟡 <strong style="color:var(--amb)">Mid-Season pricing active</strong> — Sep 5 to Oct 15. Full Season is no longer available. Playoff tier unlocks Oct 16.';
+  } else if (now < seasonEnd) {
+    note.innerHTML = '🔵 <strong style="color:#4da6ff">Playoff Mode pricing active</strong> — Oct 16 to Dec 1. Make the call. Your league prize is still $1,000.';
+  } else {
+    note.innerHTML = '⚪ Season complete. GFDHub returns August 2027.';
+  }
+}
+showActiveWindow();
+</script>
+</body>
+</html>
