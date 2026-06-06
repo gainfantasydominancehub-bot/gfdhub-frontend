@@ -119,7 +119,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .success-msg{display:none;text-align:center;padding:14px 20px;background:var(--ac2);border:1px solid rgba(0,229,160,.2);border-radius:9px;font-size:14px;color:var(--ac);font-weight:600;font-family:var(--fd);margin-bottom:10px}
 
 /* ── STATS STRIP ── */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1);border-radius:14px;overflow:hidden;max-width:900px;margin:64px auto 0;animation:fadeUp .6s .4s ease both}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--b1);border:1px solid var(--b1);border-radius:14px;overflow:hidden;max-width:900px;margin:64px auto 0;animation:fadeUp .6s .4s ease both}
 .stat{background:var(--s1);padding:28px 20px;text-align:center;position:relative;transition:background .15s}
 .stat:hover{background:var(--s2)}
 .stat::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;background:var(--ac);opacity:0;transition:opacity .2s}
@@ -280,7 +280,7 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   <rect x="20" y="60" width="8" height="50" fill="#f5a623"/>
   <rect x="92" y="60" width="8" height="50" fill="#f5a623"/>
 </svg>
-  <div class="hero-eyebrow"><span class="tick-dot"></span>Launching before draft season 2026</div>
+  <div class="hero-eyebrow"><span class="tick-dot"></span>🏈 Fantasy Football · Player Props Research · 2026 NFL Season</div>
   <h1>Stop trusting<span class="line2">trust me brah.</span></h1>
   <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">
     <span>🏟️ NFL 2026 Season</span>
@@ -289,21 +289,19 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <span style="color:var(--b2)">|</span>
     <span style="color:var(--ac)">AI OC Available 24/7</span>
   </div>
-  <p class="hero-sub">25 years of fantasy football. The same pain every season. One bad call away from the playoffs. <strong>GFDHub is the AI Offensive Coordinator that beats the radio guru — every week, with receipts.</strong></p>
+  <p class="hero-sub">25 years of fantasy football. The same pain every season. One bad call away from the playoffs. <strong>GFDHub is the AI Offensive Coordinator that beats the radio guru — every week, with receipts.</strong> The same data works for your player props research too.</p>
 
-  <div class="form-outer" id="heroForm">
-    <div class="form-row" id="fr1">
-      <input type="email" class="form-in" id="ei1" placeholder="your@email.com" autocomplete="email">
-      <button class="form-btn" onclick="go('ei1','ss1','fr1','fn1')">Get early access</button>
-    </div>
-    <div class="success-msg" id="ss1">You're on the list. See you before draft day.</div>
-    <p class="form-note" id="fn1"><strong>Free 7-day trial</strong> at launch &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; $19.97/season</p>
+  <div style="text-align:center;margin:0 auto 8px">
+    <button onclick="document.getElementById('finalcta').scrollIntoView({behavior:'smooth'})" style="padding:14px 40px;background:var(--ac);color:#021a0a;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">See how it works ↓</button>
+    <div style="font-size:12px;color:var(--t3);margin-top:10px;font-family:var(--fb)">$19.97 · Full season · No auto-renewal</div>
   </div>
 
   <div class="stats">
     <div class="stat"><div class="stat-n">+1.2</div><div class="stat-l">MORE WINS<br>per season</div></div>
     <div class="stat"><div class="stat-n">68%</div><div class="stat-l">THE RIGHT CALL<br>made by AI OC</div></div>
     <div class="stat" style="border-left:1px solid rgba(255,77,106,0.15)"><div class="stat-n" style="color:var(--red)">52%</div><div class="stat-l" style="color:rgba(255,77,106,0.6)">THE GURU'S CALL<br>coin flip at best</div></div>
+    <div class="stat"><div class="stat-n">32</div><div class="stat-l">DATA POINTS<br>per player</div></div>
+    <div class="stat"><div class="stat-n">&lt;2s</div><div class="stat-l">TO MAKE<br>the call</div></div>
     
   </div>
 
@@ -425,119 +423,91 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
 <div class="sec reveal" id="how" style="padding-top:0">
   <div class="sec-tag">🎯 How the AI OC works</div>
   <h2>Text a question.<br>Get the call.</h2>
-  <p class="sec-sub">No dashboards. No articles. No waiting for the radio show to end. Just the answer before lineups lock.</p>
+  <p class="sec-sub">No Guru Rankings. No articles. No waiting for the radio show to end. Just the answer before lineups lock.</p>
   <div class="steps">
     <div class="step reveal"><div class="step-n" style="font-style:italic">1st</div><div><div class="step-title">Text your AI Offensive Coordinator</div><div class="step-desc">"Start Kelce or LaPorta this week?" — Text your GFDHub number anytime. Sunday at 10am with lineups locking in two hours? The AI OC is already awake with this week's data loaded.</div></div></div>
     <div class="step reveal"><div class="step-n" style="font-style:italic">2nd</div><div><div class="step-title">Live data pulled in real time</div><div class="step-desc">Before answering, the AI OC pulls injury status, practice participation, snap count trend over the last 4 weeks, target share, and this week's matchup rating. Under 2 seconds.</div></div></div>
     <div class="step reveal"><div class="step-n" style="font-style:italic">3rd</div><div><div class="step-title">A confident call with the receipt</div><div class="step-desc">"Start Kelce. Full-go this week. The Raiders have allowed the most TE yards in the AFC over 4 weeks. LaPorta is limited and faces the 49ers' top corner." One call. One reason. Done.</div></div></div>
     <div class="step reveal"><div class="step-n" style="font-style:italic">4th</div><div><div class="step-title">Plus a live news feed that never sleeps</div><div class="step-desc">GFDHub.com runs 24/7 — live NFL injury reports, practice participation, transactions — with an AI fantasy take on every single update. You know before the guru tweets.</div></div></div>
   </div>
+
+  <div class="reveal" style="margin-top:14px;background:linear-gradient(135deg,rgba(0,232,122,0.07),rgba(0,232,122,0.02));border:1px solid rgba(0,232,122,0.18);border-radius:14px;padding:28px 32px">
+    <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap">
+      <div style="flex:1;min-width:260px">
+        <div style="font-family:var(--fd);font-size:clamp(24px,3vw,38px);font-weight:900;color:var(--ac);line-height:1.1;letter-spacing:-1px;font-style:italic;margin-bottom:10px">32 data points.<br>Under 2 seconds.<br>One confident call.</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.65;font-family:var(--fb)">Before the AI OC answers your question it checks injury report, snap count trend over 4 weeks, target share, route participation, matchup rating, weather, game script, and your personal scoring format — all pulled live, all weighted, processed before your coffee gets cold.</div>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <div style="font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:10px">The radio guru checks</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:18px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--red);font-family:var(--fb)"><span style="font-weight:800">✗</span>His memory</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--red);font-family:var(--fb)"><span style="font-weight:800">✗</span>His game notes from Sunday</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--red);font-family:var(--fb)"><span style="font-weight:800">✗</span>Whatever his producer told him</div>
+        </div>
+        <div style="font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:10px">The AI OC checks</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ac);font-family:var(--fb)"><span style="font-weight:800">✓</span>32 live data points per player</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ac);font-family:var(--fb)"><span style="font-weight:800">✓</span>Your scoring format &amp; roster</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ac);font-family:var(--fb)"><span style="font-weight:800">✓</span>Delivered in under 2 seconds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARPS SECTION -->
+<div class="sec reveal" style="padding-top:0;text-align:center;border-top:1px solid var(--b1)">
+  <div style="max-width:760px;margin:0 auto">
+    <div class="sec-tag">📊 Fantasy managers. Props researchers. Same AI OC.</div>
+    <h2 style="margin-bottom:16px">The sharps have always known.</h2>
+    <p class="sec-sub" style="margin:0 auto 32px;max-width:640px">Snap count trends and target share predict player performance better than any gut feeling or radio take. That data drives fantasy decisions — and it drives player props research too. The AI OC pulls it all in real time, every week, for every player you ask about.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto">
+      <div style="background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:22px;text-align:left">
+        <div style="font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Snap Count Trends</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.6;font-family:var(--fb)">Is a player's role growing or shrinking? Snap share over the last 4 weeks is the strongest predictor of weekly volume — for fantasy points and player performance alike.</div>
+      </div>
+      <div style="background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:20px;text-align:left">
+        <div style="font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Target Share & Routes</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.6;font-family:var(--fb)">How many of the team's targets is a receiver seeing? Route participation rate tells you who the quarterback actually trusts — regardless of reputation or name value.</div>
+      </div>
+      <div style="background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:20px;text-align:left">
+        <div style="font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Matchup Ratings</div>
+        <div style="font-size:13px;color:var(--t2);line-height:1.6;font-family:var(--fb)">Who does the opponent allow big games to? The AI OC cross-references each player against defensive performance over the last 4 weeks — not the season average that everyone else uses.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- PRICING -->
 <div class="sec reveal" id="pricing" style="padding-top:0;text-align:center">
-  <div class="sec-tag">🏆 Season access pricing</div>
-  <h2>Pay for the season<br>you actually have left.</h2>
-  <p class="sec-sub" style="margin:0 auto 36px">No tricks. No fine print. The price drops as the season progresses — you always pay exactly what the remaining weeks are worth. One-time charge. No auto-renewal. Ever.</p>
+  <div class="sec-tag">🏆 Season access</div>
+  <h2>Gain your playoff berth<br>for less than 2 beers<br>at the stadium.</h2>
+  <p class="sec-sub" style="margin:0 auto 36px"></p>
 
-  <!-- SEASON TIMELINE -->
-  <div style="max-width:900px;margin:0 auto 36px;padding:0 8px">
-    <div style="position:relative;margin-bottom:10px">
-      <div style="height:5px;background:var(--s3);border-radius:3px;overflow:hidden">
-        <div id="tlFill" style="height:100%;background:linear-gradient(to right,var(--ac),var(--amb));border-radius:3px;width:0%;transition:width 1s ease"></div>
-      </div>
-      <div id="tlNow" style="position:absolute;top:-5px;width:3px;height:14px;background:var(--amb);border-radius:2px;transform:translateX(-50%);left:0%"></div>
-      <div id="tlNowLabel" style="position:absolute;top:-22px;font-size:9px;font-weight:800;color:var(--amb);white-space:nowrap;transform:translateX(-50%);left:0%;font-family:var(--fd)">You are here</div>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);font-family:var(--fd)">
-      <span>Aug 1<br>Draft</span>
-      <span>Sep 4<br>Week 1</span>
-      <span>Oct 15<br>Week 6</span>
-      <span>Dec 1<br>Playoffs</span>
-      <span>Jan<br>Champion</span>
-    </div>
-  </div>
-
-  <!-- PRICING CARDS -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:900px;margin:0 auto 24px" class="reveal">
-
-    <!-- CARD 1: Full Season -->
-    <div id="fullSeasonCard" style="background:rgba(0,229,160,0.07);border:1.5px solid rgba(0,229,160,.25);border-radius:14px;padding:24px;position:relative;transition:transform .15s;text-align:left" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-      <div style="position:absolute;top:14px;right:14px;font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);background:var(--ac2);padding:2px 9px;border-radius:10px;font-family:var(--fd)">Best value</div>
-      <div style="font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ac);margin-bottom:8px;font-family:var(--fd)">Full Season</div>
-      <div style="font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);margin-bottom:4px;line-height:1.2">Draft through<br>Championship</div>
-      <div style="font-size:11px;color:var(--t2);margin-bottom:14px;line-height:1.4">Aug 1 — Sep 4, 2026</div>
-      <div style="font-family:var(--fd);font-size:42px;font-weight:900;color:var(--ac);line-height:1;letter-spacing:-2px;margin-bottom:3px">$19.97</div>
-      <div style="font-size:11.5px;color:var(--t2);margin-bottom:14px">one-time · no auto-renewal</div>
-      <div style="font-size:12px;color:var(--t2);margin-bottom:4px">Covers <strong style="color:var(--t1)">17 weeks</strong> + playoffs</div>
-      <div style="font-size:11px;color:var(--ac);font-weight:600;margin-bottom:18px">$1.17/week ← best deal</div>
-      <button onclick="scrollToForm()" style="display:block;width:100%;padding:11px;background:var(--ac);color:#041a0f;font-size:13px;font-weight:800;border:none;border-radius:8px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .12s" onmouseover="this.style.background='#00ffb0'" onmouseout="this.style.background='var(--ac)'">Get Full Season Access</button>
-    </div>
-
-    <!-- CARD 2: Mid Season -->
-    <div id="midSeasonCard" style="background:rgba(255,179,71,0.06);border:1px solid rgba(255,179,71,.2);border-radius:14px;padding:24px;position:relative;transition:transform .15s;text-align:left" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-      <div style="font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--amb);margin-bottom:8px;font-family:var(--fd)">Mid Season</div>
-      <div class="lock-badge" style="display:none;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--t2);background:var(--s3);padding:3px 9px;border-radius:10px;margin-bottom:8px;font-family:var(--fd);width:fit-content">🔒 Opens Sep 5</div>
-      <div style="font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);margin-bottom:4px;line-height:1.2">Weeks 2–17<br>+ Playoffs</div>
-      <div style="font-size:11px;color:var(--t2);margin-bottom:14px;line-height:1.4">Sep 5 — Oct 15, 2026</div>
-      <div style="font-family:var(--fd);font-size:42px;font-weight:900;color:var(--amb);line-height:1;letter-spacing:-2px;margin-bottom:3px">$14.97</div>
-      <div style="font-size:11.5px;color:var(--t2);margin-bottom:14px">one-time · no auto-renewal</div>
-      <div style="font-size:12px;color:var(--t2);margin-bottom:4px">Covers <strong style="color:var(--t1)">12 weeks</strong> + playoffs</div>
-      <div style="font-size:11px;color:var(--amb);font-weight:600;margin-bottom:18px">$1.25/week</div>
-      <button onclick="scrollToForm()" style="display:block;width:100%;padding:11px;background:rgba(255,179,71,.12);color:var(--amb);font-size:13px;font-weight:800;border:1px solid rgba(255,179,71,.25);border-radius:8px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .12s" onmouseover="this.style.background='rgba(255,179,71,.2)'" onmouseout="this.style.background='rgba(255,179,71,.12)'">Get Mid-Season Access</button>
-    </div>
-
-    <!-- CARD 3: Playoff Mode -->
-    <div id="playoffCard" style="background:rgba(77,166,255,0.06);border:1px solid rgba(77,166,255,.2);border-radius:14px;padding:24px;position:relative;transition:transform .15s;text-align:left" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-      <div style="position:absolute;top:14px;right:14px;font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#4da6ff;background:rgba(77,166,255,.1);padding:2px 9px;border-radius:10px;font-family:var(--fd)">Playoff push</div>
-      <div style="font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#4da6ff;margin-bottom:8px;font-family:var(--fd)">Playoff Mode</div>
-      <div class="lock-badge" style="display:none;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--t2);background:var(--s3);padding:3px 9px;border-radius:10px;margin-bottom:8px;font-family:var(--fd);width:fit-content">🔒 Opens Oct 16</div>
-      <div style="font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);margin-bottom:4px;line-height:1.2">Win your league<br>this season</div>
-      <div style="font-size:11px;color:var(--t2);margin-bottom:14px;line-height:1.4">Oct 16 — Dec 1, 2026</div>
-      <div style="font-family:var(--fd);font-size:42px;font-weight:900;color:#4da6ff;line-height:1;letter-spacing:-2px;margin-bottom:3px">$9.97</div>
-      <div style="font-size:11.5px;color:var(--t2);margin-bottom:14px">one-time · no auto-renewal</div>
-      <div style="font-size:12px;color:var(--t2);margin-bottom:4px">Covers <strong style="color:var(--t1)">8 weeks</strong> + playoffs</div>
-      <div style="font-size:11px;color:#4da6ff;font-weight:600;margin-bottom:18px">$1.25/week</div>
-      <button onclick="scrollToForm()" style="display:block;width:100%;padding:11px;background:rgba(77,166,255,.1);color:#4da6ff;font-size:13px;font-weight:800;border:1px solid rgba(77,166,255,.2);border-radius:8px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .12s" onmouseover="this.style.background='rgba(77,166,255,.18)'" onmouseout="this.style.background='rgba(77,166,255,.1)'">Get Playoff Access</button>
-    </div>
-
-  </div>
-
-  <!-- ACTIVE WINDOW NOTE -->
-  <div id="activeWindowNote" style="max-width:900px;margin:0 auto 16px;text-align:center;font-size:12px;color:var(--t2);font-family:var(--fb)"></div>
-
-  <!-- VALUE TABLE -->
-  <div style="max-width:900px;margin:0 auto 20px;background:var(--s1);border:1px solid var(--b1);border-radius:12px;overflow:hidden;text-align:left" class="reveal">
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:10px 18px;background:var(--s2);font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);font-family:var(--fd)">
-      <span>Window</span><span>Price</span><span>Weeks covered</span><span>Cost per week</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:12px 18px;border-bottom:1px solid var(--b1);font-size:13px;align-items:center">
-      <span style="color:var(--t1);font-weight:500">Aug 1 – Sep 4</span>
-      <span style="font-family:var(--fd);font-weight:800;color:var(--ac)">$19.97</span>
-      <span style="color:var(--t2)">17 weeks + playoffs</span>
-      <span style="color:var(--ac);font-weight:600">$1.17/wk ← best</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:12px 18px;border-bottom:1px solid var(--b1);font-size:13px;align-items:center">
-      <span style="color:var(--t1);font-weight:500">Sep 5 – Oct 15</span>
-      <span style="font-family:var(--fd);font-weight:800;color:var(--amb)">$14.97</span>
-      <span style="color:var(--t2)">12 weeks + playoffs</span>
-      <span style="color:var(--t2)">$1.25/wk</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:12px 18px;font-size:13px;align-items:center">
-      <span style="color:var(--t1);font-weight:500">Oct 16 – Dec 1</span>
-      <span style="font-family:var(--fd);font-weight:800;color:#4da6ff">$9.97</span>
-      <span style="color:var(--t2)">8 weeks + playoffs</span>
-      <span style="color:var(--t2)">$1.25/wk</span>
+  <!-- PRICING CARD -->
+  <div class="reveal" style="max-width:480px;margin:0 auto 24px">
+    <div style="background:rgba(0,232,122,0.07);border:1.5px solid rgba(0,232,122,.25);border-radius:16px;padding:36px 32px;text-align:center;position:relative">
+      <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#021a0a;background:var(--gold);padding:4px 16px;border-radius:20px;white-space:nowrap;font-family:var(--fd)">2026 NFL Season · One-time charge</div>
+      <div style="font-family:var(--fd);font-size:clamp(52px,10vw,72px);font-weight:900;color:var(--gold);line-height:1;letter-spacing:-3px;font-style:italic;margin-bottom:4px">$19.97</div>
+      <div style="font-family:var(--fd);font-size:14px;font-weight:700;color:var(--t2);margin-bottom:6px;letter-spacing:.3px">FOR THE FULL SEASON</div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:24px;font-family:var(--fb)">Draft day through the championship.<br>Less than 2 beers at the game.</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:28px;text-align:left">
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Live NFL player news feed — 24/7</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>AI take on every injury &amp; update</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Start/Sit AI Offensive Coordinator</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>SMS bot — text your lineup questions</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Waiver wire AI recommendations</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Personal command center — track your record</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Unlimited questions — no limits, ever</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Player props research — snap counts, target share, matchup data</li>
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Zero ads, ever</li>
+      </ul>
+      <button onclick="scrollToForm()" style="display:block;width:100%;padding:15px;background:var(--ac);color:#021a0a;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">Get Early Access — $19.97</button>
+      <div style="font-size:12px;color:var(--t3);margin-top:12px;font-family:var(--fb)">One-time · $19.97 · Draft through playoffs · No auto-renewal</div>
     </div>
   </div>
 
-  <!-- BOTTOM CALLOUT -->
-  <div style="max-width:900px;margin:0 auto;background:rgba(0,229,160,.05);border:1px solid rgba(0,229,160,.15);border-radius:10px;padding:14px 20px;font-size:13.5px;color:var(--t2);line-height:1.6;display:flex;gap:10px;align-items:flex-start;text-align:left" class="reveal">
-    <span style="font-size:16px;flex-shrink:0">💡</span>
-    <span>The price drops automatically as the season progresses — <strong style="color:var(--t1)">you always pay for exactly what's left.</strong> No one ever pays $19.97 for 6 weeks. No one ever feels ripped off for discovering GFDHub late. And your league prize is still $1,000+.</span>
-  </div>
-</div>
-
+  
 <!-- FAQ -->
 <div class="sec reveal" style="padding-top:0">
   <div class="sec-tag">Questions</div>
@@ -547,7 +517,8 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <div class="fq" onclick="faq(this)"><div class="fq-q">How is this different from FantasyPros or Rotoworld?<span class="fq-icon">+</span></div><div class="fq-a">FantasyPros aggregates human opinions — still vibes, just averaged. Rotoworld is editorial news with no AI analysis layer. GFDHub's AI OC makes a call using live data pulled at the exact moment you ask, weighted by the factors that actually predict performance: snap count, target share, injury timing, and matchup rating. Texts back in under 2 seconds.</div></div>
     <div class="fq" onclick="faq(this)"><div class="fq-q">What exactly is the SMS bot?<span class="fq-icon">+</span></div><div class="fq-a">A real phone number you text like a person in your contacts. "Start Lamb or Waddle?" — it texts back a confident answer with data in under 2 seconds. No app to open. No login. Works in your normal messages app. PRO subscribers get a dedicated number that remembers your league scoring format.</div></div>
     <div class="fq" onclick="faq(this)"><div class="fq-q">When does GFDHub launch?<span class="fq-icon">+</span></div><div class="fq-a">Before draft season 2026 — well ahead of August 1st. Early access members get notified first and lock in pricing. NFL Week 1 is September 4, 2026. You'll have the full product before your first draft pick.</div></div>
-    <div class="fq" onclick="faq(this)"><div class="fq-q">What if the AI OC gets a call wrong?<span class="fq-icon">+</span></div><div class="fq-a">Fantasy has variance — no system is perfect. The claim is 68% accuracy on borderline calls vs ~52% for human experts. That edge compounds over 17 weeks into the +1.2 wins. Not satisfied after the free trial? Cancel with one text. You owe nothing.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">What if the AI OC gets a call wrong?<span class="fq-icon">+</span></div><div class="fq-a">Fantasy has variance — no system is perfect. The claim is 68% accuracy on borderline calls vs ~52% for human experts. That edge compounds over 17 weeks into the +1.2 wins. Not satisfied after the full season? Cancel with one text. You owe nothing.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">Can I use GFDHub for player props research?<span class="fq-icon">+</span></div><div class="fq-a">The AI OC pulls the same data that drives both fantasy decisions and player performance analysis — snap counts, target share, route participation, matchup ratings, weather, and game script. If you want to know whether a receiver is set up for a big game this week, the AI OC will tell you exactly why the data supports that or doesn't. What you do with that information is up to you.</div></div>
   </div>
 </div>
 
@@ -562,7 +533,7 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
       <button class="form-btn" onclick="go('ei2','ss2','fr2','fn2')">Join the list</button>
     </div>
     <div class="success-msg" id="ss2">You're on the list. See you before draft day.</div>
-    <p class="form-note" id="fn2">Free 7-day trial at launch · <strong>$19.97/season</strong> or $19.97 · Cancel anytime</p>
+    <p class="form-note" id="fn2">$19.97 at launch · <strong>$19.97/season</strong> or $19.97 · No auto-renewal</p>
   </div>
 </div>
 
@@ -611,9 +582,9 @@ function go(iid,sid,fid,nid){
 }
 
 function faq(el){const o=el.classList.contains('open');document.querySelectorAll('.fq.open').forEach(f=>f.classList.remove('open'));if(!o)el.classList.add('open');}
-function scrollToForm(){document.getElementById('ei1').focus();document.getElementById('heroForm').scrollIntoView({behavior:'smooth',block:'center'});}
+function scrollToForm(){document.getElementById('finalcta').scrollIntoView({behavior:'smooth'});}
 
-document.getElementById('ei1').addEventListener('keydown',e=>{if(e.key==='Enter')go('ei1','ss1','fr1','fn1');});
+
 document.getElementById('ei2').addEventListener('keydown',e=>{if(e.key==='Enter')go('ei2','ss2','fr2','fn2');});
 
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
