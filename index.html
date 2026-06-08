@@ -578,7 +578,7 @@ function go(iid,sid,fid,nid){
   const l=JSON.parse(localStorage.getItem('gfd_list')||'[]');
   l.push({email:v,ts:new Date().toISOString()});
   localStorage.setItem('gfd_list',JSON.stringify(l));
-  fetch('https://gfdhub-production.up.railway.app/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:v})}).catch(()=>{});
+  fetch('https://api.gfdhub.com/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:v})}).catch(()=>{});
 }
 
 function faq(el){const o=el.classList.contains('open');document.querySelectorAll('.fq.open').forEach(f=>f.classList.remove('open'));if(!o)el.classList.add('open');}
