@@ -45,8 +45,6 @@ body::before{
   background-size:80px 80px, 80px 80px, 100% 120px;
   pointer-events:none
 }
-
-/* Hash marks on the field */
 body::after{
   content:'';position:fixed;inset:0;z-index:0;
   background-image:
@@ -99,10 +97,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .hero{position:relative;z-index:1;padding:100px 48px 80px;max-width:1200px;margin:0 auto;text-align:center}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--ac);background:var(--ac2);border:1px solid rgba(0,229,160,.2);padding:6px 16px;border-radius:20px;margin-bottom:32px;font-family:var(--fd);animation:fadeUp .6s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
 .hero h1{font-family:var(--fd);font-size:clamp(48px,7vw,90px);font-weight:900;line-height:1.0;letter-spacing:-3px;margin-bottom:8px;animation:fadeUp .6s .1s ease both}
 .hero h1 .line2{color:var(--ac);font-style:italic;display:block}
-
 .hero-sub{font-size:clamp(16px,1.8vw,20px);color:var(--t2);max-width:640px;margin:24px auto 44px;line-height:1.65;animation:fadeUp .6s .2s ease both}
 .hero-sub strong{color:var(--t1);font-weight:600}
 
@@ -166,6 +162,142 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .step-title{font-size:16px;font-weight:700;color:var(--t1);margin-bottom:6px;font-family:var(--fd)}
 .step-desc{font-size:14px;color:var(--t2);line-height:1.7}
 
+/* ── PHONE DEMO ── */
+.demo-outer{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  gap:32px;padding:80px 48px;
+  border-top:1px solid var(--b1);
+  border-bottom:1px solid var(--b1);
+  overflow:hidden;
+}
+.demo-outer::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,232,122,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,232,122,0.015) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;
+}
+.demo-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fd);font-size:11px;font-weight:800;
+  letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--ac);background:var(--ac2);
+  border:1px solid rgba(0,229,160,.2);
+  padding:6px 16px;border-radius:20px;
+  position:relative;z-index:1;
+}
+.demo-dot{width:5px;height:5px;border-radius:50%;background:var(--ac);animation:dpulse 2s infinite}
+@keyframes dpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.demo-headline{
+  font-family:var(--fd);font-size:clamp(26px,4vw,48px);
+  font-weight:900;letter-spacing:-1.5px;line-height:1.1;
+  color:var(--t1);text-align:center;
+  position:relative;z-index:1;max-width:560px;
+}
+.demo-headline em{color:var(--ac);font-style:italic}
+.demo-sub{
+  font-family:var(--fb);font-size:16px;color:var(--t2);
+  text-align:center;max-width:460px;line-height:1.65;
+  position:relative;z-index:1;
+}
+.phone-frame{
+  width:320px;background:var(--s1);
+  border:2px solid rgba(255,255,255,0.1);
+  border-radius:44px;
+  position:relative;z-index:1;
+  overflow:hidden;
+}
+.phone-notch{
+  height:30px;background:var(--s1);
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--b1);
+}
+.notch-pill{width:80px;height:12px;background:#000;border-radius:20px}
+.phone-topbar{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 18px;border-bottom:1px solid var(--b1);
+  background:var(--s1);
+}
+.oc-ava{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--ac2);border:1px solid rgba(0,229,160,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:10px;font-weight:800;color:var(--ac);
+  flex-shrink:0;
+}
+.oc-name{font-family:var(--fd);font-size:12px;font-weight:800;color:var(--t1)}
+.oc-status{font-size:10px;color:var(--ac);display:flex;align-items:center;gap:4px}
+.oc-status-dot{width:4px;height:4px;border-radius:50%;background:var(--ac)}
+.phone-msgs{
+  min-height:360px;padding:16px 14px;
+  display:flex;flex-direction:column;gap:12px;
+  background:var(--bg);
+}
+.pmsg{display:flex;gap:7px;align-items:flex-end}
+.pmsg.user{flex-direction:row-reverse}
+.pmsg-ava{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;font-weight:800;font-family:var(--fd);
+}
+.pmsg-ava.oc{background:var(--ac2);border:1px solid rgba(0,229,160,.3);color:var(--ac)}
+.pmsg-ava.user{background:var(--s3);border:1px solid var(--b1);color:var(--t2)}
+.pbubble{
+  max-width:218px;padding:9px 12px;
+  border-radius:10px;font-size:11.5px;line-height:1.55;
+  font-family:var(--fb);
+}
+.pbubble.oc{
+  background:var(--s2);border:1px solid var(--b1);color:var(--t1);
+  border-radius:10px 10px 10px 2px;
+}
+.pbubble.user{
+  background:var(--ac2);border:1px solid rgba(0,229,160,.2);color:var(--t1);
+  border-radius:10px 10px 2px 10px;
+}
+.pbubble b{color:var(--ac);font-weight:700}
+.call-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:800;padding:2px 9px;
+  border-radius:10px;font-family:var(--fd);
+  margin:2px 2px 4px 0;
+}
+.tag-start{background:var(--ac);color:#041a0f}
+.tag-sit{background:var(--red);color:#fff}
+.typing-wrap{display:flex;gap:7px;align-items:flex-end}
+.typing-dots{
+  display:flex;gap:4px;padding:9px 12px;
+  background:var(--s2);border:1px solid var(--b1);
+  border-radius:10px 10px 10px 2px;
+}
+.tdot{width:5px;height:5px;border-radius:50%;background:var(--t3);animation:tbounce .8s infinite}
+.tdot:nth-child(2){animation-delay:.15s}
+.tdot:nth-child(3){animation-delay:.3s}
+@keyframes tbounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px);background:var(--ac)}}
+.phone-inputbar{
+  padding:10px 12px;background:var(--s1);
+  border-top:1px solid var(--b1);
+  display:flex;gap:8px;align-items:center;
+}
+.phone-input-display{
+  flex:1;background:var(--s2);border:1px solid var(--b2);
+  border-radius:18px;padding:7px 12px;
+  font-size:10px;color:var(--t2);font-family:var(--fb);
+  line-height:1.4;
+}
+.phone-send{
+  width:28px;height:28px;background:var(--ac);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;transition:all .15s;
+}
+.phone-send:hover{background:#00ffb0;transform:scale(1.08)}
+.phone-send svg{width:11px;height:11px;fill:none;stroke:#041a0f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.demo-note{
+  font-family:var(--fb);font-size:13px;color:var(--t3);
+  text-align:center;position:relative;z-index:1;
+}
+
 /* ── PRICING ── */
 .pricing{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:860px;margin:0 auto}
 .pc{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:32px;transition:all .15s}
@@ -217,6 +349,30 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+/* ── LOSS/WIN CARDS ── */
+@keyframes scrollL{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes scrollR{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.lc{display:inline-flex;flex-direction:column;background:var(--s1);border:1px solid var(--b1);border-top:2px solid var(--red);border-radius:10px;padding:12px 15px;width:230px;min-width:230px;max-width:230px;margin-right:3px;flex-shrink:0;overflow:hidden;vertical-align:top;white-space:normal}
+.lc-week{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;font-family:var(--fd)}
+.lc-scores{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.lc-side{text-align:center;flex:1}
+.lc-name{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.lc-pts{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px}
+.lc-pts.loss{color:var(--red)}
+.lc-pts.win{color:var(--t3)}
+.lc-vs{font-size:10px;font-weight:800;color:var(--t3);font-family:var(--fd)}
+.lc-margin{font-size:10px;color:var(--red);font-weight:600;margin-bottom:7px;text-align:center}
+.lc-note{font-size:11.5px;color:var(--t2);line-height:1.5;border-top:1px solid var(--b1);padding-top:7px;white-space:normal;word-wrap:break-word;overflow-wrap:break-word}
+.lc-note b{color:var(--red)}
+.wc{display:inline-flex;flex-direction:column;background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,.18);border-top:2px solid var(--ac);border-radius:10px;padding:12px 15px;width:230px;min-width:230px;max-width:230px;margin-right:3px;flex-shrink:0;overflow:hidden;vertical-align:top;white-space:normal}
+.wc-week{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(0,229,160,.9);margin-bottom:8px;font-family:var(--fd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-scores{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.wc-pts-w{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:var(--ac)}
+.wc-pts-l{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:var(--t3)}
+.wc-vs{font-size:10px;font-weight:800;color:var(--ac);font-family:var(--fd);opacity:.6}
+.wc-note{font-size:11.5px;color:var(--t1);line-height:1.5;border-top:1px solid rgba(0,229,160,.15);padding-top:7px;white-space:normal;word-wrap:break-word;overflow-wrap:break-word}
+.wc-note b{color:var(--ac);font-weight:800}
+
 @media(max-width:700px){
   nav{padding:0 20px}
   .hero{padding:72px 20px 60px}
@@ -227,6 +383,8 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   .form-btn{width:100%}
   footer{flex-direction:column;gap:8px;text-align:center;padding:24px 20px}
   .final{padding:60px 20px}
+  .demo-outer{padding:60px 20px}
+  .phone-frame{width:290px}
 }
 </style>
 </head>
@@ -255,7 +413,6 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
 
 <!-- HERO -->
 <div class="hero" style="position:relative">
-<!-- Ghost football -->
 <svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-52%) rotate(-15deg);z-index:0;pointer-events:none;opacity:.025;width:min(520px,80vw)" viewBox="0 0 520 320" fill="none" xmlns="http://www.w3.org/2000/svg">
   <ellipse cx="260" cy="160" rx="220" ry="130" stroke="#f5a623" stroke-width="3"/>
   <line x1="260" y1="60" x2="260" y2="260" stroke="#f5a623" stroke-width="2.5"/>
@@ -268,7 +425,6 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   <line x1="420" y1="160" x2="480" y2="160" stroke="#f5a623" stroke-width="2"/>
 </svg>
 <svg style="position:absolute;top:0;right:5%;opacity:0.03;pointer-events:none;z-index:0" width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Field goal posts -->
   <rect x="55" y="100" width="10" height="100" fill="#f5a623"/>
   <rect x="20" y="60" width="80" height="8" fill="#f5a623"/>
   <rect x="20" y="60" width="8" height="50" fill="#f5a623"/>
@@ -302,11 +458,8 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <div class="stat" style="border-left:1px solid rgba(255,77,106,0.15)"><div class="stat-n" style="color:var(--red)">52%</div><div class="stat-l" style="color:rgba(255,77,106,0.6)">THE GURU'S CALL<br>coin flip at best</div></div>
     <div class="stat"><div class="stat-n">32</div><div class="stat-l">DATA POINTS<br>per player</div></div>
     <div class="stat"><div class="stat-n">&lt;2s</div><div class="stat-l">TO MAKE<br>the call</div></div>
-    
   </div>
-
 </div>
-
 
 <!-- PAIN SCROLL -->
 <div style="position:relative;z-index:1;padding:0 0 80px">
@@ -317,7 +470,6 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   </div>
 
   <div style="display:flex;flex-direction:column;gap:3px;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%)">
-
     <!-- LANE 1: losses left -->
     <div style="display:flex;overflow:hidden">
       <div class="scroll-l1" style="display:flex;gap:3px;animation:scrollL 36s linear infinite;white-space:nowrap;will-change:transform;align-items:flex-start">
@@ -363,34 +515,8 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
         <div class="wc"><div class="wc-week">Week 13 · Back on Track</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">124.4</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">115.6</div></div></div><div class="wc-note">AI OC: <b>"Stream Stafford — dome game, no wind, Kupp fully healthy. Easy."</b></div></div>
       </div>
     </div>
-
   </div>
 </div>
-
-<style>
-@keyframes scrollL{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@keyframes scrollR{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
-.lc{display:inline-flex;flex-direction:column;background:var(--s1);border:1px solid var(--b1);border-top:2px solid var(--red);border-radius:10px;padding:12px 15px;width:230px;min-width:230px;max-width:230px;margin-right:3px;flex-shrink:0;overflow:hidden;vertical-align:top;white-space:normal}
-.lc-week{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;font-family:var(--fd)}
-.lc-scores{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-.lc-side{text-align:center;flex:1}
-.lc-name{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
-.lc-pts{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px}
-.lc-pts.loss{color:var(--red)}
-.lc-pts.win{color:var(--t3)}
-.lc-vs{font-size:10px;font-weight:800;color:var(--t3);font-family:var(--fd)}
-.lc-margin{font-size:10px;color:var(--red);font-weight:600;margin-bottom:7px;text-align:center}
-.lc-note{font-size:11.5px;color:var(--t2);line-height:1.5;border-top:1px solid var(--b1);padding-top:7px;white-space:normal;word-wrap:break-word;overflow-wrap:break-word}
-.lc-note b{color:var(--red)}
-.wc{display:inline-flex;flex-direction:column;background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,.18);border-top:2px solid var(--ac);border-radius:10px;padding:12px 15px;width:230px;min-width:230px;max-width:230px;margin-right:3px;flex-shrink:0;overflow:hidden;vertical-align:top;white-space:normal}
-.wc-week{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(0,229,160,.9);margin-bottom:8px;font-family:var(--fd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wc-scores{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
-.wc-pts-w{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:var(--ac)}
-.wc-pts-l{font-family:var(--fd);font-size:24px;font-weight:900;line-height:1;letter-spacing:-1px;color:var(--t3)}
-.wc-vs{font-size:10px;font-weight:800;color:var(--ac);font-family:var(--fd);opacity:.6}
-.wc-note{font-size:11.5px;color:var(--t1);line-height:1.5;border-top:1px solid rgba(0,229,160,.15);padding-top:7px;white-space:normal;word-wrap:break-word;overflow-wrap:break-word}
-.wc-note b{color:var(--ac);font-weight:800}
-</style>
 
 <!-- FORMULA -->
 <div class="sec reveal" id="formula">
@@ -430,65 +556,44 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <div class="step reveal"><div class="step-n" style="font-style:italic">3rd</div><div><div class="step-title">A confident call with the receipt</div><div class="step-desc">"Start Kelce. Full-go this week. The Raiders have allowed the most TE yards in the AFC over 4 weeks. LaPorta is limited and faces the 49ers' top corner." One call. One reason. Done.</div></div></div>
     <div class="step reveal"><div class="step-n" style="font-style:italic">4th</div><div><div class="step-title">Plus a live news feed that never sleeps</div><div class="step-desc">GFDHub.com runs 24/7 — live NFL injury reports, practice participation, transactions — with an AI fantasy take on every single update. You know before the guru tweets.</div></div></div>
   </div>
-
-  <div class="reveal" style="margin-top:14px;background:linear-gradient(135deg,rgba(0,232,122,0.07),rgba(0,232,122,0.02));border:1px solid rgba(0,232,122,0.18);border-radius:14px;padding:28px 32px">
-    <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap">
-      <div style="flex:1;min-width:260px">
-        <div style="font-family:var(--fd);font-size:clamp(24px,3vw,38px);font-weight:900;color:var(--ac);line-height:1.1;letter-spacing:-1px;font-style:italic;margin-bottom:10px">32 data points.<br>Under 2 seconds.<br>One confident call.</div>
-        <div style="font-size:14px;color:var(--t2);line-height:1.65;font-family:var(--fb)">Before the AI OC answers your question it checks injury report, snap count trend over 4 weeks, target share, route participation, matchup rating, weather, game script, and your personal scoring format — all pulled live, all weighted, processed before your coffee gets cold.</div>
-      </div>
-      <div style="flex:1;min-width:220px">
-        <div style="font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:10px">The radio guru checks</div>
-        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:18px">
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--red);font-family:var(--fb)"><span style="font-weight:800">✗</span>His memory</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--red);font-family:var(--fb)"><span style="font-weight:800">✗</span>His game notes from Sunday</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--red);font-family:var(--fb)"><span style="font-weight:800">✗</span>Whatever his producer told him</div>
-        </div>
-        <div style="font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:10px">The AI OC checks</div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ac);font-family:var(--fb)"><span style="font-weight:800">✓</span>32 live data points per player</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ac);font-family:var(--fb)"><span style="font-weight:800">✓</span>Your scoring format &amp; roster</div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ac);font-family:var(--fb)"><span style="font-weight:800">✓</span>Delivered in under 2 seconds</div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<!-- SHARPS SECTION -->
-<div class="sec reveal" style="padding-top:0;text-align:center;border-top:1px solid var(--b1)">
-  <div style="max-width:760px;margin:0 auto">
-    <div class="sec-tag">📊 Fantasy managers. Props researchers. Same AI OC.</div>
-    <h2 style="margin-bottom:16px">The sharps have always known.</h2>
-    <p class="sec-sub" style="margin:0 auto 32px;max-width:640px">Snap count trends and target share predict player performance better than any gut feeling or radio take. That data drives fantasy decisions — and it drives player props research too. The AI OC pulls it all in real time, every week, for every player you ask about.</p>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto">
-      <div style="background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:22px;text-align:left">
-        <div style="font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Snap Count Trends</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.6;font-family:var(--fb)">Is a player's role growing or shrinking? Snap share over the last 4 weeks is the strongest predictor of weekly volume — for fantasy points and player performance alike.</div>
+<!-- ── PHONE DEMO ── -->
+<div class="demo-outer reveal">
+  <div class="demo-eyebrow"><div class="demo-dot"></div>Live demo</div>
+  <h2 class="demo-headline">Real question.<br><em>Real call. Under 2s.</em></h2>
+  <p class="demo-sub">Full PPR · Week 8 · Pick 3 of 5 to start</p>
+
+  <div class="phone-frame">
+    <div class="phone-notch"><div class="notch-pill"></div></div>
+    <div class="phone-topbar">
+      <div class="oc-ava">OC</div>
+      <div>
+        <div class="oc-name">AI Offensive Coordinator</div>
+        <div class="oc-status"><div class="oc-status-dot"></div>Online · GFDHub PRO</div>
       </div>
-      <div style="background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:20px;text-align:left">
-        <div style="font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Target Share & Routes</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.6;font-family:var(--fb)">How many of the team's targets is a receiver seeing? Route participation rate tells you who the quarterback actually trusts — regardless of reputation or name value.</div>
-      </div>
-      <div style="background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:20px;text-align:left">
-        <div style="font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Matchup Ratings</div>
-        <div style="font-size:13px;color:var(--t2);line-height:1.6;font-family:var(--fb)">Who does the opponent allow big games to? The AI OC cross-references each player against defensive performance over the last 4 weeks — not the season average that everyone else uses.</div>
+    </div>
+    <div class="phone-msgs" id="phoneMsgs"></div>
+    <div class="phone-inputbar">
+      <div class="phone-input-display">Full PPR — start 3 of 5: Swift, McLaurin, Flowers, Sutton, Montgomery</div>
+      <div class="phone-send" id="demoSendBtn" onclick="startPhoneDemo()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </div>
     </div>
   </div>
+
+  <p class="demo-note">$19.97 · Full 2026 season · No auto-renewal</p>
 </div>
 
 <!-- PRICING -->
-<div class="sec reveal" id="pricing" style="padding-top:0;text-align:center">
+<div class="sec reveal" id="pricing" style="padding-top:80px;text-align:center">
   <div class="sec-tag">🏆 Season access</div>
   <h2>Gain your playoff berth<br>for less than 2 beers<br>at the stadium.</h2>
   <p class="sec-sub" style="margin:0 auto 36px"></p>
-
-  <!-- PRICING CARD -->
   <div class="reveal" style="max-width:480px;margin:0 auto 24px">
     <div style="background:rgba(0,232,122,0.07);border:1.5px solid rgba(0,232,122,.25);border-radius:16px;padding:36px 32px;text-align:center;position:relative">
-      <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#021a0a;background:var(--gold);padding:4px 16px;border-radius:20px;white-space:nowrap;font-family:var(--fd)">2026 NFL Season · One-time charge</div>
-      <div style="font-family:var(--fd);font-size:clamp(52px,10vw,72px);font-weight:900;color:var(--gold);line-height:1;letter-spacing:-3px;font-style:italic;margin-bottom:4px">$19.97</div>
+      <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#021a0a;background:var(--ac);padding:4px 16px;border-radius:20px;white-space:nowrap;font-family:var(--fd)">2026 NFL Season · One-time charge</div>
+      <div style="font-family:var(--fd);font-size:clamp(52px,10vw,72px);font-weight:900;color:var(--ac);line-height:1;letter-spacing:-3px;font-style:italic;margin-bottom:4px">$19.97</div>
       <div style="font-family:var(--fd);font-size:14px;font-weight:700;color:var(--t2);margin-bottom:6px;letter-spacing:.3px">FOR THE FULL SEASON</div>
       <div style="font-size:13px;color:var(--t2);margin-bottom:24px;font-family:var(--fb)">Draft day through the championship.<br>Less than 2 beers at the game.</div>
       <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:28px;text-align:left">
@@ -506,8 +611,8 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
       <div style="font-size:12px;color:var(--t3);margin-top:12px;font-family:var(--fb)">One-time · $19.97 · Draft through playoffs · No auto-renewal</div>
     </div>
   </div>
+</div>
 
-  
 <!-- FAQ -->
 <div class="sec reveal" style="padding-top:0">
   <div class="sec-tag">Questions</div>
@@ -533,7 +638,7 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
       <button class="form-btn" onclick="go('ei2','ss2','fr2','fn2')">Join the list</button>
     </div>
     <div class="success-msg" id="ss2">You're on the list. See you before draft day.</div>
-    <p class="form-note" id="fn2">$19.97 at launch · <strong>$19.97/season</strong> or $19.97 · No auto-renewal</p>
+    <p class="form-note" id="fn2">$19.97 · Full season · No auto-renewal</p>
   </div>
 </div>
 
@@ -583,8 +688,6 @@ function go(iid,sid,fid,nid){
 
 function faq(el){const o=el.classList.contains('open');document.querySelectorAll('.fq.open').forEach(f=>f.classList.remove('open'));if(!o)el.classList.add('open');}
 function scrollToForm(){document.getElementById('finalcta').scrollIntoView({behavior:'smooth'});}
-
-
 document.getElementById('ei2').addEventListener('keydown',e=>{if(e.key==='Enter')go('ei2','ss2','fr2','fn2');});
 
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
@@ -592,99 +695,83 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 buildTicker();
 
-// Season timeline position
-function updateTimeline() {
-  const start = new Date('2026-08-01');
-  const end = new Date('2027-01-15');
-  const now = new Date();
-  const pct = Math.max(0, Math.min(100, ((now - start) / (end - start)) * 100));
-  const fill = document.getElementById('tlFill');
-  const marker = document.getElementById('tlNow');
-  const label = document.getElementById('tlNowLabel');
-  if (fill) setTimeout(() => { fill.style.width = pct + '%'; }, 300);
-  if (marker) marker.style.left = pct + '%';
-  if (label) label.style.left = pct + '%';
-}
-updateTimeline();
+// ── PHONE DEMO ──
+const demoMsgs = document.getElementById('phoneMsgs');
+let demoStarted = false;
 
-// Lock pricing cards based on current date
-function lockPricingCards() {
-  const now = new Date();
-  const midSeasonStart = new Date('2026-09-05');
-  const playoffStart   = new Date('2026-10-16');
-  const seasonEnd      = new Date('2026-12-01');
+const demoUserQ = "Full PPR — which 3 do I start: D'Andre Swift, Terry McLaurin, Zay Flowers, Courtland Sutton, or David Montgomery?";
 
-  const midCard     = document.getElementById('midSeasonCard');
-  const playoffCard = document.getElementById('playoffCard');
-  const fullCard    = document.getElementById('fullSeasonCard');
+const demoReply = [
+  {type:'tags', tags:[
+    {cls:'tag-start',label:'▲ START Swift'},
+    {cls:'tag-start',label:'▲ START McLaurin'},
+    {cls:'tag-start',label:'▲ START Flowers'},
+    {cls:'tag-sit',label:'▽ SIT Sutton'},
+    {cls:'tag-sit',label:'▽ SIT Montgomery'},
+  ]},
+  {type:'text', html:"<b>Swift</b> leads PHI in routes and targets — PPR lock. <b>McLaurin</b> is WSH's WR1 with 27% target share and an elite floor."},
+  {type:'text', html:"<b>Flowers</b> has 8+ targets in 4 straight weeks. Sit <b>Sutton</b> — shadow coverage, DEN running heavy. Sit <b>Montgomery</b> — goal-line only, 2.1 PPR pts/game. Easy call."},
+];
 
-  // After season ends — show off-season message on all cards
-  if (now > seasonEnd) {
-    [fullCard, midCard, playoffCard].forEach(card => {
-      if (!card) return;
-      card.style.opacity = '0.4';
-      card.style.pointerEvents = 'none';
-      const btn = card.querySelector('button');
-      if (btn) { btn.textContent = 'Season Over — See You in August'; btn.style.background = 'var(--s3)'; btn.style.color = 'var(--t3)'; }
-    });
-    return;
-  }
-
-  // Lock mid-season card if too early
-  if (now < midSeasonStart && midCard) {
-    midCard.style.opacity = '0.45';
-    midCard.style.pointerEvents = 'none';
-    const btn = midCard.querySelector('button');
-    const badge = midCard.querySelector('.lock-badge');
-    if (btn) { btn.textContent = 'Available Sep 5'; btn.style.background = 'var(--s3)'; btn.style.color = 'var(--t3)'; btn.style.border = '1px solid var(--b1)'; }
-    if (badge) badge.style.display = 'flex';
-  }
-
-  // Lock playoff card if too early
-  if (now < playoffStart && playoffCard) {
-    playoffCard.style.opacity = '0.45';
-    playoffCard.style.pointerEvents = 'none';
-    const btn = playoffCard.querySelector('button');
-    const badge = playoffCard.querySelector('.lock-badge');
-    if (btn) { btn.textContent = 'Available Oct 16'; btn.style.background = 'var(--s3)'; btn.style.color = 'var(--t3)'; btn.style.border = '1px solid var(--b1)'; }
-    if (badge) badge.style.display = 'flex';
-  }
-
-  // Also highlight the currently active card with a subtle pulse
-  if (now < midSeasonStart && fullCard) {
-    fullCard.style.boxShadow = '0 0 32px rgba(0,229,160,0.15)';
-  } else if (now >= midSeasonStart && now < playoffStart && midCard) {
-    midCard.style.opacity = '1';
-    midCard.style.boxShadow = '0 0 32px rgba(255,179,71,0.12)';
-  } else if (now >= playoffStart && playoffCard) {
-    playoffCard.style.opacity = '1';
-    playoffCard.style.boxShadow = '0 0 32px rgba(77,166,255,0.12)';
-  }
-}
-lockPricingCards();
-
-// Show which window is currently active
-function showActiveWindow() {
-  const now = new Date();
-  const note = document.getElementById('activeWindowNote');
-  if (!note) return;
-  const midSeasonStart = new Date('2026-09-05');
-  const playoffStart   = new Date('2026-10-16');
-  const seasonEnd      = new Date('2026-12-01');
-
-  if (now < new Date('2026-08-01')) {
-    note.innerHTML = '🟢 <strong style="color:var(--t1)">Pre-season pricing active.</strong> Full Season access available now — best value of the year.';
-  } else if (now < midSeasonStart) {
-    note.innerHTML = '🟢 <strong style="color:var(--ac)">Full Season pricing active</strong> — Aug 1 to Sep 4. Mid-Season and Playoff tiers unlock later in the season.';
-  } else if (now < playoffStart) {
-    note.innerHTML = '🟡 <strong style="color:var(--amb)">Mid-Season pricing active</strong> — Sep 5 to Oct 15. Full Season is no longer available. Playoff tier unlocks Oct 16.';
-  } else if (now < seasonEnd) {
-    note.innerHTML = '🔵 <strong style="color:#4da6ff">Playoff Mode pricing active</strong> — Oct 16 to Dec 1. Make the call. Your league prize is still $1,000.';
+function demoAddMsg(role, content){
+  const wrap = document.createElement('div');
+  wrap.className = 'pmsg' + (role==='user'?' user':'');
+  wrap.style.cssText = 'opacity:0;transform:translateY(6px);transition:all .25s ease';
+  let inner = '';
+  if(role==='user'){
+    inner = `<div class="pmsg-ava user">ME</div><div class="pbubble user">${content}</div>`;
+  } else if(content.type==='tags'){
+    const tags = content.tags.map(t=>`<span class="call-tag ${t.cls}">${t.label}</span>`).join('');
+    inner = `<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${tags}</div>`;
   } else {
-    note.innerHTML = '⚪ Season complete. GFDHub returns August 2027.';
+    inner = `<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${content.html}</div>`;
+  }
+  wrap.innerHTML = inner;
+  demoMsgs.appendChild(wrap);
+  setTimeout(()=>{wrap.style.opacity='1';wrap.style.transform='translateY(0)';},30);
+  demoMsgs.scrollTop = demoMsgs.scrollHeight;
+}
+
+function demoAddTyping(){
+  const wrap = document.createElement('div');
+  wrap.className = 'pmsg';
+  wrap.id = 'demoTyping';
+  wrap.innerHTML = `<div class="pmsg-ava oc">OC</div><div class="typing-dots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>`;
+  demoMsgs.appendChild(wrap);
+  demoMsgs.scrollTop = demoMsgs.scrollHeight;
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+async function startPhoneDemo(){
+  if(demoStarted) return;
+  demoStarted = true;
+  const btn = document.getElementById('demoSendBtn');
+  btn.style.opacity='0.4';btn.style.pointerEvents='none';
+
+  demoAddMsg('user', demoUserQ);
+  await sleep(700);
+  demoAddTyping();
+  await sleep(1800);
+  document.getElementById('demoTyping')?.remove();
+
+  for(let i=0;i<demoReply.length;i++){
+    demoAddMsg('oc', demoReply[i]);
+    if(i<demoReply.length-1) await sleep(750);
   }
 }
-showActiveWindow();
+
+// Auto-trigger when demo scrolls into view
+const demoObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !demoStarted){
+      setTimeout(startPhoneDemo, 600);
+      demoObs.disconnect();
+    }
+  });
+},{threshold:0.4});
+const demoEl = document.querySelector('.demo-outer');
+if(demoEl) demoObs.observe(demoEl);
 </script>
 </body>
 </html>
