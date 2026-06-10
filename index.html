@@ -399,7 +399,7 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <a href="#formula" class="nav-link">The math</a>
     <a href="#how" class="nav-link">How it works</a>
     <a href="#pricing" class="nav-link">Pricing</a>
-    <button class="nav-cta" onclick="scrollToForm()">Get early access</button>
+    <button class="nav-cta" onclick="goToPro()">Get PRO Access</button>
   </div>
 </nav>
 
@@ -436,7 +436,7 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   <rect x="20" y="60" width="8" height="50" fill="#f5a623"/>
   <rect x="92" y="60" width="8" height="50" fill="#f5a623"/>
 </svg>
-  <div class="hero-eyebrow"><span class="tick-dot"></span>🏈 Fantasy Football · Player Props Research · 2026 NFL Season</div>
+  <div class="hero-eyebrow"><span class="tick-dot"></span>🏈 Draft Prep · In-Season Lineup · Player Props · 2026 NFL Season</div>
   <h1>Stop trusting<span class="line2">trust me brah.</span></h1>
   <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">
     <span>🏟️ NFL 2026 Season</span>
@@ -445,11 +445,12 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <span style="color:var(--b2)">|</span>
     <span style="color:var(--ac)">AI OC Available 24/7</span>
   </div>
-  <p class="hero-sub">25 years of fantasy football. The same pain every season. One bad call away from the playoffs. <strong>GFDHub is the AI Offensive Coordinator that beats the radio guru — every week, with receipts.</strong> The same data works for your player props research too.</p>
+  <p class="hero-sub">25 years of fantasy football. The same pain every season. One bad call away from the playoffs. <strong>GFDHub is the AI Offensive Coordinator that beats the radio guru — every week, with receipts.</strong> Sitting at your draft on the clock, sweating a Sunday lineup, or researching player props — same AI OC, same data, same confident call in under 2 seconds.</p>
 
   <div style="text-align:center;margin:0 auto 8px">
-    <button onclick="document.getElementById('finalcta').scrollIntoView({behavior:'smooth'})" style="padding:14px 40px;background:var(--ac);color:#021a0a;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">See how it works ↓</button>
-    <div style="font-size:12px;color:var(--t3);margin-top:10px;font-family:var(--fb)">$29.97 · Full season · No auto-renewal</div>
+    <button onclick="goToPro()" style="padding:14px 40px;background:var(--ac);color:#021a0a;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">Get PRO Access — $29.97 →</button>
+    <div style="font-size:12px;color:var(--t3);margin-top:10px;font-family:var(--fb)">Draft prep through playoffs · One-time · No auto-renewal</div>
+    <div style="font-size:12px;color:var(--t3);margin-top:6px;font-family:var(--fb)"><span style="color:var(--t2);cursor:pointer" onclick="document.getElementById('finalcta').scrollIntoView({behavior:'smooth'})">Or join the waitlist — free, no commitment ↓</span></div>
   </div>
 
   <div class="stats">
@@ -551,7 +552,7 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   <h2>Text a question.<br>Get the call.</h2>
   <p class="sec-sub">No Guru Rankings. No articles. No waiting for the radio show to end. Just the answer before lineups lock.</p>
   <div class="steps">
-    <div class="step reveal"><div class="step-n" style="font-style:italic">1st</div><div><div class="step-title">Text your AI Offensive Coordinator</div><div class="step-desc">"Start Kelce or LaPorta this week?" — Text your GFDHub number anytime. Sunday at 10am with lineups locking in two hours? The AI OC is already awake with this week's data loaded.</div></div></div>
+    <div class="step reveal"><div class="step-n" style="font-style:italic">1st</div><div><div class="step-title">Text your AI Offensive Coordinator</div><div class="step-desc">Draft night and on the clock with 30 seconds to pick? Text your AI OC. Sunday at 10am with lineups locking in two hours? Same number. "Lamb or Jefferson at pick 8?" or "Start Kelce or LaPorta this week?" — the AI OC is always awake with the latest data loaded.</div></div></div>
     <div class="step reveal"><div class="step-n" style="font-style:italic">2nd</div><div><div class="step-title">Live data pulled in real time</div><div class="step-desc">Before answering, the AI OC pulls injury status, practice participation, snap count trend over the last 4 weeks, target share, and this week's matchup rating. Under 2 seconds.</div></div></div>
     <div class="step reveal"><div class="step-n" style="font-style:italic">3rd</div><div><div class="step-title">A confident call with the receipt</div><div class="step-desc">"Start Kelce. Full-go this week. The Raiders have allowed the most TE yards in the AFC over 4 weeks. LaPorta is limited and faces the 49ers' top corner." One call. One reason. Done.</div></div></div>
     <div class="step reveal"><div class="step-n" style="font-style:italic">4th</div><div><div class="step-title">Plus a live news feed that never sleeps</div><div class="step-desc">GFDHub.com runs 24/7 — live NFL injury reports, practice participation, transactions — with an AI fantasy take on every single update. You know before the guru tweets.</div></div></div>
@@ -597,6 +598,7 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
       <div style="font-family:var(--fd);font-size:14px;font-weight:700;color:var(--t2);margin-bottom:6px;letter-spacing:.3px">FOR THE FULL SEASON</div>
       <div style="font-size:13px;color:var(--t2);margin-bottom:24px;font-family:var(--fb)">Draft day through the championship.<br>Less than 2 beers at the game.</div>
       <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:28px;text-align:left">
+        <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Draft prep — on the clock recommendations</li>
         <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Live NFL player news feed — 24/7</li>
         <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>AI take on every injury &amp; update</li>
         <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Start/Sit AI Offensive Coordinator</li>
@@ -607,8 +609,8 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
         <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Player props research — snap counts, target share, matchup data</li>
         <li style="font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px;font-family:var(--fb)"><span style="color:var(--ac);font-weight:800;font-family:var(--fd)">✓</span>Zero ads, ever</li>
       </ul>
-      <button onclick="scrollToForm()" style="display:block;width:100%;padding:15px;background:var(--ac);color:#021a0a;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">Get Early Access — $29.97</button>
-      <div style="font-size:12px;color:var(--t3);margin-top:12px;font-family:var(--fb)">One-time · $29.97 · Draft through playoffs · No auto-renewal</div>
+      <button onclick="goToPro()" style="display:block;width:100%;padding:15px;background:var(--ac);color:#021a0a;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">Get PRO Access — $29.97 →</button>
+      <div style="font-size:12px;color:var(--t3);margin-top:12px;font-family:var(--fb)">Draft prep through playoffs · One-time · No auto-renewal</div>
     </div>
   </div>
 </div>
@@ -629,16 +631,31 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
 
 <!-- FINAL CTA -->
 <div class="final reveal" id="finalcta">
-  <div class="hero-eyebrow" style="justify-content:center;margin-bottom:20px"><span class="tick-dot"></span>Early access · Limited spots</div>
+  <div class="hero-eyebrow" style="justify-content:center;margin-bottom:20px"><span class="tick-dot"></span>Draft prep · In-season · Player props · 2026</div>
   <h2>Stop losing to<br><em>the wrong decision.</em></h2>
-  <p style="font-size:16px;color:var(--t2);max-width:520px;margin:16px auto 36px;line-height:1.7;font-family:var(--fb)">The math is real. The product is built. The only thing missing is you on the list.</p>
+  <p style="font-size:16px;color:var(--t2);max-width:520px;margin:16px auto 32px;line-height:1.7;font-family:var(--fb)">The math is real. The product is built. Jump in now or join the list — either way you're ahead of the group chat.</p>
+
+  <!-- STRIPE CTA -->
+  <div style="margin-bottom:28px">
+    <button onclick="goToPro()" style="padding:15px 48px;background:var(--ac);color:#021a0a;font-size:17px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s;display:inline-block" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">Get PRO Access — $29.97 →</button>
+    <div style="font-size:12px;color:var(--t3);margin-top:10px;font-family:var(--fb)">Draft prep through playoffs · One-time · No auto-renewal · Use code SOCIALNFL for 20% off</div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div style="display:flex;align-items:center;gap:16px;max-width:400px;margin:0 auto 24px">
+    <div style="flex:1;height:1px;background:var(--b1)"></div>
+    <div style="font-size:11px;color:var(--t3);font-family:var(--fd);font-weight:700;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap">Or join the waitlist</div>
+    <div style="flex:1;height:1px;background:var(--b1)"></div>
+  </div>
+
+  <!-- WAITLIST FORM -->
   <div class="form-outer" style="max-width:520px;margin:0 auto">
     <div class="form-row" id="fr2">
       <input type="email" class="form-in" id="ei2" placeholder="your@email.com" autocomplete="email">
       <button class="form-btn" onclick="go('ei2','ss2','fr2','fn2')">Join the list</button>
     </div>
     <div class="success-msg" id="ss2">You're on the list. See you before draft day.</div>
-    <p class="form-note" id="fn2">$29.97 · Full season · No auto-renewal</p>
+    <p class="form-note" id="fn2">Free · No commitment · We'll notify you when the season starts</p>
   </div>
 </div>
 
@@ -688,6 +705,31 @@ function go(iid,sid,fid,nid){
 
 function faq(el){const o=el.classList.contains('open');document.querySelectorAll('.fq.open').forEach(f=>f.classList.remove('open'));if(!o)el.classList.add('open');}
 function scrollToForm(){document.getElementById('finalcta').scrollIntoView({behavior:'smooth'});}
+
+async function goToPro() {
+  const email = prompt('Enter your email to get started:');
+  if (!email || !email.includes('@')) return;
+  try {
+    const btn = event.target;
+    btn.textContent = 'Redirecting to checkout...';
+    btn.disabled = true;
+    const res = await fetch('https://api.gfdhub.com/api/stripe/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (data.ok && data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('Something went wrong. Please try again.');
+      btn.textContent = 'Get PRO Access — $29.97 →';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    alert('Something went wrong. Please try again.');
+  }
+}
 document.getElementById('ei2').addEventListener('keydown',e=>{if(e.key==='Enter')go('ei2','ss2','fr2','fn2');});
 
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
