@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Set Up Your League — GFDHub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,700;0,800;0,900;1,700;1,800;1,900&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080d;--s1:#0d0f17;--s2:#12141e;--s3:#181b27;
+  --b1:rgba(255,255,255,0.055);--b2:rgba(255,255,255,0.1);
+  --ac:#00e5a0;--ac2:rgba(0,229,160,0.1);
+  --red:#ff4d6a;--amb:#ffb347;
+  --t1:#f0f2f9;--t2:#6e7a94;--t3:#353c52;
+  --fd:'Exo 2',sans-serif;--fb:'Figtree',sans-serif;
+}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,232,122,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,0.02) 1px,transparent 1px);background-size:80px 80px;pointer-events:none}
+.glow{position:fixed;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(0,232,122,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;width:100%;max-width:520px;animation:fadeUp .5s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.logo{font-family:var(--fd);font-weight:900;font-size:20px;letter-spacing:-1px;color:var(--t1);text-decoration:none;display:block;text-align:center;margin-bottom:36px}
+.logo em{color:var(--ac);font-style:normal}
+.step-indicator{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:28px}
+.step-dot{width:6px;height:6px;border-radius:50%;background:var(--s3)}
+.step-dot.active{background:var(--ac);width:20px;border-radius:4px}
+.step-dot.done{background:rgba(0,229,160,.4)}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--ac);font-family:var(--fd);text-align:center;margin-bottom:10px}
+h1{font-family:var(--fd);font-size:clamp(26px,5vw,38px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;text-align:center}
+h1 em{color:var(--ac);font-style:italic}
+.sub{font-size:15px;color:var(--t2);line-height:1.65;text-align:center;margin-bottom:36px;max-width:420px;margin-left:auto;margin-right:auto}
+
+.form-card{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:28px;margin-bottom:12px}
+.field-label{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);font-family:var(--fd);margin-bottom:6px;display:block}
+.field-sub{font-size:12px;color:var(--t3);margin-bottom:12px;font-family:var(--fb);line-height:1.5}
+
+/* Option tiles */
+.options{display:grid;gap:8px}
+.options.cols2{grid-template-columns:1fr 1fr}
+.options.cols3{grid-template-columns:1fr 1fr 1fr}
+.options.cols5{grid-template-columns:repeat(5,1fr)}
+.opt{background:var(--s2);border:1.5px solid var(--b1);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s;position:relative}
+.opt:hover{border-color:var(--b2);background:var(--s3)}
+.opt.selected{border-color:var(--ac);background:var(--ac2)}
+.opt-main{font-size:13px;font-weight:700;color:var(--t1);font-family:var(--fd);margin-bottom:2px}
+.opt.selected .opt-main{color:var(--ac)}
+.opt-sub{font-size:11px;color:var(--t3);line-height:1.4;font-family:var(--fb)}
+.opt.selected .opt-sub{color:rgba(0,229,160,.6)}
+.opt-check{position:absolute;top:8px;right:8px;width:14px;height:14px;border-radius:50%;background:var(--ac);display:none;align-items:center;justify-content:center}
+.opt.selected .opt-check{display:flex}
+.opt-check svg{width:8px;height:8px;stroke:#041a0f;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+
+/* Size tiles — compact, numbers only */
+.opt.compact{padding:10px 8px;text-align:center}
+.opt.compact .opt-main{font-size:16px;font-weight:900;letter-spacing:-.5px;margin:0}
+.opt.compact .opt-sub{font-size:10px;margin-top:2px}
+
+/* Text input */
+.text-input{width:100%;background:var(--s2);border:1.5px solid var(--b1);border-radius:10px;padding:12px 15px;font-size:14px;color:var(--t1);font-family:var(--fb);outline:none;transition:border-color .15s}
+.text-input:focus{border-color:var(--ac)}
+.text-input::placeholder{color:var(--t3)}
+select.text-input{cursor:pointer}
+
+/* Optional badge */
+.opt-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);background:var(--s3);padding:2px 8px;border-radius:10px;font-family:var(--fd);margin-left:8px;vertical-align:middle}
+
+/* Required badge */
+.req-badge{display:inline-flex;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);font-family:var(--fd);margin-left:6px;vertical-align:middle}
+
+/* Section divider inside card */
+.card-divider{height:1px;background:var(--b1);margin:20px 0}
+
+/* Advanced toggle */
+.advanced-toggle{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3);cursor:pointer;margin-top:12px;transition:color .15s;font-family:var(--fb)}
+.advanced-toggle:hover{color:var(--t2)}
+.advanced-toggle svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.advanced-toggle.open svg{transform:rotate(90deg)}
+.advanced-fields{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--b1)}
+.advanced-fields.show{display:block}
+
+/* Submit */
+.submit-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--ac);color:#041a0f;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s;margin-top:4px}
+.submit-btn:hover{background:#00ffaa;transform:translateY(-2px)}
+.submit-btn:disabled{background:var(--s3);color:var(--t3);cursor:not-allowed;transform:none}
+.submit-btn svg{width:16px;height:16px;fill:none;stroke:#041a0f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.error-msg{font-size:13px;color:var(--red);text-align:center;margin-top:10px;display:none;font-family:var(--fb)}
+.skip-link{text-align:center;font-size:12px;color:var(--t3);margin-top:14px;cursor:pointer;transition:color .15s;font-family:var(--fb)}
+.skip-link:hover{color:var(--t2)}
+
+@media(max-width:480px){
+  .options.cols3{grid-template-columns:1fr 1fr}
+  .options.cols5{grid-template-columns:repeat(3,1fr)}
+  .options.cols2{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<div class="wrap">
+  <a href="/" class="logo">GFD<em>Hub</em></a>
+
+  <div class="step-indicator">
+    <div class="step-dot done"></div>
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+  </div>
+
+  <div class="eyebrow">Quick setup · 60 seconds</div>
+  <h1>Tell your AI OC<br><em>how you play.</em></h1>
+  <p class="sub">Four quick questions. Your AI OC uses this to make calls specific to your league — not generic advice.</p>
+
+  <!-- CARD 1: SCORING FORMAT -->
+  <div class="form-card">
+    <label class="field-label">Scoring format <span class="req-badge">required</span></label>
+    <div class="field-sub">How does your league score receptions?</div>
+    <div class="options cols2" id="scoringOpts">
+      <div class="opt" onclick="select('scoring','PPR',this)">
+        <div class="opt-main">PPR</div>
+        <div class="opt-sub">1 point per reception</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('scoring','Half PPR',this)">
+        <div class="opt-main">Half PPR</div>
+        <div class="opt-sub">0.5 pts per reception</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('scoring','Standard',this)">
+        <div class="opt-main">Standard</div>
+        <div class="opt-sub">No reception points</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('scoring','Superflex',this)">
+        <div class="opt-main">Superflex</div>
+        <div class="opt-sub">Flex spot can be a QB</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('scoring','2QB',this)">
+        <div class="opt-main">2QB</div>
+        <div class="opt-sub">Must start 2 QBs</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('scoring','Dynasty',this)">
+        <div class="opt-main">Dynasty</div>
+        <div class="opt-sub">Keep players year to year</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+    </div>
+
+    <div class="advanced-toggle" id="advToggle" onclick="toggleAdvanced()">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      Advanced scoring settings
+    </div>
+    <div class="advanced-fields" id="advFields">
+      <label class="field-label">Passing TD points <span class="opt-badge">optional</span></label>
+      <select class="text-input" id="passingTD">
+        <option value="4">4 points (most leagues)</option>
+        <option value="6">6 points</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- CARD 2: LEAGUE SIZE -->
+  <div class="form-card">
+    <label class="field-label">League size <span class="req-badge">required</span></label>
+    <div class="field-sub">Affects waiver wire depth and trade values — the AI OC needs this to know how scarce players really are.</div>
+    <div class="options cols5" id="sizeOpts">
+      <div class="opt compact" onclick="select('team_size','8',this)">
+        <div class="opt-main">8</div>
+        <div class="opt-sub">teams</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('team_size','10',this)">
+        <div class="opt-main">10</div>
+        <div class="opt-sub">teams</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('team_size','12',this)">
+        <div class="opt-main">12</div>
+        <div class="opt-sub">teams</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('team_size','14',this)">
+        <div class="opt-main">14</div>
+        <div class="opt-sub">teams</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('team_size','16',this)">
+        <div class="opt-main">16</div>
+        <div class="opt-sub">teams</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3: PLATFORM -->
+  <div class="form-card">
+    <label class="field-label">Fantasy platform <span class="opt-badge">optional</span></label>
+    <div class="options cols3" id="platformOpts">
+      <div class="opt" onclick="select('platform','Yahoo',this)">
+        <div class="opt-main">Yahoo</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','ESPN',this)">
+        <div class="opt-main">ESPN</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','Sleeper',this)">
+        <div class="opt-main">Sleeper</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','Fleaflicker',this)">
+        <div class="opt-main">Fleaflicker</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','NFL.com',this)">
+        <div class="opt-main">NFL.com</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','Other',this)">
+        <div class="opt-main">Other</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4: TEAM NAME + BUY-IN -->
+  <div class="form-card">
+    <div style="margin-bottom:20px">
+      <label class="field-label">Your team name <span class="opt-badge">optional</span></label>
+      <input type="text" class="text-input" id="teamName" placeholder="e.g. Kelce My Heart, Lamb Chops..." maxlength="40">
+    </div>
+    <div class="card-divider"></div>
+    <label class="field-label">League buy-in <span class="opt-badge">optional</span></label>
+    <div class="field-sub">Helps the AI OC frame the stakes of every call.</div>
+    <div class="options cols3" id="buyinOpts">
+      <div class="opt compact" onclick="select('buyin','0',this)">
+        <div class="opt-main">Free</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('buyin','50',this)">
+        <div class="opt-main">$50</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('buyin','100',this)">
+        <div class="opt-main">$100</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('buyin','200',this)">
+        <div class="opt-main">$200</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('buyin','500',this)">
+        <div class="opt-main">$500+</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt compact" onclick="select('buyin','other',this)">
+        <div class="opt-main">Other</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="submit-btn" id="submitBtn" onclick="submitOnboarding()">
+    Take me to my AI OC
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
+  <div class="error-msg" id="errorMsg">Please select a scoring format and league size to continue.</div>
+  <div class="skip-link" onclick="skip()">Skip setup — I'll configure this later</div>
+</div>
+
+<script>
+const API = 'https://api.gfdhub.com';
+const selections = { scoring: null, team_size: null, platform: null, buyin: null };
+
+function select(group, value, el) {
+  const container = el.parentElement;
+  container.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selections[group] = value;
+  if (group === 'scoring' || group === 'team_size') {
+    document.getElementById('errorMsg').style.display = 'none';
+  }
+}
+
+function toggleAdvanced() {
+  const toggle = document.getElementById('advToggle');
+  const fields = document.getElementById('advFields');
+  toggle.classList.toggle('open');
+  fields.classList.toggle('show');
+}
+
+async function submitOnboarding() {
+  if (!selections.scoring || !selections.team_size) {
+    document.getElementById('errorMsg').style.display = 'block';
+    document.getElementById('errorMsg').textContent = !selections.scoring
+      ? 'Please select your scoring format to continue.'
+      : 'Please select your league size to continue.';
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = 'Setting up your AI OC...';
+
+  const email = localStorage.getItem('gfd_email');
+  const teamName = document.getElementById('teamName').value.trim();
+  const passingTD = document.getElementById('passingTD').value;
+
+  const payload = {
+    email: email || 'demo@gfdhub.com',
+    scoring:       selections.scoring,
+    platform:      selections.platform || 'Yahoo',
+    team_size:     parseInt(selections.team_size),
+    buyin:         selections.buyin && selections.buyin !== 'other' && selections.buyin !== '0'
+                     ? parseInt(selections.buyin) : null,
+    team_name:     teamName || null,
+    passing_td_pts: parseInt(passingTD),
+    record:        '0-0'
+  };
+
+  try {
+    await fetch(`${API}/api/user/context`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    // Silent fail — always proceed to chat
+    console.log('Context save:', e.message);
+  }
+
+  window.location.href = '/chat.html';
+}
+
+function skip() {
+  window.location.href = '/chat.html';
+}
+</script>
+</body>
+</html>
