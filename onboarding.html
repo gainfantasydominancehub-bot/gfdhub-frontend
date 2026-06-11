@@ -39,10 +39,10 @@ h1 em{color:var(--ac);font-style:italic}
 .field-label{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);font-family:var(--fd);margin-bottom:6px;display:block}
 .field-sub{font-size:12px;color:var(--t3);margin-bottom:12px;font-family:var(--fb);line-height:1.5}
 
-/* Option tiles */
 .options{display:grid;gap:8px}
 .options.cols2{grid-template-columns:1fr 1fr}
 .options.cols3{grid-template-columns:1fr 1fr 1fr}
+.options.cols4{grid-template-columns:1fr 1fr 1fr 1fr}
 .options.cols5{grid-template-columns:repeat(5,1fr)}
 .opt{background:var(--s2);border:1.5px solid var(--b1);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .15s;position:relative}
 .opt:hover{border-color:var(--b2);background:var(--s3)}
@@ -55,27 +55,19 @@ h1 em{color:var(--ac);font-style:italic}
 .opt.selected .opt-check{display:flex}
 .opt-check svg{width:8px;height:8px;stroke:#041a0f;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 
-/* Size tiles — compact, numbers only */
 .opt.compact{padding:10px 8px;text-align:center}
 .opt.compact .opt-main{font-size:16px;font-weight:900;letter-spacing:-.5px;margin:0}
 .opt.compact .opt-sub{font-size:10px;margin-top:2px}
 
-/* Text input */
 .text-input{width:100%;background:var(--s2);border:1.5px solid var(--b1);border-radius:10px;padding:12px 15px;font-size:14px;color:var(--t1);font-family:var(--fb);outline:none;transition:border-color .15s}
 .text-input:focus{border-color:var(--ac)}
 .text-input::placeholder{color:var(--t3)}
 select.text-input{cursor:pointer}
 
-/* Optional badge */
 .opt-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);background:var(--s3);padding:2px 8px;border-radius:10px;font-family:var(--fd);margin-left:8px;vertical-align:middle}
-
-/* Required badge */
 .req-badge{display:inline-flex;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);font-family:var(--fd);margin-left:6px;vertical-align:middle}
-
-/* Section divider inside card */
 .card-divider{height:1px;background:var(--b1);margin:20px 0}
 
-/* Advanced toggle */
 .advanced-toggle{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3);cursor:pointer;margin-top:12px;transition:color .15s;font-family:var(--fb)}
 .advanced-toggle:hover{color:var(--t2)}
 .advanced-toggle svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
@@ -83,7 +75,6 @@ select.text-input{cursor:pointer}
 .advanced-fields{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--b1)}
 .advanced-fields.show{display:block}
 
-/* Submit */
 .submit-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--ac);color:#041a0f;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s;margin-top:4px}
 .submit-btn:hover{background:#00ffaa;transform:translateY(-2px)}
 .submit-btn:disabled{background:var(--s3);color:var(--t3);cursor:not-allowed;transform:none}
@@ -94,6 +85,7 @@ select.text-input{cursor:pointer}
 
 @media(max-width:480px){
   .options.cols3{grid-template-columns:1fr 1fr}
+  .options.cols4{grid-template-columns:1fr 1fr}
   .options.cols5{grid-template-columns:repeat(3,1fr)}
   .options.cols2{grid-template-columns:1fr 1fr}
 }
@@ -198,7 +190,7 @@ select.text-input{cursor:pointer}
     </div>
   </div>
 
-  <!-- CARD 3: PLATFORM -->
+  <!-- CARD 3: PLATFORM — updated with CBS Sports, Underdog, Prizepicks, Fantrax -->
   <div class="form-card">
     <label class="field-label">Fantasy platform <span class="opt-badge">optional</span></label>
     <div class="options cols3" id="platformOpts">
@@ -212,6 +204,22 @@ select.text-input{cursor:pointer}
       </div>
       <div class="opt" onclick="select('platform','Sleeper',this)">
         <div class="opt-main">Sleeper</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','CBS Sports',this)">
+        <div class="opt-main">CBS Sports</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','Fantrax',this)">
+        <div class="opt-main">Fantrax</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','Underdog',this)">
+        <div class="opt-main">Underdog</div>
+        <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="opt" onclick="select('platform','PrizePicks',this)">
+        <div class="opt-main">PrizePicks</div>
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
       <div class="opt" onclick="select('platform','Fleaflicker',this)">
@@ -297,8 +305,9 @@ function toggleAdvanced() {
 
 async function submitOnboarding() {
   if (!selections.scoring || !selections.team_size) {
-    document.getElementById('errorMsg').style.display = 'block';
-    document.getElementById('errorMsg').textContent = !selections.scoring
+    const msg = document.getElementById('errorMsg');
+    msg.style.display = 'block';
+    msg.textContent = !selections.scoring
       ? 'Please select your scoring format to continue.'
       : 'Please select your league size to continue.';
     return;
@@ -314,14 +323,14 @@ async function submitOnboarding() {
 
   const payload = {
     email: email || 'demo@gfdhub.com',
-    scoring:       selections.scoring,
-    platform:      selections.platform || 'Yahoo',
-    team_size:     parseInt(selections.team_size),
-    buyin:         selections.buyin && selections.buyin !== 'other' && selections.buyin !== '0'
-                     ? parseInt(selections.buyin) : null,
-    team_name:     teamName || null,
+    scoring:        selections.scoring,
+    platform:       selections.platform || 'Yahoo',
+    team_size:      parseInt(selections.team_size),
+    buyin:          selections.buyin && selections.buyin !== 'other' && selections.buyin !== '0'
+                      ? parseInt(selections.buyin) : null,
+    team_name:      teamName || null,
     passing_td_pts: parseInt(passingTD),
-    record:        '0-0'
+    record:         '0-0'
   };
 
   try {
@@ -331,15 +340,14 @@ async function submitOnboarding() {
       body: JSON.stringify(payload)
     });
   } catch(e) {
-    // Silent fail — always proceed to chat
     console.log('Context save:', e.message);
   }
 
-  window.location.href = '/chat.html';
+  window.location.href = '/chat';
 }
 
 function skip() {
-  window.location.href = '/chat.html';
+  window.location.href = '/chat';
 }
 </script>
 </body>
