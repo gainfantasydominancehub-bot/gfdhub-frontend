@@ -28,40 +28,8 @@
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--t1);font-family:var(--fb);overflow-x:hidden}
-
-/* ── GRID BACKGROUND ── */
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;
-  background-image:
-    linear-gradient(rgba(0,232,122,0.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,232,122,0.02) 1px,transparent 1px),
-    repeating-linear-gradient(
-      180deg,
-      transparent,
-      transparent 119px,
-      rgba(0,232,122,0.06) 119px,
-      rgba(0,232,122,0.06) 120px
-    );
-  background-size:80px 80px, 80px 80px, 100% 120px;
-  pointer-events:none
-}
-body::after{
-  content:'';position:fixed;inset:0;z-index:0;
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 23%,
-      rgba(0,232,122,0.03) 23%,
-      rgba(0,232,122,0.03) 23.2%,
-      transparent 23.2%,
-      transparent 76.8%,
-      rgba(0,232,122,0.03) 76.8%,
-      rgba(0,232,122,0.03) 77%,
-      transparent 77%
-    );
-  pointer-events:none
-}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,232,122,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,0.02) 1px,transparent 1px),repeating-linear-gradient(180deg,transparent,transparent 119px,rgba(0,232,122,0.06) 119px,rgba(0,232,122,0.06) 120px);background-size:80px 80px, 80px 80px, 100% 120px;pointer-events:none}
+body::after{content:'';position:fixed;inset:0;z-index:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 23%,rgba(0,232,122,0.03) 23%,rgba(0,232,122,0.03) 23.2%,transparent 23.2%,transparent 76.8%,rgba(0,232,122,0.03) 76.8%,rgba(0,232,122,0.03) 77%,transparent 77%);pointer-events:none}
 
 /* ── NAV ── */
 nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:58px;background:rgba(7,8,13,0.88);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:200;backdrop-filter:blur(12px)}
@@ -72,9 +40,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .nav-link{font-size:13px;font-weight:500;color:var(--t2);text-decoration:none;transition:color .15s;font-family:var(--fb)}
 .nav-link:hover{color:var(--t1)}
 .nav-cta{padding:8px 20px;background:var(--ac);color:#041a0f;font-size:13px;font-weight:700;border:none;border-radius:7px;cursor:pointer;font-family:var(--fd);font-weight:800;letter-spacing:-.3px;transition:all .15s;position:relative;overflow:hidden}
-.nav-cta::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .15s}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(0,229,160,0.35)}
-.nav-cta:hover::after{background:rgba(255,255,255,0.08)}
 
 /* ── TICKER ── */
 .ticker{background:rgba(0,229,160,0.04);border-bottom:1px solid rgba(0,229,160,.09);height:36px;display:flex;align-items:center;position:relative;z-index:1}
@@ -83,8 +49,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .tick-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
 .tick-track{display:flex;animation:tickscroll 60s linear infinite;white-space:nowrap;position:relative;z-index:1}
-.tick-item{display:inline-flex;align-items:center;gap:0;font-size:12px;padding:0 24px;border-right:1px solid var(--b1)}
-.tn{font-weight:700;color:var(--t1);font-family:var(--fd)}
+/* Pause on hover */
+.tick-scroll-wrap:hover .tick-track{animation-play-state:paused}
+.tick-item{display:inline-flex;align-items:center;gap:0;font-size:12px;padding:0 20px;border-right:1px solid var(--b1);cursor:pointer;transition:background .15s;border-radius:4px}
+.tick-item:hover{background:rgba(0,229,160,.08)}
+.tick-item:hover .tn{color:var(--ac)}
+.tn{font-weight:700;color:var(--t1);font-family:var(--fd);transition:color .15s}
 .tt{font-size:10px;color:var(--t3);margin:0 5px}
 .ts{font-size:11px;font-weight:700}
 .ts.out{color:var(--red)}
@@ -92,6 +62,23 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .ts.ok{color:var(--ac)}
 .tsep{color:var(--t3);margin:0 18px;font-size:14px}
 @keyframes tickscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── PLAYER POPUP ── */
+.player-popup{position:fixed;z-index:500;background:var(--s1);border:1px solid rgba(0,229,160,.3);border-radius:12px;padding:16px 18px;min-width:220px;max-width:280px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 24px rgba(0,229,160,.08);pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .15s,transform .15s}
+.player-popup.show{opacity:1;transform:translateY(0)}
+.pp-pos-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:10px;font-weight:800;font-family:var(--fd);margin-right:8px;flex-shrink:0}
+.pp-pos-badge.qb{background:rgba(255,179,71,.15);color:#ffb347;border:1px solid rgba(255,179,71,.3)}
+.pp-pos-badge.rb{background:rgba(0,229,160,.1);color:#00e5a0;border:1px solid rgba(0,229,160,.2)}
+.pp-pos-badge.wr{background:rgba(77,166,255,.1);color:#4da6ff;border:1px solid rgba(77,166,255,.2)}
+.pp-pos-badge.te{background:rgba(180,122,255,.1);color:#b47aff;border:1px solid rgba(180,122,255,.2)}
+.pp-pop-name{font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);letter-spacing:-.3px}
+.pp-pop-team{font-size:11px;color:var(--t2);margin-top:2px}
+.pp-pop-status{font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px;font-family:var(--fd);display:inline-flex;margin:8px 0 6px}
+.pp-pop-status.ok{background:rgba(0,229,160,.1);color:#00e5a0;border:1px solid rgba(0,229,160,.2)}
+.pp-pop-status.q{background:rgba(255,179,71,.1);color:#ffb347;border:1px solid rgba(255,179,71,.2)}
+.pp-pop-status.out{background:rgba(255,77,106,.1);color:#ff4d6a;border:1px solid rgba(255,77,106,.2)}
+.pp-pop-detail{font-size:12px;color:var(--t2);line-height:1.5}
+.pp-pop-cta{margin-top:10px;font-size:11px;color:var(--ac);font-family:var(--fd);font-weight:700;letter-spacing:.3px}
 
 /* ── HERO ── */
 .hero{position:relative;z-index:1;padding:100px 48px 80px;max-width:1200px;margin:0 auto;text-align:center}
@@ -101,8 +88,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .hero h1 .line2{color:var(--ac);font-style:italic;display:block}
 .hero-sub{font-size:clamp(16px,1.8vw,20px);color:var(--t2);max-width:640px;margin:24px auto 44px;line-height:1.65;animation:fadeUp .6s .2s ease both}
 .hero-sub strong{color:var(--t1);font-weight:600}
-
-/* ── EMAIL FORM ── */
 .form-outer{animation:fadeUp .6s .3s ease both;max-width:580px;margin:0 auto}
 .form-row{display:flex;gap:8px;background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:6px 6px 6px 18px;transition:border-color .15s}
 .form-row:focus-within{border-color:var(--ac)}
@@ -128,15 +113,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .sec-tag{font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--ac);margin-bottom:12px;font-family:var(--fd)}
 .sec h2{font-family:var(--fd);font-size:clamp(28px,3.5vw,48px);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px;line-height:1.1}
 .sec-sub{font-size:16px;color:var(--t2);max-width:620px;line-height:1.7;margin-bottom:44px}
-
-/* ── FORMULA CARDS ── */
 .fcard{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:28px 32px;margin-bottom:10px;transition:border-color .15s,transform .15s}
 .fcard:hover{border-color:rgba(0,229,160,.2);transform:translateY(-2px)}
 .fcard-eq{font-family:var(--fd);font-size:clamp(15px,2vw,22px);font-weight:800;color:var(--t1);margin-bottom:8px;line-height:1.4;letter-spacing:-.3px}
 .fcard-eq em{color:var(--ac);font-style:italic}
 .fcard-desc{font-size:14px;color:var(--t2);line-height:1.7}
-
-/* ── VS GRID ── */
 .vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:44px}
 .vc{border-radius:14px;padding:28px;transition:transform .15s}
 .vc:hover{transform:translateY(-2px)}
@@ -151,8 +132,6 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .vc-desc{font-size:14px;line-height:1.6}
 .vc-bad .vc-desc{color:rgba(255,130,145,.8)}
 .vc-good .vc-desc{color:rgba(0,229,160,.75)}
-
-/* ── STEPS ── */
 .steps{display:flex;flex-direction:column;gap:4px}
 .step{display:flex;gap:22px;background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:26px 28px;align-items:flex-start;transition:all .15s;position:relative;overflow:hidden}
 .step::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac);opacity:0;transition:opacity .2s}
@@ -163,162 +142,58 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .step-desc{font-size:14px;color:var(--t2);line-height:1.7}
 
 /* ── PHONE DEMO ── */
-.demo-outer{
-  position:relative;z-index:1;
-  display:flex;flex-direction:column;align-items:center;
-  gap:32px;padding:80px 48px;
-  border-top:1px solid var(--b1);
-  border-bottom:1px solid var(--b1);
-  overflow:hidden;
-}
-.demo-outer::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(0,232,122,0.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,232,122,0.015) 1px,transparent 1px);
-  background-size:60px 60px;pointer-events:none;
-}
-.demo-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--fd);font-size:11px;font-weight:800;
-  letter-spacing:1.4px;text-transform:uppercase;
-  color:var(--ac);background:var(--ac2);
-  border:1px solid rgba(0,229,160,.2);
-  padding:6px 16px;border-radius:20px;
-  position:relative;z-index:1;
-}
+.demo-outer{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:32px;padding:80px 48px;border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);overflow:hidden}
+.demo-outer::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,232,122,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,0.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.demo-eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--ac);background:var(--ac2);border:1px solid rgba(0,229,160,.2);padding:6px 16px;border-radius:20px;position:relative;z-index:1}
 .demo-dot{width:5px;height:5px;border-radius:50%;background:var(--ac);animation:dpulse 2s infinite}
 @keyframes dpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
-.demo-headline{
-  font-family:var(--fd);font-size:clamp(26px,4vw,48px);
-  font-weight:900;letter-spacing:-1.5px;line-height:1.1;
-  color:var(--t1);text-align:center;
-  position:relative;z-index:1;max-width:560px;
-}
+.demo-headline{font-family:var(--fd);font-size:clamp(26px,4vw,48px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;color:var(--t1);text-align:center;position:relative;z-index:1;max-width:560px}
 .demo-headline em{color:var(--ac);font-style:italic}
-.demo-sub{
-  font-family:var(--fb);font-size:16px;color:var(--t2);
-  text-align:center;max-width:460px;line-height:1.65;
-  position:relative;z-index:1;
-}
-.phone-frame{
-  width:320px;background:var(--s1);
-  border:2px solid rgba(255,255,255,0.1);
-  border-radius:44px;
-  position:relative;z-index:1;
-  overflow:hidden;
-}
-.phone-notch{
-  height:30px;background:var(--s1);
-  display:flex;align-items:center;justify-content:center;
-  border-bottom:1px solid var(--b1);
-}
+.demo-sub{font-family:var(--fb);font-size:16px;color:var(--t2);text-align:center;max-width:460px;line-height:1.65;position:relative;z-index:1}
+.phone-frame{width:320px;background:var(--s1);border:2px solid rgba(255,255,255,0.1);border-radius:44px;position:relative;z-index:1;overflow:hidden}
+.phone-notch{height:30px;background:var(--s1);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--b1)}
 .notch-pill{width:80px;height:12px;background:#000;border-radius:20px}
-.phone-topbar{
-  display:flex;align-items:center;gap:10px;
-  padding:12px 18px;border-bottom:1px solid var(--b1);
-  background:var(--s1);
-}
-.oc-ava{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--ac2);border:1px solid rgba(0,229,160,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fd);font-size:10px;font-weight:800;color:var(--ac);
-  flex-shrink:0;
-}
+.phone-topbar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--b1);background:var(--s1)}
+.oc-ava{width:32px;height:32px;border-radius:50%;background:var(--ac2);border:1px solid rgba(0,229,160,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:10px;font-weight:800;color:var(--ac);flex-shrink:0}
 .oc-name{font-family:var(--fd);font-size:12px;font-weight:800;color:var(--t1)}
 .oc-status{font-size:10px;color:var(--ac);display:flex;align-items:center;gap:4px}
 .oc-status-dot{width:4px;height:4px;border-radius:50%;background:var(--ac)}
-.phone-msgs{
-  min-height:360px;padding:16px 14px;
-  display:flex;flex-direction:column;gap:12px;
-  background:var(--bg);
-}
+.phone-msgs{min-height:360px;padding:16px 14px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
 .pmsg{display:flex;gap:7px;align-items:flex-end}
 .pmsg.user{flex-direction:row-reverse}
-.pmsg-ava{
-  width:24px;height:24px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:8px;font-weight:800;font-family:var(--fd);
-}
+.pmsg-ava{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;font-family:var(--fd)}
 .pmsg-ava.oc{background:var(--ac2);border:1px solid rgba(0,229,160,.3);color:var(--ac)}
 .pmsg-ava.user{background:var(--s3);border:1px solid var(--b1);color:var(--t2)}
-.pbubble{
-  max-width:218px;padding:9px 12px;
-  border-radius:10px;font-size:11.5px;line-height:1.55;
-  font-family:var(--fb);
-}
-.pbubble.oc{
-  background:var(--s2);border:1px solid var(--b1);color:var(--t1);
-  border-radius:10px 10px 10px 2px;
-}
-.pbubble.user{
-  background:var(--ac2);border:1px solid rgba(0,229,160,.2);color:var(--t1);
-  border-radius:10px 10px 2px 10px;
-}
+.pbubble{max-width:218px;padding:9px 12px;border-radius:10px;font-size:11.5px;line-height:1.55;font-family:var(--fb)}
+.pbubble.oc{background:var(--s2);border:1px solid var(--b1);color:var(--t1);border-radius:10px 10px 10px 2px}
+.pbubble.user{background:var(--ac2);border:1px solid rgba(0,229,160,.2);color:var(--t1);border-radius:10px 10px 2px 10px}
 .pbubble b{color:var(--ac);font-weight:700}
-.call-tag{
-  display:inline-flex;align-items:center;gap:4px;
-  font-size:10px;font-weight:800;padding:2px 9px;
-  border-radius:10px;font-family:var(--fd);
-  margin:2px 2px 4px 0;
-}
+.call-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:800;padding:2px 9px;border-radius:10px;font-family:var(--fd);margin:2px 2px 4px 0}
 .tag-start{background:var(--ac);color:#041a0f}
 .tag-sit{background:var(--red);color:#fff}
 .typing-wrap{display:flex;gap:7px;align-items:flex-end}
-.typing-dots{
-  display:flex;gap:4px;padding:9px 12px;
-  background:var(--s2);border:1px solid var(--b1);
-  border-radius:10px 10px 10px 2px;
-}
+.typing-dots{display:flex;gap:4px;padding:9px 12px;background:var(--s2);border:1px solid var(--b1);border-radius:10px 10px 10px 2px}
 .tdot{width:5px;height:5px;border-radius:50%;background:var(--t3);animation:tbounce .8s infinite}
 .tdot:nth-child(2){animation-delay:.15s}
 .tdot:nth-child(3){animation-delay:.3s}
 @keyframes tbounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px);background:var(--ac)}}
-.phone-inputbar{
-  padding:10px 12px;background:var(--s1);
-  border-top:1px solid var(--b1);
-  display:flex;gap:8px;align-items:center;
-}
-.phone-input-display{
-  flex:1;background:var(--s2);border:1px solid var(--b2);
-  border-radius:18px;padding:7px 12px;
-  font-size:10px;color:var(--t2);font-family:var(--fb);
-  line-height:1.4;
-}
-.phone-send{
-  width:28px;height:28px;background:var(--ac);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;flex-shrink:0;transition:all .15s;
-}
+.phone-inputbar{padding:10px 12px;background:var(--s1);border-top:1px solid var(--b1);display:flex;gap:8px;align-items:center}
+.phone-input-display{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:18px;padding:7px 12px;font-size:10px;color:var(--t2);font-family:var(--fb);line-height:1.4}
+.phone-send{width:28px;height:28px;background:var(--ac);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
 .phone-send:hover{background:#00ffb0;transform:scale(1.08)}
 .phone-send svg{width:11px;height:11px;fill:none;stroke:#041a0f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.demo-note{
-  font-family:var(--fb);font-size:13px;color:var(--t3);
-  text-align:center;position:relative;z-index:1;
-}
+.demo-note{font-family:var(--fb);font-size:13px;color:var(--t3);text-align:center;position:relative;z-index:1}
 
 /* ── PRICING ── */
-.pricing{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:860px;margin:0 auto}
 .pc{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:32px;transition:all .15s}
 .pc:hover{transform:translateY(-3px);border-color:var(--b2)}
 .pc.feat{border-color:rgba(0,229,160,.3);background:linear-gradient(145deg,rgba(0,229,160,.06) 0%,var(--s1) 60%)}
-.pc.feat:hover{border-color:rgba(0,229,160,.5)}
-.pc-badge{font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ac);background:var(--ac2);padding:3px 11px;border-radius:20px;display:inline-block;margin-bottom:14px;font-family:var(--fd)}
-.pc-name{font-family:var(--fd);font-size:18px;font-weight:800;margin-bottom:5px;letter-spacing:-.3px}
-.pc-amt{font-family:var(--fd);font-size:40px;font-weight:900;color:var(--ac);line-height:1;margin-bottom:4px;letter-spacing:-2px}
-.pc-amt span{font-size:14px;font-weight:400;color:var(--t2);font-family:var(--fb);letter-spacing:0}
-.pc-save{font-size:12px;margin-bottom:22px}
-.pc.feat .pc-save{color:var(--ac)}
-.pc:not(.feat) .pc-save{color:var(--t3)}
 .pc-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:26px}
 .pc-feats li{font-size:14px;color:var(--t2);display:flex;align-items:center;gap:8px}
 .pc-feats li::before{content:'✓';color:var(--ac);font-weight:800;flex-shrink:0;font-family:var(--fd)}
 .pc-btn{display:block;width:100%;padding:13px;text-align:center;border-radius:9px;font-size:14px;font-weight:800;cursor:pointer;font-family:var(--fd);transition:all .15s;border:none;letter-spacing:-.3px}
 .pc-btn.pri{background:var(--ac);color:#041a0f}
 .pc-btn.pri:hover{background:#00ffb0;transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,229,160,.25)}
-.pc-btn.sec{background:var(--s2);color:var(--t1);border:1px solid var(--b2)}
-.pc-btn.sec:hover{background:var(--s3);border-color:var(--b2)}
 
 /* ── FAQ ── */
 .faq{max-width:860px;margin:0 auto}
@@ -335,14 +210,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .final{position:relative;z-index:1;padding:80px 48px;text-align:center;border-top:1px solid var(--b1);max-width:960px;margin:0 auto}
 .final h2{font-family:var(--fd);font-size:clamp(28px,4vw,52px);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px;line-height:1.1}
 .final h2 em{color:var(--ac);font-style:italic}
-
-/* ── FOOTER ── */
 footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
 .foot-logo{font-family:var(--fd);font-weight:900;font-size:18px;letter-spacing:-1px}
 .foot-logo em{color:var(--ac);font-style:normal}
 .foot-sub{font-size:12px;color:var(--t3)}
-
-/* ── GLOW ACCENT ── */
 .glow-green{position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,232,122,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
 
 /* ── CHECKOUT MODAL ── */
@@ -398,19 +269,34 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   .hero{padding:72px 20px 60px}
   .sec{padding:60px 20px}
   .stats{grid-template-columns:repeat(2,1fr)}
-  .vs,.pricing{grid-template-columns:1fr}
+  .vs{grid-template-columns:1fr}
   .form-row{flex-direction:column;padding:10px}
   .form-btn{width:100%}
   footer{flex-direction:column;gap:8px;text-align:center;padding:24px 20px}
   .final{padding:60px 20px}
   .demo-outer{padding:60px 20px}
   .phone-frame{width:290px}
+  .player-popup{display:none}
 }
 </style>
 </head>
 <body>
 
 <div class="glow-green"></div>
+
+<!-- PLAYER POPUP CARD -->
+<div class="player-popup" id="playerPopup">
+  <div style="display:flex;align-items:center;margin-bottom:4px">
+    <div class="pp-pos-badge" id="ppBadge"></div>
+    <div>
+      <div class="pp-pop-name" id="ppPopName"></div>
+      <div class="pp-pop-team" id="ppPopTeam"></div>
+    </div>
+  </div>
+  <div class="pp-pop-status" id="ppPopStatus"></div>
+  <div class="pp-pop-detail" id="ppPopDetail"></div>
+  <div class="pp-pop-cta">Click to get AI OC analysis →</div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -444,18 +330,6 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   <line x1="40" y1="160" x2="100" y2="160" stroke="#f5a623" stroke-width="2"/>
   <line x1="420" y1="160" x2="480" y2="160" stroke="#f5a623" stroke-width="2"/>
 </svg>
-<svg style="position:absolute;top:0;right:5%;opacity:0.03;pointer-events:none;z-index:0" width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="55" y="100" width="10" height="100" fill="#f5a623"/>
-  <rect x="20" y="60" width="80" height="8" fill="#f5a623"/>
-  <rect x="20" y="60" width="8" height="50" fill="#f5a623"/>
-  <rect x="92" y="60" width="8" height="50" fill="#f5a623"/>
-</svg>
-<svg style="position:absolute;top:0;left:5%;opacity:0.03;pointer-events:none;z-index:0;transform:scaleX(-1)" width="120" height="200" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="55" y="100" width="10" height="100" fill="#f5a623"/>
-  <rect x="20" y="60" width="80" height="8" fill="#f5a623"/>
-  <rect x="20" y="60" width="8" height="50" fill="#f5a623"/>
-  <rect x="92" y="60" width="8" height="50" fill="#f5a623"/>
-</svg>
   <div class="hero-eyebrow"><span class="tick-dot"></span>🏈 Draft Prep · In-Season Lineup · Player Props · 2026 NFL Season</div>
   <h1>Stop trusting<span class="line2">trust me brah.</span></h1>
   <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">
@@ -466,12 +340,10 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <span style="color:var(--ac)">AI OC Available 24/7</span>
   </div>
   <p class="hero-sub">25 years of fantasy football. The same pain every season. One bad call away from the playoffs. <strong>GFDHub is the AI Offensive Coordinator that beats the radio guru — every week, with receipts.</strong> Sitting at your draft on the clock, sweating a Sunday lineup, or researching player props — same AI OC, same data, same confident call in under 2 seconds.</p>
-
   <div style="text-align:center;margin:0 auto 8px">
     <button onclick="goToPro()" style="padding:14px 40px;background:var(--ac);color:#021a0a;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s" onmouseover="this.style.background='#00ffaa';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--ac)';this.style.transform='translateY(0)'">Get PRO Access — $29.97 →</button>
     <div style="font-size:12px;color:var(--t3);margin-top:10px;font-family:var(--fb)">Draft prep through playoffs · One-time · No auto-renewal</div>
   </div>
-
   <div class="stats">
     <div class="stat"><div class="stat-n">+1.2</div><div class="stat-l">MORE WINS<br>per season</div></div>
     <div class="stat"><div class="stat-n">68%</div><div class="stat-l">THE RIGHT CALL<br>made by AI OC</div></div>
@@ -488,11 +360,9 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <h2 style="font-family:var(--fd);font-size:clamp(26px,3.5vw,44px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px">Every one of these matchups was<br>one decision away from a win.</h2>
     <p style="font-size:16px;color:var(--t2);max-width:580px;margin:0 auto;line-height:1.8;font-family:var(--fb)">Bad benches. Players left on the wire. Starting the wrong guy on a hunch, or because the guru said <span style="color:var(--red);font-weight:600">"trust me."</span><br><br>You did. <span style="color:var(--t1);font-weight:600">You lost.</span></p>
   </div>
-
   <div style="display:flex;flex-direction:column;gap:3px;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,black 6%,black 94%,transparent 100%)">
-    <!-- LANE 1: losses left -->
     <div style="display:flex;overflow:hidden">
-      <div class="scroll-l1" style="display:flex;gap:3px;animation:scrollL 36s linear infinite;white-space:nowrap;will-change:transform;align-items:flex-start">
+      <div style="display:flex;gap:3px;animation:scrollL 36s linear infinite;white-space:nowrap;will-change:transform;align-items:flex-start">
         <div class="lc"><div class="lc-week">Week 14 · Playoff Bubble</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">118.4</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">121.2</div></div></div><div class="lc-margin">Lost by 2.8 pts</div><div class="lc-note">Started <b>benched Kelce (12 pts)</b> over Noah Gray. Guru said "rest week."</div></div>
         <div class="lc"><div class="lc-week">Week 9 · Must Win</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">104.6</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">109.1</div></div></div><div class="lc-margin">Lost by 4.5 pts</div><div class="lc-note">Benched <b>Tutu Atwell (22 pts)</b> — Nacua hit IR. Nobody told you.</div></div>
         <div class="lc"><div class="lc-week">Week 16 · Championship</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">133.2</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">137.8</div></div></div><div class="lc-margin">Lost by 4.6 pts</div><div class="lc-note">Started <b>Davante Adams (3 pts)</b> over Cooks. "He's due," said the radio guy.</div></div>
@@ -509,16 +379,12 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
         <div class="lc"><div class="lc-week">Week 13 · Bounce Back</div><div class="lc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="lc-pts loss">108.2</div></div><div class="lc-vs">L</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="lc-pts win">115.6</div></div></div><div class="lc-margin">Lost by 7.4 pts</div><div class="lc-note">Streamed <b>wrong QB (8 pts)</b>. Matchup looked good on paper. Weather killed it.</div></div>
       </div>
     </div>
-
-    <!-- DIVIDER -->
     <div style="text-align:center;padding:16px 0;position:relative">
       <div style="position:absolute;top:50%;left:10%;right:10%;height:1px;background:var(--b1)"></div>
       <div style="display:inline-flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--b1);border-radius:20px;padding:7px 18px;font-size:12px;font-weight:700;color:var(--t2);font-family:var(--fd);position:relative;z-index:1">With GFDHub AI OC, these flip to <span style="color:var(--ac);margin-left:4px">wins ↓</span></div>
     </div>
-
-    <!-- LANE 2: wins right -->
     <div style="display:flex;overflow:hidden">
-      <div class="scroll-l2" style="display:flex;gap:3px;animation:scrollR 30s linear infinite;white-space:nowrap;will-change:transform;align-items:flex-start">
+      <div style="display:flex;gap:3px;animation:scrollR 30s linear infinite;white-space:nowrap;will-change:transform;align-items:flex-start">
         <div class="wc"><div class="wc-week">Week 14 · Playoff Clincher</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">128.6</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">121.2</div></div></div><div class="wc-note">AI OC: <b>"Start Kelce — Raiders allow most TE yards in AFC. Lock."</b> Playoffs clinched.</div></div>
         <div class="wc"><div class="wc-week">Week 9 · Stayed Alive</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">116.8</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">109.1</div></div></div><div class="wc-note">AI OC: <b>"Add Atwell NOW — Nacua on IR. Primary LAR slot target."</b> 22 pts off waivers.</div></div>
         <div class="wc"><div class="wc-week">Week 16 · Championship</div><div class="wc-scores"><div class="lc-side"><div class="lc-name">Your Team</div><div class="wc-pts-w">151.4</div></div><div class="wc-vs">W</div><div class="lc-side"><div class="lc-name">Opponent</div><div class="wc-pts-l">137.8</div></div></div><div class="wc-note">AI OC: <b>"Sit Adams — limited all week + tough CB. Start Cooks."</b> $1,000 winner.</div></div>
@@ -578,12 +444,11 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   </div>
 </div>
 
-<!-- ── PHONE DEMO ── -->
+<!-- PHONE DEMO -->
 <div class="demo-outer reveal">
   <div class="demo-eyebrow"><div class="demo-dot"></div>Live demo</div>
   <h2 class="demo-headline">Real question.<br><em>Real call. Under 2s.</em></h2>
   <p class="demo-sub">Full PPR · Week 8 · Pick 3 of 5 to start</p>
-
   <div class="phone-frame">
     <div class="phone-notch"><div class="notch-pill"></div></div>
     <div class="phone-topbar">
@@ -601,7 +466,6 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
       </div>
     </div>
   </div>
-
   <p class="demo-note">$29.97 · Draft prep through playoffs · No auto-renewal</p>
 </div>
 
@@ -609,7 +473,6 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
 <div class="sec reveal" id="pricing" style="padding-top:80px;text-align:center">
   <div class="sec-tag">🏆 Season access</div>
   <h2>Gain your playoff berth<br>for less than 2 beers<br>at the stadium.</h2>
-  <p class="sec-sub" style="margin:0 auto 36px"></p>
   <div class="reveal" style="max-width:480px;margin:0 auto 24px">
     <div style="background:rgba(0,232,122,0.07);border:1.5px solid rgba(0,232,122,.25);border-radius:16px;padding:36px 32px;text-align:center;position:relative">
       <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#021a0a;background:var(--ac);padding:4px 16px;border-radius:20px;white-space:nowrap;font-family:var(--fd)">2026 NFL Season · One-time charge</div>
@@ -642,9 +505,9 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
     <div class="fq" onclick="faq(this)"><div class="fq-q">Where does the +1.2 wins number actually come from?<span class="fq-icon">+</span></div><div class="fq-a">Three real data points: the average fantasy matchup margin is ~18 points; managers make ~2.4 correctable start/sit errors per season based on lineup optimization research; each corrected error recovers ~9 pts. Formula: (2.4 × 9) ÷ 18 = 1.2. Every number is conservative — most managers will see more.</div></div>
     <div class="fq" onclick="faq(this)"><div class="fq-q">How is this different from FantasyPros or Rotoworld?<span class="fq-icon">+</span></div><div class="fq-a">FantasyPros aggregates human opinions — still vibes, just averaged. Rotoworld is editorial news with no AI analysis layer. GFDHub's AI OC makes a call using live data pulled at the exact moment you ask, weighted by the factors that actually predict performance: snap count, target share, injury timing, and matchup rating. Texts back in under 2 seconds.</div></div>
     <div class="fq" onclick="faq(this)"><div class="fq-q">What exactly is the SMS bot?<span class="fq-icon">+</span></div><div class="fq-a">A real phone number you text like a person in your contacts. "Start Lamb or Waddle?" — it texts back a confident answer with data in under 2 seconds. No app to open. No login. Works in your normal messages app. PRO subscribers get a dedicated number that remembers your league scoring format.</div></div>
-    <div class="fq" onclick="faq(this)"><div class="fq-q">When does GFDHub launch?<span class="fq-icon">+</span></div><div class="fq-a">Before draft season 2026 — well ahead of August 1st. Early access members get notified first and lock in pricing. NFL Week 1 is September 4, 2026. You'll have the full product before your first draft pick.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">When does GFDHub launch?<span class="fq-icon">+</span></div><div class="fq-a">Before draft season 2026 — well ahead of August 1st. Early access members get notified first and lock in pricing. NFL Week 1 is September 9, 2026. You'll have the full product before your first draft pick.</div></div>
     <div class="fq" onclick="faq(this)"><div class="fq-q">What if the AI OC gets a call wrong?<span class="fq-icon">+</span></div><div class="fq-a">Fantasy has variance — no system is perfect. The claim is 68% accuracy on borderline calls vs ~52% for human experts. That edge compounds over 17 weeks into the +1.2 wins. Not satisfied after the full season? Cancel with one text. You owe nothing.</div></div>
-    <div class="fq" onclick="faq(this)"><div class="fq-q">Can I use GFDHub for player props research?<span class="fq-icon">+</span></div><div class="fq-a">The AI OC pulls the same data that drives both fantasy decisions and player performance analysis — snap counts, target share, route participation, matchup ratings, weather, and game script. If you want to know whether a receiver is set up for a big game this week, the AI OC will tell you exactly why the data supports that or doesn't. What you do with that information is up to you.</div></div>
+    <div class="fq" onclick="faq(this)"><div class="fq-q">Can I use GFDHub for player props research?<span class="fq-icon">+</span></div><div class="fq-a">The AI OC pulls the same data that drives both fantasy decisions and player performance analysis — snap counts, target share, route participation, matchup ratings, weather, and game script. If you want to know whether a receiver is set up for a big game this week, the AI OC will tell you exactly why the data supports that or doesn't.</div></div>
   </div>
 </div>
 
@@ -702,13 +565,74 @@ const PLAYERS=[
   {n:'Bijan Robinson',t:'ATL',p:'RB',s:'ok',l:'No designation — full workload'},
 ];
 
+/* ── TICKER ── */
+function posClassLP(pos){
+  const p=(pos||'').toUpperCase();
+  if(p.startsWith('QB'))return 'qb';
+  if(p.startsWith('RB'))return 'rb';
+  if(p.startsWith('WR'))return 'wr';
+  if(p.startsWith('TE'))return 'te';
+  return 'rb';
+}
+
 function buildTicker(){
   const sl=s=>s==='out'?'out':s==='q'?'q':'ok';
   const st=s=>s==='out'?'OUT':s==='q'?'QUESTIONABLE':'ACTIVE';
   const d=[...PLAYERS,...PLAYERS];
-  document.getElementById('tickerTrack').innerHTML=d.map(p=>`<span class="tick-item"><span class="tn">${p.n}</span><span class="tt">${p.t} · ${p.p}</span><span class="ts ${sl(p.s)}">${st(p.s)}</span><span class="tsep">·</span><span class="ts" style="color:var(--t2);font-weight:400">${p.l}</span></span>`).join('');
+  document.getElementById('tickerTrack').innerHTML=d.map((p,i)=>`<span class="tick-item" data-idx="${i%PLAYERS.length}"><span class="tn">${p.n}</span><span class="tt">${p.t} · ${p.p}</span><span class="ts ${sl(p.s)}">${st(p.s)}</span><span class="tsep">·</span><span class="ts" style="color:var(--t2);font-weight:400">${p.l}</span></span>`).join('');
 }
 
+/* ── PLAYER POPUP ── */
+const popup=document.getElementById('playerPopup');
+let popupTimeout;
+
+function showPlayerPopup(player,x,y){
+  clearTimeout(popupTimeout);
+  document.getElementById('ppBadge').textContent=player.p;
+  document.getElementById('ppBadge').className=`pp-pos-badge ${posClassLP(player.p)}`;
+  document.getElementById('ppPopName').textContent=player.n;
+  document.getElementById('ppPopTeam').textContent=player.t;
+  const statusEl=document.getElementById('ppPopStatus');
+  statusEl.textContent=player.s==='out'?'OUT':player.s==='q'?'QUESTIONABLE':'ACTIVE';
+  statusEl.className=`pp-pop-status ${player.s}`;
+  document.getElementById('ppPopDetail').textContent=player.l;
+  const pw=260;
+  let left=x+14;
+  let top=y-10;
+  if(left+pw>window.innerWidth-16)left=x-pw-14;
+  if(top+180>window.innerHeight)top=y-180;
+  popup.style.left=left+'px';
+  popup.style.top=top+'px';
+  popup.classList.add('show');
+}
+
+function hidePlayerPopup(){
+  popupTimeout=setTimeout(()=>popup.classList.remove('show'),120);
+}
+
+function wireTicker(){
+  document.querySelectorAll('.tick-item').forEach(el=>{
+    const idx=parseInt(el.dataset.idx);
+    const player=PLAYERS[idx];
+    el.addEventListener('mouseenter',e=>showPlayerPopup(player,e.clientX,e.clientY));
+    el.addEventListener('mousemove',e=>{
+      let left=e.clientX+14;
+      let top=e.clientY-10;
+      if(left+260>window.innerWidth-16)left=e.clientX-274;
+      if(top+180>window.innerHeight)top=e.clientY-180;
+      popup.style.left=left+'px';
+      popup.style.top=top+'px';
+    });
+    el.addEventListener('mouseleave',hidePlayerPopup);
+    el.addEventListener('click',()=>{
+      clearTimeout(popupTimeout);
+      popup.classList.remove('show');
+      goToPro();
+    });
+  });
+}
+
+/* ── WAITLIST ── */
 function go(iid,sid,fid,nid){
   const v=document.getElementById(iid).value.trim();
   if(!v||!v.includes('@')){document.getElementById(iid).focus();return;}
@@ -722,143 +646,99 @@ function go(iid,sid,fid,nid){
 }
 
 function faq(el){const o=el.classList.contains('open');document.querySelectorAll('.fq.open').forEach(f=>f.classList.remove('open'));if(!o)el.classList.add('open');}
-function scrollToForm(){document.getElementById('finalcta').scrollIntoView({behavior:'smooth'});}
 
-function goToPro() {
-  document.getElementById('modalEmail').value = '';
-  document.getElementById('modalError').style.display = 'none';
-  document.getElementById('modalBtn').textContent = 'Continue to checkout →';
-  document.getElementById('modalBtn').disabled = false;
+function goToPro(){
+  document.getElementById('modalEmail').value='';
+  document.getElementById('modalError').style.display='none';
+  document.getElementById('modalBtn').textContent='Continue to checkout →';
+  document.getElementById('modalBtn').disabled=false;
   document.getElementById('checkoutModal').classList.add('show');
-  setTimeout(() => document.getElementById('modalEmail').focus(), 200);
+  setTimeout(()=>document.getElementById('modalEmail').focus(),200);
 }
 
-function closeModal(e) {
-  if (e.target === document.getElementById('checkoutModal')) closeModalDirect();
-}
+function closeModal(e){if(e.target===document.getElementById('checkoutModal'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('checkoutModal').classList.remove('show');}
 
-function closeModalDirect() {
-  document.getElementById('checkoutModal').classList.remove('show');
-}
-
-async function submitModal() {
-  const email = document.getElementById('modalEmail').value.trim();
-  const errEl = document.getElementById('modalError');
-  if (!email || !email.includes('@')) {
-    errEl.textContent = 'Please enter a valid email address.';
-    errEl.style.display = 'block';
-    return;
-  }
-  errEl.style.display = 'none';
-  const btn = document.getElementById('modalBtn');
-  btn.textContent = 'Redirecting to checkout...';
-  btn.disabled = true;
-  try {
-    const res = await fetch('https://api.gfdhub.com/api/stripe/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await res.json();
-    if (data.ok && data.url) {
-      window.location.href = data.url;
-    } else {
-      errEl.textContent = 'Something went wrong. Please try again.';
-      errEl.style.display = 'block';
-      btn.textContent = 'Continue to checkout →';
-      btn.disabled = false;
-    }
-  } catch(e) {
-    errEl.textContent = 'Something went wrong. Please try again.';
-    errEl.style.display = 'block';
-    btn.textContent = 'Continue to checkout →';
-    btn.disabled = false;
-  }
+async function submitModal(){
+  const email=document.getElementById('modalEmail').value.trim();
+  const errEl=document.getElementById('modalError');
+  if(!email||!email.includes('@')){errEl.textContent='Please enter a valid email address.';errEl.style.display='block';return;}
+  errEl.style.display='none';
+  const btn=document.getElementById('modalBtn');
+  btn.textContent='Redirecting to checkout...';
+  btn.disabled=true;
+  try{
+    const res=await fetch('https://api.gfdhub.com/api/stripe/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+    const data=await res.json();
+    if(data.ok&&data.url){window.location.href=data.url;}
+    else{errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';btn.textContent='Continue to checkout →';btn.disabled=false;}
+  }catch(e){errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';btn.textContent='Continue to checkout →';btn.disabled=false;}
 }
 document.getElementById('ei2').addEventListener('keydown',e=>{if(e.key==='Enter')go('ei2','ss2','fr2','fn2');});
 
+/* ── SCROLL REVEAL ── */
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-buildTicker();
-
-// ── PHONE DEMO ──
-const demoMsgs = document.getElementById('phoneMsgs');
-let demoStarted = false;
-
-const demoUserQ = "Full PPR — which 3 do I start: D'Andre Swift, Terry McLaurin, Zay Flowers, Courtland Sutton, or David Montgomery?";
-
-const demoReply = [
-  {type:'tags', tags:[
-    {cls:'tag-start',label:'▲ START Swift'},
-    {cls:'tag-start',label:'▲ START McLaurin'},
-    {cls:'tag-start',label:'▲ START Flowers'},
-    {cls:'tag-sit',label:'▽ SIT Sutton'},
-    {cls:'tag-sit',label:'▽ SIT Montgomery'},
-  ]},
-  {type:'text', html:"<b>Swift</b> leads PHI in routes and targets — PPR lock. <b>McLaurin</b> is WSH's WR1 with 27% target share and an elite floor."},
-  {type:'text', html:"<b>Flowers</b> has 8+ targets in 4 straight weeks. Sit <b>Sutton</b> — shadow coverage, DEN running heavy. Sit <b>Montgomery</b> — goal-line only, 2.1 PPR pts/game. Easy call."},
+/* ── PHONE DEMO ── */
+const demoMsgs=document.getElementById('phoneMsgs');
+let demoStarted=false;
+const demoUserQ="Full PPR — which 3 do I start: D'Andre Swift, Terry McLaurin, Zay Flowers, Courtland Sutton, or David Montgomery?";
+const demoReply=[
+  {type:'tags',tags:[{cls:'tag-start',label:'▲ START Swift'},{cls:'tag-start',label:'▲ START McLaurin'},{cls:'tag-start',label:'▲ START Flowers'},{cls:'tag-sit',label:'▽ SIT Sutton'},{cls:'tag-sit',label:'▽ SIT Montgomery'}]},
+  {type:'text',html:"<b>Swift</b> leads PHI in routes and targets — PPR lock. <b>McLaurin</b> is WSH's WR1 with 27% target share and an elite floor."},
+  {type:'text',html:"<b>Flowers</b> has 8+ targets in 4 straight weeks. Sit <b>Sutton</b> — shadow coverage, DEN running heavy. Sit <b>Montgomery</b> — goal-line only, 2.1 PPR pts/game. Easy call."},
 ];
 
-function demoAddMsg(role, content){
-  const wrap = document.createElement('div');
-  wrap.className = 'pmsg' + (role==='user'?' user':'');
-  wrap.style.cssText = 'opacity:0;transform:translateY(6px);transition:all .25s ease';
-  let inner = '';
-  if(role==='user'){
-    inner = `<div class="pmsg-ava user">ME</div><div class="pbubble user">${content}</div>`;
-  } else if(content.type==='tags'){
-    const tags = content.tags.map(t=>`<span class="call-tag ${t.cls}">${t.label}</span>`).join('');
-    inner = `<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${tags}</div>`;
-  } else {
-    inner = `<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${content.html}</div>`;
-  }
-  wrap.innerHTML = inner;
+function demoAddMsg(role,content){
+  const wrap=document.createElement('div');
+  wrap.className='pmsg'+(role==='user'?' user':'');
+  wrap.style.cssText='opacity:0;transform:translateY(6px);transition:all .25s ease';
+  let inner='';
+  if(role==='user'){inner=`<div class="pmsg-ava user">ME</div><div class="pbubble user">${content}</div>`;}
+  else if(content.type==='tags'){const tags=content.tags.map(t=>`<span class="call-tag ${t.cls}">${t.label}</span>`).join('');inner=`<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${tags}</div>`;}
+  else{inner=`<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${content.html}</div>`;}
+  wrap.innerHTML=inner;
   demoMsgs.appendChild(wrap);
   setTimeout(()=>{wrap.style.opacity='1';wrap.style.transform='translateY(0)';},30);
-  demoMsgs.scrollTop = demoMsgs.scrollHeight;
+  demoMsgs.scrollTop=demoMsgs.scrollHeight;
 }
 
 function demoAddTyping(){
-  const wrap = document.createElement('div');
-  wrap.className = 'pmsg';
-  wrap.id = 'demoTyping';
-  wrap.innerHTML = `<div class="pmsg-ava oc">OC</div><div class="typing-dots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>`;
+  const wrap=document.createElement('div');
+  wrap.className='pmsg';wrap.id='demoTyping';
+  wrap.innerHTML=`<div class="pmsg-ava oc">OC</div><div class="typing-dots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>`;
   demoMsgs.appendChild(wrap);
-  demoMsgs.scrollTop = demoMsgs.scrollHeight;
+  demoMsgs.scrollTop=demoMsgs.scrollHeight;
 }
 
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
 async function startPhoneDemo(){
-  if(demoStarted) return;
-  demoStarted = true;
-  const btn = document.getElementById('demoSendBtn');
+  if(demoStarted)return;
+  demoStarted=true;
+  const btn=document.getElementById('demoSendBtn');
   btn.style.opacity='0.4';btn.style.pointerEvents='none';
-
-  demoAddMsg('user', demoUserQ);
+  demoAddMsg('user',demoUserQ);
   await sleep(700);
   demoAddTyping();
   await sleep(1800);
   document.getElementById('demoTyping')?.remove();
-
   for(let i=0;i<demoReply.length;i++){
-    demoAddMsg('oc', demoReply[i]);
-    if(i<demoReply.length-1) await sleep(750);
+    demoAddMsg('oc',demoReply[i]);
+    if(i<demoReply.length-1)await sleep(750);
   }
 }
 
-// Auto-trigger when demo scrolls into view
-const demoObs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting && !demoStarted){
-      setTimeout(startPhoneDemo, 600);
-      demoObs.disconnect();
-    }
-  });
+const demoObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting&&!demoStarted){setTimeout(startPhoneDemo,600);demoObs.disconnect();}});
 },{threshold:0.4});
-const demoEl = document.querySelector('.demo-outer');
-if(demoEl) demoObs.observe(demoEl);
+const demoEl=document.querySelector('.demo-outer');
+if(demoEl)demoObs.observe(demoEl);
+
+/* ── INIT ── */
+buildTicker();
+wireTicker();
 </script>
 </body>
 </html>
