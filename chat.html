@@ -17,7 +17,6 @@
   --t1:#f0f2f9;--t2:#6e7a94;--t3:#353c52;
   --fd:'Exo 2',sans-serif;--fb:'Figtree',sans-serif;
   --topbar-h:54px;
-  /* Position colors */
   --qb:#ffb347;--rb:#00e5a0;--wr:#4da6ff;--te:#b47aff;--k:#6e7a94;
 }
 body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
@@ -54,15 +53,13 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .mem-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:7px;font-family:var(--fd)}
 .mem-item{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:5px;font-size:11.5px;color:var(--t2);margin-bottom:2px}
 .mem-dot{width:5px;height:5px;border-radius:50%;background:var(--ac);flex-shrink:0}
-.mem-dot.red{background:var(--red)}
-.mem-dot.amb{background:var(--amb)}
 .hist-item{display:flex;align-items:flex-start;gap:6px;padding:5px 6px;border-radius:5px;font-size:11px;color:var(--t2);margin-bottom:2px;cursor:pointer;transition:background .12s;line-height:1.4}
 .hist-item:hover{background:var(--s2)}
 .hist-week{color:var(--t3);font-size:9.5px;flex-shrink:0;margin-top:1px;font-family:var(--fd);font-weight:700}
 
 /* ── WATCHLIST ── */
 .watchlist-empty{font-size:11px;color:var(--t3);padding:6px;line-height:1.5;font-style:italic}
-.wl-tile{display:flex;align-items:center;gap:8px;padding:6px 6px;border-radius:7px;cursor:pointer;transition:background .12s;margin-bottom:3px;position:relative}
+.wl-tile{display:flex;align-items:center;gap:8px;padding:6px;border-radius:7px;cursor:pointer;transition:background .12s;margin-bottom:3px;position:relative}
 .wl-tile:hover{background:var(--s2)}
 .wl-init{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;font-family:var(--fd);flex-shrink:0;letter-spacing:-.3px}
 .wl-init.qb{background:rgba(255,179,71,.15);color:var(--qb);border:1px solid rgba(255,179,71,.3)}
@@ -100,6 +97,9 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .bubble.oc{background:var(--s2);border:1px solid var(--b1);color:var(--t1);border-radius:10px 10px 10px 2px}
 .bubble.user{background:var(--ac2);border:1px solid rgba(0,229,160,.2);color:var(--t1);border-radius:10px 10px 2px 10px}
 .bubble b{color:var(--ac);font-weight:700}
+/* Clickable player names in OC bubbles */
+.player-link{color:var(--ac);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;font-weight:600;transition:opacity .12s}
+.player-link:hover{opacity:.75}
 .call-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:12px;font-family:var(--fd);margin:2px 0 6px}
 .call-start{background:var(--ac);color:#041a0f}
 .call-sit{background:var(--red);color:#fff}
@@ -136,7 +136,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .send-btn:disabled{background:var(--s3);cursor:not-allowed;transform:none;box-shadow:none}
 .send-btn:disabled svg{stroke:var(--t3)}
 
-/* ── PLAYER PANEL (slide-in from right) ── */
+/* ── PLAYER PANEL ── */
 .player-panel{position:fixed;top:0;right:0;bottom:0;width:320px;background:var(--s1);border-left:1px solid var(--b1);z-index:60;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;overflow:hidden}
 .player-panel.open{transform:translateX(0)}
 .pp-header{padding:16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:12px;flex-shrink:0}
@@ -161,16 +161,16 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .pp-game-row:last-child{border-bottom:none}
 .pp-game-opp{color:var(--t2)}
 .pp-game-val{color:var(--t1);font-weight:600;font-family:var(--fd)}
-.pp-loading{text-align:center;padding:30px 0;color:var(--t3);font-size:13px}
-.pp-loading-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);animation:bounce .8s infinite;margin:0 2px}
+.pp-loading{text-align:center;padding:30px 0;color:var(--t3);font-size:13px;display:flex;justify-content:center;gap:4px}
+.pp-loading-dot{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:bounce .8s infinite}
 .pp-loading-dot:nth-child(2){animation-delay:.15s}
 .pp-loading-dot:nth-child(3){animation-delay:.3s}
-.pp-ask-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:12px;background:var(--ac);color:#041a0f;font-size:14px;font-weight:800;border:none;border-radius:9px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .15s;margin-top:4px}
+.pp-ask-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:12px;background:var(--ac);color:#041a0f;font-size:14px;font-weight:800;border:none;border-radius:9px;cursor:pointer;font-family:var(--fd);letter-spacing:-.2px;transition:all .15s}
 .pp-ask-btn:hover{background:#00ffb0;transform:translateY(-1px)}
 .pp-ask-btn svg{width:14px;height:14px;fill:none;stroke:#041a0f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .pp-footer{padding:14px 16px;border-top:1px solid var(--b1);flex-shrink:0}
 
-/* ── OVERLAY ── */
+/* ── OVERLAYS ── */
 .drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;backdrop-filter:blur(2px)}
 .drawer-overlay.show{display:block}
 .panel-overlay{display:none;position:fixed;inset:0;z-index:55}
@@ -179,9 +179,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
 
-/* ══════════════════════════════════════
-   MOBILE  ≤ 640px
-══════════════════════════════════════ */
+/* ══ MOBILE ≤ 640px ══ */
 @media(max-width:640px){
   .topbar{padding:0 12px}
   .oc-badge{font-size:9px;padding:3px 8px;letter-spacing:.5px}
@@ -235,13 +233,10 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 <div class="main">
   <div class="lsb" id="lsb">
     <div class="lsb-head"><div class="lsb-title">Your Profile</div></div>
-
     <div class="mem-section">
       <div class="mem-label">League context</div>
       <div id="leagueContext"></div>
     </div>
-
-    <!-- WATCHLIST -->
     <div class="mem-section" style="flex:1">
       <div class="mem-label" style="display:flex;align-items:center;justify-content:space-between">
         Watchlist
@@ -249,12 +244,10 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
       </div>
       <div id="watchlistPanel"></div>
     </div>
-
     <div class="mem-section">
       <div class="mem-label">Recent questions</div>
       <div id="historyContext"></div>
     </div>
-
     <div class="lsb-footer">
       <button class="clear-btn" onclick="clearChat()">Clear conversation</button>
     </div>
@@ -289,7 +282,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 <div class="player-panel" id="playerPanel">
   <div class="pp-header">
     <div class="pp-init" id="ppInit"></div>
-    <div>
+    <div style="flex:1;min-width:0">
       <div class="pp-name" id="ppName">—</div>
       <div class="pp-sub">
         <span id="ppMeta">—</span>
@@ -299,14 +292,10 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
     <button class="pp-close" onclick="closePlayerPanel()">✕</button>
   </div>
   <div class="pp-body" id="ppBody">
-    <div class="pp-loading">
-      <div class="pp-loading-dot"></div>
-      <div class="pp-loading-dot"></div>
-      <div class="pp-loading-dot"></div>
-    </div>
+    <div class="pp-loading"><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div></div>
   </div>
   <div class="pp-footer">
-    <button class="pp-ask-btn" id="ppAskBtn" onclick="askAboutPlayer()">
+    <button class="pp-ask-btn" onclick="askAboutPlayer()">
       Ask AI OC about this player
       <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
@@ -319,10 +308,14 @@ let USER = null;
 let CONTEXT = null;
 const MSGS = [];
 let WAITING = false;
-let WATCHLIST = []; // [{name, pos, team, status}]
+let WATCHLIST = [];
 let ACTIVE_PLAYER = null;
 
-/* ── POS COLOR CLASS ── */
+/* ── KNOWN NFL PLAYER NAMES (for response parsing) ── */
+// Common first+last name patterns — expanded list of recognizable names
+const NFL_FIRST_NAMES = new Set(['Josh','Patrick','Lamar','Joe','Justin','Dak','Jalen','Tua','Trevor','Brock','Baker','Kirk','Jordan','Derek','Sam','Geno','Kenny','Deshaun','Russell','Mac','Jimmy','Daniel','Matthew','Ryan','Aaron','Tom','Kyler','Tyler','Jared','Carson','Davis','Caleb','Drake','Bo','CeeDee','Davante','Tyreek','Stefon','Justin','Cooper','Deebo','Michael','Keenan','Chris','Amari','DK','Tee','Gabe','Tank','Puka','Amon-Ra','Jaylen','Rashee','Xavier','Zay','Courtland','Quentin','Marvin','Malik','Jaylen','Rome','Saquon','Christian','Derrick','Nick','Tony','Najee','Jonathan','Dalvin','Alvin','Cam','Josh','De\'Von','Rhamondre','Isiah','Zack','Miles','Travis','Mark','Sam','Dawson','Cole','Dallas','Evan','Jake','T.J.','Micah','Nick','Myles','Maxx','Aidan','Will','Joey','Sauce','Jaire','Stephon','Darius','Tariq','Sauce','Trevon','Sauce']);
+
+/* ── POS COLOR ── */
 function posClass(pos) {
   if (!pos) return 'k';
   const p = pos.toUpperCase();
@@ -365,7 +358,7 @@ function renderWatchlist() {
 }
 
 function addToWatchlist(name, pos='', team='', status='ok') {
-  if (!name) return;
+  if (!name || name.length < 4) return;
   const exists = WATCHLIST.find(p => p.name.toLowerCase() === name.toLowerCase());
   if (exists) return;
   WATCHLIST.unshift({ name, pos, team, status });
@@ -387,35 +380,45 @@ async function saveWatchlist() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: USER.email, watchlist: WATCHLIST })
     });
-  } catch(e) { console.log('Watchlist save:', e.message); }
+  } catch(e) {}
 }
 
-/* ── EXTRACT PLAYER NAMES FROM USER MESSAGE ── */
-// Looks for capitalized name patterns (First Last) in user messages
+/* ── EXTRACT PLAYER NAMES ── */
+// Extracts "First Last" patterns from any text
 function extractPlayerNames(text) {
-  const names = [];
-  // Match "FirstName LastName" patterns — two+ capitalized words
-  const matches = text.match(/\b([A-Z][a-z]+(?:\s+[A-Z][a-z']+)+)\b/g) || [];
+  const found = [];
+  // Match capitalized word pairs (First Last) — 2 or 3 word names
+  const matches = text.match(/\b([A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]+(?:\s+[A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]+){1,2})\b/g) || [];
+  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl']);
   matches.forEach(m => {
-    // Filter out common non-player phrases
-    const skip = ['What Is','Who Should','Should I','Tell Me','My Team','This Week','Last Week','Trade Value','Waiver Wire','Fantasy Points','Full Lineup','Must Start'];
-    if (!skip.some(s => m.includes(s)) && m.split(' ').length <= 3) {
-      names.push(m);
+    const words = m.split(' ');
+    if (words.length >= 2 && !words.some(w => skipWords.has(w)) && m.length >= 6) {
+      found.push(m);
     }
   });
-  return [...new Set(names)];
+  return [...new Set(found)];
+}
+
+// Also extract from AI OC responses — looks for names mentioned
+function extractFromResponse(text) {
+  // Strip HTML tags first
+  const clean = text.replace(/<[^>]+>/g, ' ');
+  return extractPlayerNames(clean);
 }
 
 async function resolveAndAddPlayers(names) {
-  for (const name of names) {
+  for (const name of names.slice(0, 5)) { // max 5 per message to save API calls
     try {
       const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(name)}`);
       const data = await res.json();
       if (data.players && data.players.length > 0) {
         const p = data.players[0];
-        addToWatchlist(p.name, p.pos, p.team, 'ok');
+        // Only add if name match is close enough
+        if (p.name.toLowerCase().includes(name.split(' ').pop().toLowerCase())) {
+          addToWatchlist(p.name, p.pos, p.team, 'ok');
+        }
       }
-    } catch(e) { /* silent */ }
+    } catch(e) {}
   }
 }
 
@@ -423,9 +426,8 @@ async function resolveAndAddPlayers(names) {
 async function openPlayerPanel(idx) {
   const player = WATCHLIST[idx];
   if (!player) return;
-  ACTIVE_PLAYER = player;
+  ACTIVE_PLAYER = { ...player, idx };
 
-  // Set header
   const initEl = document.getElementById('ppInit');
   initEl.textContent = posInitials(player.name);
   initEl.className = `pp-init ${posClass(player.pos)}`;
@@ -437,15 +439,11 @@ async function openPlayerPanel(idx) {
   else if (player.status === 'q') { statusEl.textContent = 'Q'; statusEl.className = 'pp-status q'; }
   else { statusEl.textContent = 'Active'; statusEl.className = 'pp-status ok'; }
 
-  // Show loading
-  document.getElementById('ppBody').innerHTML = `<div class="pp-loading">
-    <div class="pp-loading-dot"></div><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div>
-  </div>`;
-
+  document.getElementById('ppBody').innerHTML = `<div class="pp-loading"><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div></div>`;
   document.getElementById('playerPanel').classList.add('open');
   document.getElementById('panelOverlay').classList.add('show');
 
-  // Fetch Tank01 + ESPN injury data in parallel
+  // Fetch Tank01 + ESPN in parallel
   try {
     const [searchRes, injuryRes] = await Promise.all([
       fetch(`${API}/api/player/search?name=${encodeURIComponent(player.name)}`),
@@ -454,23 +452,24 @@ async function openPlayerPanel(idx) {
     const searchData = await searchRes.json();
     const injuryData = await injuryRes.json();
 
-    // Find injury match by last name
     const lastName = player.name.split(' ').pop().toLowerCase();
     const injuryMatch = (injuryData.injuries || []).find(i =>
       i.player.toLowerCase().includes(lastName)
     );
 
-    // Update watchlist tile status dot in real time
     if (injuryMatch) {
       WATCHLIST[idx].status = injuryMatch.status?.toLowerCase().includes('out') ? 'ir'
         : injuryMatch.status?.toLowerCase().includes('quest') ? 'q' : 'ok';
-      WATCHLIST[idx].injuryDetail = injuryMatch.detail;
       renderWatchlist();
+      const s = WATCHLIST[idx].status;
+      if (s === 'ir') { statusEl.textContent = 'IR'; statusEl.className = 'pp-status ir'; }
+      else if (s === 'q') { statusEl.textContent = 'Q'; statusEl.className = 'pp-status q'; }
+      else { statusEl.textContent = 'Active'; statusEl.className = 'pp-status ok'; }
     }
 
     const playerID = searchData.players?.[0]?.playerID;
     if (!playerID) {
-      document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">No usage data available yet for this player.</div>`;
+      document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">No usage data available for this player yet.</div>`;
       return;
     }
 
@@ -478,92 +477,47 @@ async function openPlayerPanel(idx) {
     const usageData = await usageRes.json();
     renderPlayerPanel(usageData, injuryMatch);
   } catch(e) {
-    document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Couldn't load usage data right now.</div>`;
+    document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Couldn't load data right now.</div>`;
   }
 }
 
 function renderPlayerPanel(data, injury) {
   const s = data.summary || {};
   const games = data.games || [];
-
-  const isRB = ACTIVE_PLAYER?.pos?.toUpperCase().startsWith('RB');
-  const isWR = ACTIVE_PLAYER?.pos?.toUpperCase().startsWith('WR');
-  const isTE = ACTIVE_PLAYER?.pos?.toUpperCase().startsWith('TE');
+  const pos = (ACTIVE_PLAYER?.pos||'').toUpperCase();
+  const isRB = pos.startsWith('RB');
+  const isWR = pos.startsWith('WR');
+  const isTE = pos.startsWith('TE');
   const isSkill = isRB || isWR || isTE;
 
   let html = '';
 
-  // Usage summary stats
-  html += `<div class="pp-section">
-    <div class="pp-section-label">Last ${s.games||6} games — usage</div>
-    <div class="pp-stats">`;
-
+  // Usage stats
+  html += `<div class="pp-section"><div class="pp-section-label">Last ${s.games||6} games — usage</div><div class="pp-stats">`;
   if (isSkill) {
-    html += `
-      <div class="pp-stat">
-        <div class="pp-stat-val highlight">${s.snapShare||'N/A'}</div>
-        <div class="pp-stat-label">Snap %</div>
-      </div>`;
+    html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.snapShare||'N/A'}</div><div class="pp-stat-label">Snap %</div></div>`;
   }
   if (isWR || isTE) {
-    html += `
-      <div class="pp-stat">
-        <div class="pp-stat-val highlight">${s.targetShare||'N/A'}</div>
-        <div class="pp-stat-label">Target %</div>
-      </div>
-      <div class="pp-stat">
-        <div class="pp-stat-val">${s.avgTargets||'0'}</div>
-        <div class="pp-stat-label">Avg Tgts</div>
-      </div>`;
+    html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.targetShare||'N/A'}</div><div class="pp-stat-label">Target %</div></div>
+             <div class="pp-stat"><div class="pp-stat-val">${s.avgTargets||'0'}</div><div class="pp-stat-label">Avg Tgts</div></div>`;
   }
   if (isRB) {
-    html += `
-      <div class="pp-stat">
-        <div class="pp-stat-val highlight">${s.carryShare||'N/A'}</div>
-        <div class="pp-stat-label">Carry %</div>
-      </div>
-      <div class="pp-stat">
-        <div class="pp-stat-val">${s.avgCarries||'0'}</div>
-        <div class="pp-stat-label">Avg Carries</div>
-      </div>`;
+    html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.carryShare||'N/A'}</div><div class="pp-stat-label">Carry %</div></div>
+             <div class="pp-stat"><div class="pp-stat-val">${s.avgCarries||'0'}</div><div class="pp-stat-label">Avg Carries</div></div>`;
   }
   if (!isSkill) {
-    html += `
-      <div class="pp-stat">
-        <div class="pp-stat-val">${s.avgSnaps||'N/A'}</div>
-        <div class="pp-stat-label">Avg Snaps</div>
-      </div>`;
+    html += `<div class="pp-stat"><div class="pp-stat-val">${s.avgSnaps||'N/A'}</div><div class="pp-stat-label">Avg Snaps</div></div>`;
   }
-
   html += `</div></div>`;
-
-  // Recent game log
-  if (games.length) {
-    html += `<div class="pp-section">
-      <div class="pp-section-label">Recent game log</div>`;
-    games.slice(0,5).forEach(g => {
-      const val = isWR||isTE ? `${g.targets} tgt · ${g.receptions} rec · ${g.recYards} yds`
-                : isRB ? `${g.carries} car · ${g.rushYards} yds`
-                : `${g.fantasyPts} pts`;
-      html += `<div class="pp-game-row">
-        <span class="pp-game-opp">Wk${g.week} vs ${g.opponent||'?'}</span>
-        <span class="pp-game-val">${val}</span>
-      </div>`;
-    });
-    html += `</div>`;
-  }
 
   // Injury section
   if (injury) {
     const injStatus = injury.status?.toLowerCase().includes('out') ? 'ir'
       : injury.status?.toLowerCase().includes('quest') ? 'q' : 'ok';
-    html += `<div class="pp-section">
-      <div class="pp-section-label">Injury status — ESPN</div>
+    html += `<div class="pp-section"><div class="pp-section-label">Injury status — ESPN</div>
       <div style="background:var(--s2);border:1px solid var(--b1);border-radius:9px;padding:12px 14px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:${injury.detail?'8px':'0'}">
-          <span class="pp-status ${injStatus}" style="display:inline-flex;padding:2px 10px;font-size:11px;font-weight:700;font-family:var(--fd);border-radius:10px">
-            ${injury.status||'Unknown'}
-          </span>
+        <div style="margin-bottom:${injury.detail?'8px':'0'}">
+          <span class="pp-status ${injStatus}" style="display:inline-flex;padding:2px 10px;font-size:11px;font-weight:700;font-family:var(--fd);border-radius:10px">${injury.status||'Unknown'}</span>
         </div>
         ${injury.detail?`<div style="font-size:12px;color:var(--t2);line-height:1.5">${injury.detail}</div>`:''}
         ${injury.return?`<div style="font-size:11px;color:var(--t3);margin-top:5px">Est. return: ${injury.return}</div>`:''}
@@ -571,7 +525,34 @@ function renderPlayerPanel(data, injury) {
     </div>`;
   }
 
+  // Game log
+  if (games.length) {
+    html += `<div class="pp-section"><div class="pp-section-label">Recent game log</div>`;
+    games.slice(0,5).forEach(g => {
+      const val = isWR||isTE ? `${g.targets} tgt · ${g.receptions} rec · ${g.recYards} yds`
+                : isRB ? `${g.carries} car · ${g.rushYards} yds`
+                : `${g.fantasyPts} pts`;
+      html += `<div class="pp-game-row"><span class="pp-game-opp">Wk${g.week} vs ${g.opponent||'?'}</span><span class="pp-game-val">${val}</span></div>`;
+    });
+    html += `</div>`;
+  }
+
   document.getElementById('ppBody').innerHTML = html;
+}
+
+// Open panel by player name (called from clickable names in chat)
+function openPlayerPanelByName(name) {
+  const idx = WATCHLIST.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
+  if (idx >= 0) {
+    openPlayerPanel(idx);
+  } else {
+    // Add to watchlist first then open
+    addToWatchlist(name);
+    setTimeout(() => {
+      const newIdx = WATCHLIST.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
+      if (newIdx >= 0) openPlayerPanel(newIdx);
+    }, 300);
+  }
 }
 
 function closePlayerPanel() {
@@ -583,7 +564,7 @@ function closePlayerPanel() {
 function askAboutPlayer() {
   if (!ACTIVE_PLAYER) return;
   closePlayerPanel();
-  document.getElementById('inputBox').value = `Tell me about ${ACTIVE_PLAYER.name} this week`;
+  document.getElementById('inputBox').value = `Tell me about ${ACTIVE_PLAYER.name} for the 2026 season`;
   document.getElementById('inputBox').focus();
 }
 
@@ -604,6 +585,41 @@ function closeDrawer() {
   document.body.style.overflow = '';
 }
 window.addEventListener('resize', () => { if (window.innerWidth > 640) closeDrawer(); });
+
+/* ── SEASON CONTEXT ── */
+function getSeasonContext() {
+  const now = new Date();
+  const opener      = new Date('2026-09-09');
+  const playoffPush = new Date('2026-12-21');
+  const nflPlayoffs = new Date('2027-01-05');
+  const superBowl   = new Date('2027-02-09');
+  const dateStr = now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  if (now < opener) {
+    return `Current date: ${dateStr}.
+We are in the 2026 NFL OFFSEASON / DRAFT PREP period. The 2026 season opener is September 9, 2026 (Wednesday Night Football).
+CRITICAL: All player analysis MUST reference 2025 NFL season stats (the most recently completed season, which ended February 2026). Do NOT reference 2024 season stats. Do NOT suggest players who retired, were released, or had significant role changes after the 2025 season. Frame all advice around 2026 draft prep, ADP, and projected roles going into the 2026 season.
+CRITICAL: Always ground draft recommendations in consensus ADP and expert rankings. Do not recommend players significantly outside their consensus draft position. Cite approximate ADP or consensus ranking when making draft calls. When in doubt, defer to consensus over contrarian takes.`;
+  }
+  if (now < playoffPush) {
+    const week = Math.min(Math.floor((now - opener) / (7*24*60*60*1000)) + 1, 17);
+    return `Current date: ${dateStr}.
+We are in the 2026 NFL REGULAR SEASON, Week ${week}.
+CRITICAL: Reference 2026 season stats, current injury reports, and current depth charts. Do NOT reference 2024 or 2025 season stats unless directly relevant. Focus on 2026 matchups, usage trends, and weekly lineup decisions.`;
+  }
+  if (now < nflPlayoffs) {
+    const week = Math.min(Math.floor((now - opener) / (7*24*60*60*1000)) + 1, 18);
+    return `Current date: ${dateStr}.
+We are in the 2026 NFL PLAYOFF PUSH, Week ${week}. Fantasy playoffs are here — every call is win or go home.
+CRITICAL: Reference 2026 season stats only. Prioritize high-floor players and safe targets over boom/bust options.`;
+  }
+  if (now < superBowl) {
+    return `Current date: ${dateStr}.
+We are in the 2026-27 NFL PLAYOFFS.
+CRITICAL: Reference 2026 season stats. Treat every call as championship-level stakes.`;
+  }
+  return `Current date: ${dateStr}. The 2026 NFL season has concluded. Reference 2026 season stats and begin framing 2027 draft prep where relevant.`;
+}
 
 /* ── AUTH / INIT ── */
 async function init() {
@@ -628,11 +644,7 @@ async function init() {
 function loadDemo() {
   const email = localStorage.getItem('gfd_email') || 'demo@gfdhub.com';
   USER = { email, name: 'Demo User', initials: 'DU' };
-  CONTEXT = {
-    scoring: 'PPR', platform: 'Yahoo', week: 1, record: '0-0',
-    league: ['PPR scoring','10-team league','Yahoo platform'],
-    history: []
-  };
+  CONTEXT = { scoring:'PPR', platform:'Yahoo', week:1, record:'0-0', league:['PPR scoring','10-team league','Yahoo platform'], history:[] };
   WATCHLIST = [];
   renderProfile();
   renderWatchlist();
@@ -651,51 +663,13 @@ function renderProfile() {
 
 function renderCtxBar() {
   if (!CONTEXT) return;
-  const items = [
-    CONTEXT.scoring,
-    `Week ${CONTEXT.week}`,
-    CONTEXT.record !== '0-0' ? `${CONTEXT.record} record` : null,
-  ].filter(Boolean);
+  const items = [CONTEXT.scoring, `Week ${CONTEXT.week}`, CONTEXT.record !== '0-0' ? `${CONTEXT.record} record` : null].filter(Boolean);
   document.getElementById('ctxBar').innerHTML = items.map(i=>`<div class="ctx-item"><div class="ctx-dot"></div>${i}</div>`).join('');
-}
-
-function getSeasonContext() {
-  const now = new Date();
-  const opener      = new Date('2026-09-09');
-  const playoffPush = new Date('2026-12-21');
-  const nflPlayoffs = new Date('2027-01-05');
-  const superBowl   = new Date('2027-02-09');
-  const dateStr = now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-
-  if (now < opener) {
-    return `Current date: ${dateStr}.
-We are in the 2026 NFL OFFSEASON / DRAFT PREP period. The 2026 season opener is September 9, 2026 (Wednesday Night Football).
-CRITICAL: All player analysis MUST reference 2025 NFL season stats (the most recently completed season, which ended February 2026). Do NOT reference 2024 season stats. Do NOT suggest players who retired, were released, or had significant role changes after the 2025 season. Frame all advice around 2026 draft prep, ADP, and projected roles going into the 2026 season.`;
-  }
-  if (now < playoffPush) {
-    const week = Math.min(Math.floor((now - opener) / (7*24*60*60*1000)) + 1, 17);
-    return `Current date: ${dateStr}.
-We are in the 2026 NFL REGULAR SEASON, Week ${week}.
-CRITICAL: Reference 2026 season stats, current injury reports, and current depth charts. Do NOT reference 2024 or 2025 season stats unless directly relevant for historical context. Focus on 2026 matchups, usage trends, and weekly lineup decisions.`;
-  }
-  if (now < nflPlayoffs) {
-    const week = Math.min(Math.floor((now - opener) / (7*24*60*60*1000)) + 1, 18);
-    return `Current date: ${dateStr}.
-We are in the 2026 NFL PLAYOFF PUSH, Week ${week}. Fantasy playoffs are here — every call is win or go home.
-CRITICAL: Reference 2026 season stats only. Prioritize high-floor players and safe targets over boom/bust options. Every lineup decision is elimination-level stakes.`;
-  }
-  if (now < superBowl) {
-    return `Current date: ${dateStr}.
-We are in the 2026-27 NFL PLAYOFFS. Fantasy seasons are over for most leagues.
-CRITICAL: Reference 2026 season stats. If the user is still in a fantasy playoff, treat every call as championship-level stakes.`;
-  }
-  return `Current date: ${dateStr}.
-The 2026 NFL season has concluded. We are in the offseason. Reference 2026 season stats for historical context and begin framing 2027 draft prep where relevant.`;
 }
 
 function sendWelcome() {
   window._DATE_CTX = getSeasonContext();
-  const text = `Welcome to GFDHub. Week ${CONTEXT?.week||1} loaded${WATCHLIST.length ? ` — I see ${WATCHLIST.length} player${WATCHLIST.length>1?'s':''} on your Watchlist` : ''}. What do you need?`;
+  const text = `Welcome to GFDHub. Week ${CONTEXT?.week||1} loaded${WATCHLIST.length ? ` — ${WATCHLIST.length} player${WATCHLIST.length>1?'s':''} on your Watchlist` : ''}. What do you need?`;
   addMessage('oc', text);
 }
 
@@ -714,8 +688,9 @@ function addMessage(role, html) {
   wrap.scrollTop = wrap.scrollHeight;
 }
 
+/* ── FORMAT RESPONSE — with clickable player names ── */
 function formatResponse(text) {
-  return text
+  let html = text
     .replace(/\*\*(.*?)\*\*/g,'<b>$1</b>')
     .replace(/\n\n/g,'<br><br>')
     .replace(/\n/g,'<br>')
@@ -723,6 +698,15 @@ function formatResponse(text) {
     .replace(/\bSIT\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/g,'<span class="call-tag call-sit">▽ SIT $1</span>')
     .replace(/\bADD\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/g,'<span class="call-tag call-add">+ ADD $1</span>')
     .replace(/\bDROP\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/g,'<span class="call-tag call-drop">× DROP $1</span>');
+
+  // Make player names in Watchlist clickable
+  WATCHLIST.forEach(p => {
+    const escaped = p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(?<!<[^>]*)\\b(${escaped})\\b(?![^<]*>)`, 'g');
+    html = html.replace(re, `<span class="player-link" onclick="openPlayerPanelByName('${p.name}')">$1</span>`);
+  });
+
+  return html;
 }
 
 async function sendMessage() {
@@ -739,49 +723,56 @@ async function sendMessage() {
   document.getElementById('typing').classList.add('show');
   document.getElementById('messages').scrollTop = 99999;
 
-  // Extract and add player names to watchlist (async, non-blocking)
-  const names = extractPlayerNames(q);
-  if (names.length) resolveAndAddPlayers(names);
+  // Extract player names from user message and add to watchlist
+  const userNames = extractPlayerNames(q);
+  if (userNames.length) resolveAndAddPlayers(userNames);
 
   const wlContext = WATCHLIST.length
-    ? `User's Watchlist (players they've asked about): ${WATCHLIST.map(p=>`${p.name} (${p.pos})`).join(', ')}`
-    : 'Watchlist is empty — first session';
+    ? `User's Watchlist: ${WATCHLIST.map(p=>`${p.name} (${p.pos})`).join(', ')}`
+    : 'Watchlist empty — first session';
 
   const systemPrompt = `You are the GFDHub AI Offensive Coordinator — the sharpest, most confident fantasy football analyst available. You make data-backed lineup decisions and always give ONE clear recommendation.
 
-${window._DATE_CTX || 'Current date: June 2026. The 2026 NFL season starts September 4, 2026. We are in the pre-season/draft prep period.'}
+${window._DATE_CTX || getSeasonContext()}
 
 USER'S LEAGUE PROFILE:
 - Scoring: ${CONTEXT?.scoring||'PPR'}, Platform: ${CONTEXT?.platform||'Yahoo'}, Week ${CONTEXT?.week||1}
 - ${wlContext}
-- Their history with you: ${(CONTEXT?.history||[]).map(h=>`${h.week}: ${h.text}`).join(' | ')||'First session'}
+- History: ${(CONTEXT?.history||[]).map(h=>`${h.week}: ${h.text}`).join(' | ')||'First session'}
 
 RESPONSE RULES:
 1. Lead with the call: START [Name], SIT [Name], ADD [Name], or DROP [Name] — all caps
-2. Back it with 1-2 stats or matchup facts (be specific — yards allowed, snap counts, target share)
+2. Back it with 1-2 stats or matchup facts (specific — yards allowed, snap counts, target share)
 3. Reference their scoring format and watchlist when relevant
-4. 3-5 sentences max — this is a chat interface, not an article
+4. 3-5 sentences max — chat interface, not an article
 5. Never hedge or say "it depends" — make the call
-6. Sound like an expert coordinator who's watched the film`;
+6. Sound like an expert coordinator who's watched the film
+7. For draft advice: always cite consensus ADP/ranking. Never recommend a player more than 2 rounds outside their consensus position`;
 
   try {
     const res = await fetch(`${API}/api/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ system: systemPrompt, messages: MSGS.slice(-10) })
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system:systemPrompt, messages:MSGS.slice(-10)})
     });
     const data = await res.json();
     const answer = data.answer || "Couldn't reach the AI right now. Try again in a moment.";
-    MSGS.push({ role:'assistant', content:answer });
+    MSGS.push({role:'assistant', content:answer});
 
     fetch(`${API}/api/chat/save`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: USER?.email, question: q, answer, week: CONTEXT?.week })
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:USER?.email, question:q, answer, week:CONTEXT?.week})
     }).catch(()=>{});
 
     document.getElementById('typing').classList.remove('show');
-    addMessage('oc', formatResponse(answer));
+    const formatted = formatResponse(answer);
+    addMessage('oc', formatted);
+
+    // Also extract player names from AI response and add to watchlist
+    const responseNames = extractFromResponse(answer);
+    if (responseNames.length) resolveAndAddPlayers(responseNames);
+
   } catch(e) {
     document.getElementById('typing').classList.remove('show');
     addMessage('oc', 'Having trouble connecting right now. Try again in a moment.');
