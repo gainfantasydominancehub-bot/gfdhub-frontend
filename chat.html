@@ -445,13 +445,30 @@ async function openPlayerPanel(idx) {
   document.getElementById('playerPanel').classList.add('open');
   document.getElementById('panelOverlay').classList.add('show');
 
-  // Fetch Tank01 data
+  // Fetch Tank01 + ESPN injury data in parallel
   try {
-    // Search for playerID
-    const searchRes = await fetch(`${API}/api/player/search?name=${encodeURIComponent(player.name)}`);
+    const [searchRes, injuryRes] = await Promise.all([
+      fetch(`${API}/api/player/search?name=${encodeURIComponent(player.name)}`),
+      fetch(`${API}/api/injuries`)
+    ]);
     const searchData = await searchRes.json();
-    const playerID = searchData.players?.[0]?.playerID;
+    const injuryData = await injuryRes.json();
 
+    // Find injury match by last name
+    const lastName = player.name.split(' ').pop().toLowerCase();
+    const injuryMatch = (injuryData.injuries || []).find(i =>
+      i.player.toLowerCase().includes(lastName)
+    );
+
+    // Update watchlist tile status dot in real time
+    if (injuryMatch) {
+      WATCHLIST[idx].status = injuryMatch.status?.toLowerCase().includes('out') ? 'ir'
+        : injuryMatch.status?.toLowerCase().includes('quest') ? 'q' : 'ok';
+      WATCHLIST[idx].injuryDetail = injuryMatch.detail;
+      renderWatchlist();
+    }
+
+    const playerID = searchData.players?.[0]?.playerID;
     if (!playerID) {
       document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">No usage data available yet for this player.</div>`;
       return;
@@ -459,13 +476,13 @@ async function openPlayerPanel(idx) {
 
     const usageRes = await fetch(`${API}/api/player/usage?playerID=${playerID}&games=6`);
     const usageData = await usageRes.json();
-    renderPlayerPanel(usageData);
+    renderPlayerPanel(usageData, injuryMatch);
   } catch(e) {
     document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Couldn't load usage data right now.</div>`;
   }
 }
 
-function renderPlayerPanel(data) {
+function renderPlayerPanel(data, injury) {
   const s = data.summary || {};
   const games = data.games || [];
 
@@ -534,6 +551,24 @@ function renderPlayerPanel(data) {
       </div>`;
     });
     html += `</div>`;
+  }
+
+  // Injury section
+  if (injury) {
+    const injStatus = injury.status?.toLowerCase().includes('out') ? 'ir'
+      : injury.status?.toLowerCase().includes('quest') ? 'q' : 'ok';
+    html += `<div class="pp-section">
+      <div class="pp-section-label">Injury status — ESPN</div>
+      <div style="background:var(--s2);border:1px solid var(--b1);border-radius:9px;padding:12px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:${injury.detail?'8px':'0'}">
+          <span class="pp-status ${injStatus}" style="display:inline-flex;padding:2px 10px;font-size:11px;font-weight:700;font-family:var(--fd);border-radius:10px">
+            ${injury.status||'Unknown'}
+          </span>
+        </div>
+        ${injury.detail?`<div style="font-size:12px;color:var(--t2);line-height:1.5">${injury.detail}</div>`:''}
+        ${injury.return?`<div style="font-size:11px;color:var(--t3);margin-top:5px">Est. return: ${injury.return}</div>`:''}
+      </div>
+    </div>`;
   }
 
   document.getElementById('ppBody').innerHTML = html;
