@@ -386,9 +386,9 @@ async function saveWatchlist() {
 // Extracts "First Last" patterns from any text
 function extractPlayerNames(text) {
   const found = [];
-  // Match capitalized word pairs (First Last) — 2 or 3 word names
-  const matches = text.match(/\b([A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]+(?:\s+[A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]+){1,2})\b/g) || [];
-  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl']);
+  // Match capitalized word pairs including apostrophes (Ja'Marr Chase, De'Von Achane)
+  const matches = text.match(/\b([A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]*(?:\'[A-Za-z]+)?(?:\s+[A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]*(?:\'[A-Za-z]+)?){1,2})\b/g) || [];
+  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then']);
   matches.forEach(m => {
     const words = m.split(' ');
     if (words.length >= 2 && !words.some(w => skipWords.has(w)) && m.length >= 6) {
@@ -406,14 +406,19 @@ function extractFromResponse(text) {
 }
 
 async function resolveAndAddPlayers(names) {
-  for (const name of names.slice(0, 5)) { // max 5 per message to save API calls
+  for (const name of names.slice(0, 5)) {
     try {
       const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(name)}`);
       const data = await res.json();
       if (data.players && data.players.length > 0) {
         const p = data.players[0];
-        // Only add if name match is close enough
-        if (p.name.toLowerCase().includes(name.split(' ').pop().toLowerCase())) {
+        const nameLower = name.toLowerCase();
+        const resultLower = p.name.toLowerCase();
+        // Match if any word from the searched name appears in the result
+        const anyWordMatches = nameLower.split(' ').some(word =>
+          word.length > 2 && resultLower.includes(word)
+        );
+        if (anyWordMatches) {
           addToWatchlist(p.name, p.pos, p.team, 'ok');
         }
       }
