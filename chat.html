@@ -601,9 +601,130 @@ function getSeasonContext() {
 
   if (now < opener) {
     return `Current date: ${dateStr}.
-We are in the 2026 NFL OFFSEASON / DRAFT PREP period. The 2026 season opener is September 9, 2026 (Wednesday Night Football).
-CRITICAL: All player analysis MUST reference 2025 NFL season stats (the most recently completed season, which ended February 2026). Do NOT reference 2024 season stats. Do NOT suggest players who retired, were released, or had significant role changes after the 2025 season. Frame all advice around 2026 draft prep, ADP, and projected roles going into the 2026 season.
-CRITICAL: Always ground draft recommendations in consensus ADP and expert rankings. Do not recommend players significantly outside their consensus draft position. Cite approximate ADP or consensus ranking when making draft calls. When in doubt, defer to consensus over contrarian takes.`;
+We are in the 2026 NFL OFFSEASON / DRAFT PREP period. The 2026 season opener is September 9, 2026.
+
+CRITICAL DRAFT RULES — FOLLOW WITHOUT EXCEPTION:
+1. ALL recommendations MUST align with the 2026 FantasyPros ECR consensus rankings below.
+2. NEVER recommend a player more than 2 rounds outside their consensus rank.
+3. ALWAYS cite the player's approximate overall rank or round when making a draft call.
+4. ROOKIES: always add uncertainty context even for high-ranked ones.
+5. Travis Hunter (#72 JAC WR/CB) is a TWO-WAY player — ALWAYS note his fantasy role is highly uncertain. Never recommend him confidently before Round 8.
+6. Tyreek Hill is a FREE AGENT (unsigned as of June 2026) — flag as unavailable, do not recommend.
+7. QBs: Do not recommend before Round 5 in standard. Josh Allen, Lamar Jackson, Drake Maye are exceptions only in Superflex/2QB.
+8. TEs: Only Brock Bowers (#17) and Trey McBride (#20) warrant Round 1-2 consideration. All others Round 5+.
+9. DST/K: Never before Round 13.
+10. If a player is NOT on this list, say so and note they are unranked.
+
+2026 FANTASY FOOTBALL CONSENSUS RANKINGS (Half-PPR ECR — FantasyPros, June 13 2026):
+
+TOP 25:
+1.Bijan Robinson(ATL)RB Bye:11 ELITE ANCHOR
+2.Jahmyr Gibbs(DET)RB Bye:6 ELITE ANCHOR
+3.Ja'Marr Chase(CIN)WR Bye:6 ELITE ANCHOR
+4.Puka Nacua(LAR)WR Bye:11 ELITE ANCHOR
+5.Jaxon Smith-Njigba(SEA)WR Bye:11 ELITE ANCHOR
+6.Amon-Ra St. Brown(DET)WR Bye:6
+7.Christian McCaffrey(SF)RB Bye:8
+8.CeeDee Lamb(DAL)WR Bye:14
+9.Jonathan Taylor(IND)RB Bye:13
+10.Justin Jefferson(MIN)WR Bye:6
+11.James Cook III(BUF)RB Bye:7
+12.Drake London(ATL)WR Bye:11
+13.Ashton Jeanty(LV)RB Bye:13 ROOKIE⚠️
+14.De'Von Achane(MIA)RB Bye:6
+15.Nico Collins(HOU)WR Bye:8
+16.Chase Brown(CIN)RB Bye:6
+17.Brock Bowers(LV)TE Bye:13 PREMIUM TE
+18.Saquon Barkley(PHI)RB Bye:10
+19.George Pickens(DAL)WR Bye:14
+20.Trey McBride(ARI)TE Bye:14 PREMIUM TE
+21.A.J. Brown(NE)WR Bye:11
+22.Omarion Hampton(LAC)RB Bye:7 ROOKIE⚠️
+23.Chris Olave(NO)WR Bye:8
+24.Derrick Henry(BAL)RB Bye:13
+25.Kenneth Walker III(KC)RB Bye:5
+
+PICKS 26-50:
+26.Josh Allen(BUF)QB Bye:7 TOP QB
+27.Rashee Rice(KC)WR Bye:5
+28.Malik Nabers(NYG)WR Bye:8
+29.Tetairoa McMillan(CAR)WR Bye:5 ROOKIE⚠️
+30.Jeremiyah Love(ARI)RB Bye:14 ROOKIE⚠️
+31.Tee Higgins(CIN)WR Bye:6
+32.DeVonta Smith(PHI)WR Bye:10
+33.Lamar Jackson(BAL)QB Bye:13 TOP QB
+34.Drake Maye(NE)QB Bye:11 TOP QB
+35.Kyren Williams(LAR)RB Bye:11
+36.Josh Jacobs(GB)RB Bye:11 HIGH VARIANCE — some experts have as high as RB7 in PPR; consensus ~RB15; monitor camp
+37.Breece Hall(NYJ)RB Bye:13
+38.Zay Flowers(BAL)WR Bye:13
+39.Garrett Wilson(NYJ)WR Bye:13
+40.Ladd McConkey(LAC)WR Bye:7
+41.Javonte Williams(DAL)RB Bye:14
+42.Colston Loveland(CHI)TE Bye:10
+43.Terry McLaurin(WAS)WR Bye:7
+44.Joe Burrow(CIN)QB Bye:6
+45.Travis Etienne Jr.(NO)RB Bye:8
+46.Davante Adams(LAR)WR Bye:11
+47.Emeka Egbuka(TB)WR Bye:10 ROOKIE⚠️
+48.Jaylen Waddle(DEN)WR Bye:10
+49.Luther Burden III(CHI)WR Bye:10 ROOKIE⚠️
+50.Jameson Williams(DET)WR Bye:6
+
+PICKS 51-100:
+51.Cam Skattebo(NYG)RB Bye:8
+52.Bucky Irving(TB)RB Bye:10
+53.Mike Evans(SF)WR Bye:8
+54.Christian Watson(GB)WR Bye:11
+55.Quinshon Judkins(CLE)RB Bye:11 ROOKIE⚠️
+56.D'Andre Swift(CHI)RB Bye:10
+57.Jayden Daniels(WAS)QB Bye:7
+58.Rome Odunze(CHI)WR Bye:10
+59.Tyler Warren(IND)TE Bye:13
+60.DJ Moore(BUF)WR Bye:7
+61.Brock Purdy(SF)QB Bye:8
+62.Jared Goff(DET)QB Bye:6
+63.Romeo Doubs(GB)WR Bye:11
+64.Keon Coleman(BUF)WR Bye:7
+65.Xavier Worthy(KC)WR Bye:5
+66.Pat Freiermuth(PIT)TE Bye:9
+67.James Conner(ARI)RB Bye:14
+68.Rachaad White(TB)RB Bye:10
+69.Calvin Ridley(TEN)WR Bye:12
+70.Brian Thomas Jr.(JAC)WR Bye:12
+71.Amari Cooper(CLE)WR Bye:11
+72.Travis Hunter(JAC)WR/CB Bye:12 ⚠️TWO-WAY ROOKIE — fantasy value highly uncertain, always caveat heavily
+73.Tank Dell(HOU)WR Bye:8
+74.Marvin Harrison Jr.(ARI)WR Bye:14
+75.Dalton Kincaid(BUF)TE Bye:7
+76.Anthony Richardson(IND)QB Bye:13
+77.Will Levis(TEN)QB Bye:12
+78.Zach Charbonnet(SEA)RB Bye:11
+79.Chris Godwin(TB)WR Bye:10
+80.Jalen McMillan(TB)WR Bye:10
+81.Jalen Hurts(PHI)QB Bye:10
+82.Houston Texans DST Bye:8
+83.Baltimore Ravens DST Bye:13
+84.T.J. Hockenson(MIN)TE Bye:6
+85.Dallas Cowboys DST Bye:14
+86.Mark Andrews(BAL)TE Bye:13
+87.Rashaad Penny(LV)RB Bye:13
+88.DeAndre Hopkins(KC)WR Bye:5
+89.Courtland Sutton(DEN)WR Bye:10
+90.Brandin Cooks(DAL)WR Bye:14
+91.Evan Engram(JAC)TE Bye:12
+92.Justin Herbert(LAC)QB Bye:7
+93.Aidan O'Connell(LV)QB Bye:13
+94.Bo Nix(DEN)QB Bye:10
+95.Trevor Lawrence(JAC)QB Bye:12
+96.Jordan Addison(MIN)WR Bye:6
+97.Wan'Dale Robinson(TEN)WR Bye:9
+98.Travis Kelce(KC)TE Bye:5
+99.Ricky Pearsall(SF)WR Bye:8
+100.Aaron Jones Sr.(MIN)RB Bye:6
+
+PICKS 101-200 (condensed):
+101.Dalton Kincaid(BUF)TE 102.Kenneth Gainwell(TB)RB⚠️SLEEPER — signed with Tampa replacing White; monitor camp 103.Jared Goff(DET)QB 104.Jake Ferguson(DAL)TE 105.Quentin Johnston(LAC)WR 106.Kyler Murray(MIN)QB 107.George Kittle(SF)TE 108.Jayden Reed(GB)WR 109.Jacory Croskey-Merritt(WAS)RB 110.Josh Downs(IND)WR 111.Rachaad White(WAS)RB 112.Jordan Love(GB)QB 113.Dallas Goedert(PHI)TE 114.Jayden Higgins(HOU)WR 115.Baker Mayfield(TB)QB 116.Jordan Mason(MIN)RB 117.Tyrone Tracy Jr.(NYG)RB 118.Isaiah Likely(NYG)TE 119.Xavier Worthy(KC)WR 120.Tyler Shough(NO)QB 121.Khalil Shakir(BUF)WR 122.Woody Marks(HOU)RB 123.Tyler Allgeier(ARI)RB 124.Mark Andrews(BAL)TE 125.KC Concepcion(CLE)WR 126.Chris Rodriguez Jr.(JAC)RB 127.Malik Willis(MIA)QB 128.TreVeyon Henderson(NE)RB 129.David Montgomery(HOU)RB 130.Tucker Kraft(GB)TE 131.Bhayshul Tuten(JAC)RB⚠️SLEEPER home-run threat 132.Carnell Tate(TEN)WR 133.Jadarian Price(SEA)RB 134.Jaylen Warren(PIT)RB 135.Caleb Williams(CHI)QB 136.Sam Darnold(SEA)QB⚠️Super Bowl winner 2025 — QB2 streamer value but run-heavy offense limits ceiling; monitor camp 137.Alec Pierce(IND)WR 138.DK Metcalf(PIT)WR 139.Harold Fannin Jr.(CLE)TE 140.Chuba Hubbard(CAR)RB 141.Jaxson Dart(NYG)QB 142.Tony Pollard(TEN)RB 143.Dak Prescott(DAL)QB 144.Rhamondre Stevenson(NE)RB 145.Rico Dowdle(PIT)RB 146.RJ Harvey(DEN)RB 147.Kyle Pitts(ATL)TE 148.Sam LaPorta(DET)TE 149.Michael Wilson(ARI)WR 150.Jordyn Tyson(NO)WR 151.Kyle Monangai(CHI)RB 152.Makai Lemon(PHI)WR 153.Parker Washington(JAC)WR 154.Jakobi Meyers(JAC)WR 155.Blake Corum(LAR)RB 156.Michael Pittman Jr.(PIT)WR 157.Pittsburgh Steelers DST 158.J.K. Dobbins(DEN)RB 159.Patrick Mahomes(KC)QB 160.Matthew Stafford(LAR)QB 161.Wan'Dale Robinson(TEN)WR 162.Ricky Pearsall(SF)WR 163.Aaron Jones(MIN)RB 164.Jake Ferguson(DAL)TE 165.Quentin Johnston(LAC)WR 166.George Kittle(SF)TE 167.Jayden Reed(GB)WR 168.Jacory Croskey-Merritt(WAS)RB 169.Josh Downs(IND)WR 170.Jordan Love(GB)QB 171.Dallas Goedert(PHI)TE 172.Jayden Higgins(HOU)WR 173.Baker Mayfield(TB)QB 174.Jordan Mason(MIN)RB 175.Tyrone Tracy Jr.(NYG)RB 176.Isaiah Likely(NYG)TE 177.Khalil Shakir(BUF)WR 178.Tyler Allgeier(ARI)RB 179.KC Concepcion(CLE)WR 180.TreVeyon Henderson(NE)RB 181.David Montgomery(HOU)RB 182.Tucker Kraft(GB)TE 183.Bhayshul Tuten(JAC)RB 184.Carnell Tate(TEN)WR 185.Jadarian Price(SEA)RB 186.Jaylen Warren(PIT)RB 187.Caleb Williams(CHI)QB 188.Alec Pierce(IND)WR 189.DK Metcalf(PIT)WR 190.Courtland Sutton(DEN)WR 191.Harold Fannin Jr.(CLE)TE 192.Chuba Hubbard(CAR)RB 193.Jaxson Dart(NYG)QB 194.Trevor Lawrence(JAC)QB 195.Tony Pollard(TEN)RB 196.Dak Prescott(DAL)QB 197.Rhamondre Stevenson(NE)RB 198.Rico Dowdle(PIT)RB 199.Jordan Love(GB)QB 200.Dallas Goedert(PHI)TE`;
   }
   if (now < playoffPush) {
     const week = Math.min(Math.floor((now - opener) / (7*24*60*60*1000)) + 1, 17);
