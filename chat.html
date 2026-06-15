@@ -715,6 +715,12 @@ function hoverPlayerPanel(idx) {
 }
 
 function reaskQuestion(text) {
+  document.getElementById('inputBox').value = text;
+  document.getElementById('inputBox').focus();
+  closeDrawer();
+}
+
+function onWLInput(val) {
   const sugg = document.getElementById('wlSuggestion');
   if (!val || val.length < 2) { sugg.style.display = 'none'; return; }
   const resolved = resolveFromLookup(val);
