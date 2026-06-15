@@ -386,12 +386,12 @@ async function saveWatchlist() {
 // Extracts "First Last" patterns from any text
 function extractPlayerNames(text) {
   const found = [];
-  // Match capitalized word pairs including apostrophes (Ja'Marr Chase, De'Von Achane)
   const matches = text.match(/\b([A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]*(?:\'[A-Za-z]+)?(?:\s+[A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]*(?:\'[A-Za-z]+)?){1,2})\b/g) || [];
-  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then']);
+  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','January','February','March','April','May','June','July','August','September','October','November','December','New','York','Los','Angeles','San','Green','Bay','Kansas','City']);
   matches.forEach(m => {
     const words = m.split(' ');
-    if (words.length >= 2 && !words.some(w => skipWords.has(w)) && m.length >= 6) {
+    // Must be 2 words, neither in skip list, total length >= 8 (filters out very short false positives)
+    if (words.length === 2 && !words.some(w => skipWords.has(w)) && m.length >= 8) {
       found.push(m);
     }
   });
@@ -900,8 +900,8 @@ RESPONSE RULES:
     addMessage('oc', formatted);
 
     // Also extract player names from AI response and add to watchlist
-    const responseNames = extractFromResponse(answer);
-    if (responseNames.length) resolveAndAddPlayers(responseNames);
+    // Note: we only extract player names from USER messages, not AI responses
+    // AI responses contain too many false positives (mid-sentence capitalized phrases)
 
   } catch(e) {
     document.getElementById('typing').classList.remove('show');
