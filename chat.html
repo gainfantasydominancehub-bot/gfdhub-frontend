@@ -239,7 +239,16 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
     <div class="mem-section" style="flex:1">
       <div class="mem-label" style="display:flex;align-items:center;justify-content:space-between">
         Watchlist
-        <span id="wlCount" style="font-size:9px;color:var(--t3);font-weight:400;font-family:var(--fb)"></span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span id="wlCount" style="font-size:9px;color:var(--t3);font-weight:400;font-family:var(--fb)"></span>
+          <button onclick="toggleWLInput()" title="Add player" style="width:18px;height:18px;border-radius:50%;background:var(--s3);border:1px solid var(--b2);color:var(--t2);font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;padding:0">+</button>
+        </div>
+      </div>
+      <div id="wlAddRow" style="display:none;margin-bottom:8px;display:none">
+        <div style="display:flex;gap:5px">
+          <input type="text" id="wlAddInput" placeholder="Player name..." style="flex:1;background:var(--s2);border:1px solid var(--ac);border-radius:7px;padding:6px 9px;font-size:12px;color:var(--t1);font-family:var(--fb);outline:none" onkeydown="if(event.key==='Enter')addPlayerManual()">
+          <button onclick="addPlayerManual()" style="padding:6px 10px;background:var(--ac);color:#041a0f;font-size:11px;font-weight:800;border:none;border-radius:7px;cursor:pointer;font-family:var(--fd)">Add</button>
+        </div>
       </div>
       <div id="watchlistPanel"></div>
     </div>
@@ -776,7 +785,7 @@ function renderProfile() {
   document.getElementById('userInitials').textContent = (n.split(' ').map(w=>w[0]).join('').toUpperCase()).slice(0,2);
   if (!CONTEXT) return;
   document.getElementById('leagueContext').innerHTML = (CONTEXT.league||[]).map(l=>`<div class="mem-item"><div class="mem-dot"></div>${l}</div>`).join('');
-  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>`<div class="hist-item"><span class="hist-week">${h.week}</span>${h.text}</div>`).join('');
+  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>`<div class="hist-item" onclick="reaskQuestion('${h.text.replace(/'/g,"\\'")}')"><span class="hist-week">${h.week}</span><span style="flex:1">${h.text}</span><span style="font-size:9px;color:var(--t3);margin-left:4px;flex-shrink:0">${h.time||''}</span></div>`).join('');
 }
 
 function renderCtxBar() {
@@ -787,7 +796,7 @@ function renderCtxBar() {
 
 function sendWelcome() {
   window._DATE_CTX = getSeasonContext();
-  const text = `Welcome to GFDHub. Week ${CONTEXT?.week||1} loaded${WATCHLIST.length ? ` — ${WATCHLIST.length} player${WATCHLIST.length>1?'s':''} on your Watchlist` : ''}. What do you need?`;
+  const text = `Welcome to GFDHub, your place to Gain Fantasy Dominance. What questions do you have?`;
   addMessage('oc', text);
 }
 
@@ -910,6 +919,28 @@ RESPONSE RULES:
   WAITING = false;
   document.getElementById('sendBtn').disabled = false;
   document.getElementById('inputBox').focus();
+}
+
+function reaskQuestion(text) {
+  document.getElementById('inputBox').value = text;
+  document.getElementById('inputBox').focus();
+  closeDrawer();
+}
+
+function toggleWLInput() {
+  const row = document.getElementById('wlAddRow');
+  const visible = row.style.display !== 'none';
+  row.style.display = visible ? 'none' : 'flex';
+  if (!visible) setTimeout(() => document.getElementById('wlAddInput').focus(), 50);
+}
+
+function addPlayerManual() {
+  const input = document.getElementById('wlAddInput');
+  const name = input.value.trim();
+  if (!name || name.length < 3) return;
+  addToWatchlist(name, '', '', 'ok');
+  input.value = '';
+  document.getElementById('wlAddRow').style.display = 'none';
 }
 
 function quickAsk(q) {
