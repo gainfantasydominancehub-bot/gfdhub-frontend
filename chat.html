@@ -180,6 +180,23 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
 
+/* ── WATCHLIST HOVER POPUP ── */
+.wl-popup{position:fixed;z-index:500;background:var(--s1);border:1px solid rgba(0,229,160,.3);border-radius:12px;padding:14px 16px;min-width:200px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 24px rgba(0,229,160,.08);pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .15s,transform .15s}
+.wl-popup.show{opacity:1;transform:translateY(0)}
+.wl-popup-pos{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-size:9px;font-weight:800;font-family:var(--fd);margin-right:8px;flex-shrink:0}
+.wl-popup-pos.qb{background:rgba(255,179,71,.15);color:#ffb347;border:1px solid rgba(255,179,71,.3)}
+.wl-popup-pos.rb{background:rgba(0,229,160,.1);color:#00e5a0;border:1px solid rgba(0,229,160,.2)}
+.wl-popup-pos.wr{background:rgba(77,166,255,.1);color:#4da6ff;border:1px solid rgba(77,166,255,.2)}
+.wl-popup-pos.te{background:rgba(180,122,255,.1);color:#b47aff;border:1px solid rgba(180,122,255,.2)}
+.wl-popup-pos.k{background:var(--s3);color:var(--t2);border:1px solid var(--b1)}
+.wl-popup-name{font-family:var(--fd);font-size:14px;font-weight:800;color:var(--t1);letter-spacing:-.3px}
+.wl-popup-team{font-size:11px;color:var(--t2);margin-top:1px}
+.wl-popup-status{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;font-family:var(--fd);display:inline-flex;margin:7px 0 5px}
+.wl-popup-status.ok{background:rgba(0,229,160,.1);color:#00e5a0;border:1px solid rgba(0,229,160,.2)}
+.wl-popup-status.q{background:rgba(255,179,71,.1);color:#ffb347;border:1px solid rgba(255,179,71,.2)}
+.wl-popup-status.ir{background:rgba(255,77,106,.1);color:#ff4d6a;border:1px solid rgba(255,77,106,.2)}
+.wl-popup-cta{font-size:10px;color:var(--ac);font-family:var(--fd);font-weight:700;letter-spacing:.3px}
+
 /* ══ MOBILE ≤ 640px ══ */
 @media(max-width:640px){
   .topbar{padding:0 12px}
@@ -209,6 +226,18 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 </style>
 </head>
 <body>
+
+<div class="wl-popup" id="wlPopup">
+  <div style="display:flex;align-items:center;margin-bottom:2px">
+    <div class="wl-popup-pos" id="wlPopupPos"></div>
+    <div>
+      <div class="wl-popup-name" id="wlPopupName"></div>
+      <div class="wl-popup-team" id="wlPopupTeam"></div>
+    </div>
+  </div>
+  <div class="wl-popup-status" id="wlPopupStatus"></div>
+  <div class="wl-popup-cta">Click to open player panel →</div>
+</div>
 
 <div class="topbar">
   <div class="tb-left">
@@ -437,7 +466,7 @@ function renderWatchlist() {
     return;
   }
   panel.innerHTML = WATCHLIST.map((p, i) => `
-    <div class="wl-tile" onclick="openPlayerPanel(${i})" onmouseenter="hoverPlayerPanel(${i})"  onmouseleave="clearTimeout(_hoverTimer)">
+    <div class="wl-tile" onclick="openPlayerPanel(${i})" onmouseenter="showWLPopup(event,${i})" onmousemove="moveWLPopup(event)" onmouseleave="hideWLPopup()">
       <div class="wl-init ${posClass(p.pos)}">${posInitials(p.name)}</div>
       <div class="wl-info">
         <div class="wl-name">${p.name}</div>
@@ -640,12 +669,52 @@ function renderPlayerPanel(data, injury) {
 }
 
 // Open panel by player name (called from clickable names in chat)
+/* ── WATCHLIST HOVER POPUP ── */
+let _popupTimeout;
+function showWLPopup(e, idx) {
+  const p = WATCHLIST[idx];
+  if (!p) return;
+  clearTimeout(_popupTimeout);
+  const posEl = document.getElementById('wlPopupPos');
+  posEl.textContent = p.pos || '?';
+  posEl.className = `wl-popup-pos ${posClass(p.pos)}`;
+  document.getElementById('wlPopupName').textContent = p.name;
+  document.getElementById('wlPopupTeam').textContent = `${p.team || '?'}${p.pos ? ' · ' + p.pos : ''}`;
+  const statusEl = document.getElementById('wlPopupStatus');
+  const s = p.status || 'ok';
+  statusEl.textContent = s === 'ir' ? 'OUT / IR' : s === 'q' ? 'QUESTIONABLE' : 'ACTIVE';
+  statusEl.className = `wl-popup-status ${s === 'ir' ? 'ir' : s === 'q' ? 'q' : 'ok'}`;
+  positionWLPopup(e);
+  document.getElementById('wlPopup').classList.add('show');
+}
+
+function positionWLPopup(e) {
+  const popup = document.getElementById('wlPopup');
+  const pw = 240;
+  let left = e.clientX + 16;
+  let top = e.clientY - 10;
+  if (left + pw > window.innerWidth - 16) left = e.clientX - pw - 16;
+  if (top + 160 > window.innerHeight) top = e.clientY - 160;
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+}
+
+function moveWLPopup(e) {
+  positionWLPopup(e);
+}
+
+function hideWLPopup() {
+  _popupTimeout = setTimeout(() => {
+    document.getElementById('wlPopup').classList.remove('show');
+  }, 100);
+}
+
 let _hoverTimer = null;
 function hoverPlayerPanel(idx) {
   _hoverTimer = setTimeout(() => openPlayerPanel(idx), 400);
 }
 
-function onWLInput(val) {
+function reaskQuestion(text) {
   const sugg = document.getElementById('wlSuggestion');
   if (!val || val.length < 2) { sugg.style.display = 'none'; return; }
   const resolved = resolveFromLookup(val);
@@ -1033,12 +1102,6 @@ RESPONSE RULES:
   WAITING = false;
   document.getElementById('sendBtn').disabled = false;
   document.getElementById('inputBox').focus();
-}
-
-function reaskQuestion(text) {
-  document.getElementById('inputBox').value = text;
-  document.getElementById('inputBox').focus();
-  closeDrawer();
 }
 
 function toggleWLInput() {
