@@ -437,7 +437,7 @@ function renderWatchlist() {
     return;
   }
   panel.innerHTML = WATCHLIST.map((p, i) => `
-    <div class="wl-tile" onclick="openPlayerPanel(${i})" onmouseenter="hoverPlayerPanel(${i})" onmouseleave="closePlayerPanel()">
+    <div class="wl-tile" onclick="openPlayerPanel(${i})" onmouseenter="hoverPlayerPanel(${i})"  onmouseleave="clearTimeout(_hoverTimer)">
       <div class="wl-init ${posClass(p.pos)}">${posInitials(p.name)}</div>
       <div class="wl-info">
         <div class="wl-name">${p.name}</div>
