@@ -17,8 +17,6 @@
   --fd:'Exo 2',sans-serif;--fb:'Figtree',sans-serif;
 }
 body{background:var(--bg);font-family:var(--fb);color:var(--t1);min-height:100vh}
-
-/* ── LOGIN GATE ── */
 .gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px}
 .gate-box{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:40px 36px;max-width:400px;width:100%;text-align:center}
 .gate-logo{font-family:var(--fd);font-weight:900;font-size:22px;letter-spacing:-1px;margin-bottom:8px}
@@ -30,36 +28,24 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);min-height:100vh
 .gate-btn{width:100%;padding:13px;background:var(--ac);color:#041a0f;font-size:14px;font-weight:900;border:none;border-radius:9px;cursor:pointer;font-family:var(--fd);transition:all .15s}
 .gate-btn:hover{background:#00ffb0}
 .gate-error{font-size:12px;color:var(--red);margin-top:8px;display:none}
-
-/* ── TOPBAR ── */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;background:var(--s1);border-bottom:1px solid var(--b1);flex-shrink:0;position:sticky;top:0;z-index:100}
 .tb-left{display:flex;align-items:center;gap:12px}
 .logo{font-family:var(--fd);font-weight:900;font-size:18px;letter-spacing:-.5px;color:var(--t1);text-decoration:none}
 .logo em{color:var(--ac);font-style:normal}
 .cc-badge{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--amb);background:rgba(255,179,71,.1);border:1px solid rgba(255,179,71,.2);padding:3px 10px;border-radius:20px;font-family:var(--fd)}
 .tb-right{font-size:12px;color:var(--t3)}
-
-/* ── LAYOUT ── */
 .main{display:flex;flex-direction:column;max-width:1400px;margin:0 auto;padding:24px}
-
-/* ── STATS ROW ── */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
 .stat-card{background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:20px 22px}
 .stat-card-val{font-family:var(--fd);font-size:32px;font-weight:900;color:var(--ac);letter-spacing:-1px;line-height:1}
 .stat-card-label{font-size:11px;color:var(--t2);margin-top:6px;font-family:var(--fd);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .stat-card-sub{font-size:11px;color:var(--t3);margin-top:3px}
-
-/* ── TABS ── */
 .tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--s1);border:1px solid var(--b1);border-radius:10px;padding:4px;width:fit-content}
 .tab{padding:7px 18px;border-radius:7px;font-size:12px;font-weight:700;font-family:var(--fd);letter-spacing:.3px;cursor:pointer;color:var(--t2);transition:all .15s;border:none;background:none}
 .tab.active{background:var(--s2);color:var(--t1);border:1px solid var(--b1)}
 .tab:hover:not(.active){color:var(--t1)}
-
-/* ── CONTENT PANELS ── */
 .panel{display:none}
 .panel.active{display:block}
-
-/* ── TABLE ── */
 .table-wrap{background:var(--s1);border:1px solid var(--b1);border-radius:12px;overflow:hidden}
 .table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--b1)}
 .table-title{font-family:var(--fd);font-size:13px;font-weight:800;color:var(--t1);letter-spacing:-.2px}
@@ -77,8 +63,16 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .td-time{font-size:11px;color:var(--t3);white-space:nowrap;font-family:var(--fd)}
 .td-email{font-size:11px;color:var(--t3);font-family:var(--fd)}
 .week-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--s3);color:var(--t2);font-family:var(--fd);white-space:nowrap}
-
-/* ── DEMAND INTEL ── */
+.pro-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;font-family:var(--fd);white-space:nowrap}
+.pro-badge.yes{background:rgba(0,229,160,.1);color:var(--ac);border:1px solid rgba(0,229,160,.2)}
+.pro-badge.no{background:var(--s3);color:var(--t3);border:1px solid var(--b1)}
+.wl-chips{display:flex;flex-wrap:wrap;gap:4px;max-width:280px}
+.wl-chip{font-size:10px;padding:2px 7px;border-radius:8px;font-family:var(--fd);font-weight:700}
+.wl-chip.qb{background:rgba(255,179,71,.12);color:#ffb347}
+.wl-chip.rb{background:rgba(0,229,160,.1);color:#00e5a0}
+.wl-chip.wr{background:rgba(77,166,255,.1);color:#4da6ff}
+.wl-chip.te{background:rgba(180,122,255,.1);color:#b47aff}
+.wl-chip.k{background:var(--s3);color:var(--t3)}
 .demand-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .demand-card{background:var(--s1);border:1px solid var(--b1);border-radius:12px;overflow:hidden}
 .demand-card-header{padding:14px 18px;border-bottom:1px solid var(--b1);font-family:var(--fd);font-size:12px;font-weight:800;color:var(--t1);letter-spacing:-.2px;display:flex;align-items:center;justify-content:space-between}
@@ -98,8 +92,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .player-count{font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac)}
 .player-bar-wrap{width:80px;height:4px;background:var(--s3);border-radius:2px;overflow:hidden}
 .player-bar{height:100%;background:var(--ac);border-radius:2px}
-
-/* ── PATTERN TAB ── */
 .pattern-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .pattern-card{background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:20px}
 .pattern-card-label{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);font-family:var(--fd);margin-bottom:14px}
@@ -109,17 +101,13 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .pattern-val{font-family:var(--fd);font-weight:700;color:var(--t1)}
 .pattern-val.green{color:var(--ac)}
 .pattern-val.amb{color:var(--amb)}
-
-/* ── LOADING ── */
 .loading{text-align:center;padding:48px;color:var(--t3);font-size:13px}
 .loading-dots{display:inline-flex;gap:4px;margin-top:12px}
 .loading-dot{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:bounce .8s infinite}
 .loading-dot:nth-child(2){animation-delay:.15s}
 .loading-dot:nth-child(3){animation-delay:.3s}
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
-
 .empty{text-align:center;padding:48px;color:var(--t3);font-size:13px;font-style:italic}
-
 @media(max-width:900px){
   .stats-row{grid-template-columns:1fr 1fr}
   .demand-grid{grid-template-columns:1fr}
@@ -129,7 +117,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
 </head>
 <body>
 
-<!-- LOGIN GATE -->
 <div class="gate" id="gate">
   <div class="gate-box">
     <div class="gate-logo">GFD<em>Hub</em></div>
@@ -141,7 +128,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
   </div>
 </div>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="tb-left">
     <a href="/index.html" class="logo">GFD<em>Hub</em></a>
@@ -152,7 +138,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
 
 <div class="main">
 
-  <!-- STATS ROW -->
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-card-val" id="statSessions">—</div>
@@ -160,9 +145,14 @@ tr:hover td{background:rgba(255,255,255,.02)}
       <div class="stat-card-sub">All AI OC questions</div>
     </div>
     <div class="stat-card">
+      <div class="stat-card-val" id="statProUsers">—</div>
+      <div class="stat-card-label">PRO Users</div>
+      <div class="stat-card-sub">Active subscribers</div>
+    </div>
+    <div class="stat-card">
       <div class="stat-card-val" id="statUsers">—</div>
-      <div class="stat-card-label">Active Users</div>
-      <div class="stat-card-sub">Unique emails</div>
+      <div class="stat-card-label">Total Users</div>
+      <div class="stat-card-sub">All signups</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-val" id="statWatchlist">—</div>
@@ -176,14 +166,14 @@ tr:hover td{background:rgba(255,255,255,.02)}
     </div>
   </div>
 
-  <!-- TABS -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('questions',this)">📋 Questions Warehouse</button>
-    <button class="tab" onclick="switchTab('demand',this)">📊 Demand Intelligence</button>
+    <button class="tab active" onclick="switchTab('questions',this)">📋 Questions</button>
+    <button class="tab" onclick="switchTab('users',this)">👤 Users</button>
+    <button class="tab" onclick="switchTab('demand',this)">📊 Demand Intel</button>
     <button class="tab" onclick="switchTab('patterns',this)">🔍 Patterns</button>
   </div>
 
-  <!-- QUESTIONS WAREHOUSE -->
+  <!-- QUESTIONS -->
   <div class="panel active" id="panel-questions">
     <div class="table-wrap">
       <div class="table-header">
@@ -199,13 +189,29 @@ tr:hover td{background:rgba(255,255,255,.02)}
     </div>
   </div>
 
+  <!-- USERS -->
+  <div class="panel" id="panel-users">
+    <div class="table-wrap">
+      <div class="table-header">
+        <div>
+          <div class="table-title">User Registry</div>
+          <div class="table-meta">All signups — PRO status, watchlist, activity</div>
+        </div>
+        <input type="text" class="search-bar" id="userSearch" placeholder="Search users..." oninput="filterUsers()">
+      </div>
+      <div id="usersBody">
+        <div class="loading">Loading users...<div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div></div>
+      </div>
+    </div>
+  </div>
+
   <!-- DEMAND INTELLIGENCE -->
   <div class="panel" id="panel-demand">
     <div class="demand-grid">
       <div class="demand-card">
         <div class="demand-card-header">
-          🔥 Most Asked About Players
-          <span class="demand-card-sub">From Watchlist + Questions</span>
+          🔥 Most Watched Players
+          <span class="demand-card-sub">Watchlist + Questions</span>
         </div>
         <div id="demandPlayers">
           <div class="loading">Analyzing...<div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div></div>
@@ -213,7 +219,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
       </div>
       <div class="demand-card">
         <div class="demand-card-header">
-          📈 Top Questions This Week
+          📈 Top Question Types
           <span class="demand-card-sub">By frequency</span>
         </div>
         <div id="demandQuestions">
@@ -246,13 +252,12 @@ tr:hover td{background:rgba(255,255,255,.02)}
 <script>
 const API = 'https://api.gfdhub.com';
 const ADMIN_EMAIL = 'inquiries@digitalmarketinggen.com';
-const ADMIN_PASS = 'GFDHub2026!';
+const ADMIN_PASS  = 'GFDHub2026!';
 
-let ALL_SESSIONS = [];
+let ALL_SESSIONS  = [];
 let ALL_WATCHLIST = [];
-let ALL_USERS = [];
+let ALL_USERS     = [];
 
-/* ── AUTH ── */
 function login() {
   const email = document.getElementById('gateEmail').value.trim();
   const pass  = document.getElementById('gatePass').value;
@@ -265,7 +270,6 @@ function login() {
   }
 }
 
-/* ── TABS ── */
 function switchTab(name, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -273,7 +277,6 @@ function switchTab(name, el) {
   document.getElementById(`panel-${name}`).classList.add('active');
 }
 
-/* ── LOAD ALL DATA ── */
 async function loadAll() {
   document.getElementById('lastRefresh').textContent = 'Refreshing...';
   try {
@@ -283,16 +286,14 @@ async function loadAll() {
     ]);
     const sessData = await sessRes.json();
     const ctxData  = await ctxRes.json();
-
-    ALL_SESSIONS  = sessData.sessions  || [];
-    ALL_WATCHLIST = ctxData.watchlist  || [];
-    ALL_USERS     = ctxData.users      || [];
-
+    ALL_SESSIONS  = sessData.sessions || [];
+    ALL_WATCHLIST = ctxData.watchlist || [];
+    ALL_USERS     = ctxData.users     || [];
     renderStats();
     renderQuestions();
+    renderUsers();
     renderDemand();
     renderPatterns();
-
     document.getElementById('lastRefresh').textContent = `Last refresh: ${new Date().toLocaleTimeString()}`;
   } catch(e) {
     document.getElementById('lastRefresh').textContent = 'Error loading data';
@@ -300,31 +301,26 @@ async function loadAll() {
   }
 }
 
-/* ── STATS ── */
 function renderStats() {
-  const today = new Date();
-  today.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0,0,0,0);
   const todaySessions = ALL_SESSIONS.filter(s => new Date(s.created_at) >= today).length;
-  const uniqueUsers   = new Set(ALL_SESSIONS.map(s => s.email || s.phone).filter(Boolean)).size;
+  const proUsers      = ALL_USERS.filter(u => u.is_pro).length;
   const totalWL       = ALL_WATCHLIST.reduce((a, u) => a + (u.watchlist?.length || 0), 0);
-
   document.getElementById('statSessions').textContent  = ALL_SESSIONS.length.toLocaleString();
-  document.getElementById('statUsers').textContent     = uniqueUsers.toLocaleString();
+  document.getElementById('statProUsers').textContent  = proUsers.toLocaleString();
+  document.getElementById('statUsers').textContent     = ALL_USERS.length.toLocaleString();
   document.getElementById('statWatchlist').textContent = totalWL.toLocaleString();
   document.getElementById('statToday').textContent     = todaySessions.toLocaleString();
 }
 
-/* ── QUESTIONS WAREHOUSE ── */
 function renderQuestions(filter = '') {
   const sessions = filter
     ? ALL_SESSIONS.filter(s => s.question?.toLowerCase().includes(filter.toLowerCase()))
     : ALL_SESSIONS;
-
   if (!sessions.length) {
-    document.getElementById('questionsBody').innerHTML = `<div class="empty">No sessions yet — questions will appear here as users chat with the AI OC.</div>`;
+    document.getElementById('questionsBody').innerHTML = `<div class="empty">No sessions yet.</div>`;
     return;
   }
-
   const rows = sessions.slice(0, 200).map(s => {
     const dt = new Date(s.created_at);
     const timeStr = dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' ' + dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
@@ -338,27 +334,68 @@ function renderQuestions(filter = '') {
       <td><div class="td-time">${timeStr}</div></td>
     </tr>`;
   }).join('');
-
   document.getElementById('questionsBody').innerHTML = `
-    <table>
-      <thead><tr>
-        <th>Question</th>
-        <th>AI OC Answer</th>
-        <th>Week</th>
-        <th>Source</th>
-        <th>Time</th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
+    <table><thead><tr>
+      <th>Question</th><th>AI OC Answer</th><th>Week</th><th>Source</th><th>Time</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function filterQuestions() {
   renderQuestions(document.getElementById('questionSearch').value);
 }
 
-/* ── DEMAND INTELLIGENCE ── */
+function renderUsers(filter = '') {
+  let users = filter
+    ? ALL_USERS.filter(u => u.email?.toLowerCase().includes(filter.toLowerCase()))
+    : ALL_USERS;
+
+  if (!users.length) {
+    document.getElementById('usersBody').innerHTML = `<div class="empty">No users yet.</div>`;
+    return;
+  }
+
+  // Build session count map
+  const sessionCounts = {};
+  ALL_SESSIONS.forEach(s => {
+    if (s.email) sessionCounts[s.email] = (sessionCounts[s.email] || 0) + 1;
+  });
+
+  const rows = users.map(u => {
+    const signupDate = u.created_at
+      ? new Date(u.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+      : '—';
+    const proSince = u.pro_since
+      ? new Date(u.pro_since).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+      : null;
+    const sessions = sessionCounts[u.email] || 0;
+    const wl = u.watchlist || [];
+    const wlHtml = wl.length
+      ? `<div class="wl-chips">${wl.slice(0,6).map(p => `<span class="wl-chip ${posClass(p.pos)}">${escHtml(p.name)}</span>`).join('')}${wl.length > 6 ? `<span class="wl-chip k">+${wl.length - 6}</span>` : ''}</div>`
+      : `<span style="color:var(--t3);font-size:11px">None yet</span>`;
+
+    return `<tr>
+      <td><div style="color:var(--t1);font-size:13px;font-family:var(--fd);font-weight:600">${escHtml(u.email)}</div></td>
+      <td>
+        <span class="pro-badge ${u.is_pro ? 'yes' : 'no'}">${u.is_pro ? '✓ PRO' : 'Free'}</span>
+        ${proSince ? `<div style="font-size:10px;color:var(--t3);margin-top:3px">Since ${proSince}</div>` : ''}
+      </td>
+      <td><div style="font-family:var(--fd);font-size:13px;font-weight:700;color:${sessions > 0 ? 'var(--ac)' : 'var(--t3)'}">${sessions}</div></td>
+      <td>${wlHtml}</td>
+      <td><div class="td-time">${signupDate}</div></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('usersBody').innerHTML = `
+    <table><thead><tr>
+      <th>Email</th><th>Status</th><th>Sessions</th><th>Watchlist</th><th>Signed Up</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function filterUsers() {
+  renderUsers(document.getElementById('userSearch').value);
+}
+
 function renderDemand() {
-  // Tally player mentions from watchlists
   const playerCounts = {};
   ALL_WATCHLIST.forEach(u => {
     (u.watchlist || []).forEach(p => {
@@ -367,8 +404,6 @@ function renderDemand() {
       playerCounts[key].count++;
     });
   });
-
-  // Also scan questions for player name mentions
   ALL_SESSIONS.forEach(s => {
     const text = (s.question || '') + ' ' + (s.answer || '');
     const matches = text.match(/\b([A-Z][a-z]+\s+[A-Z][a-z]+)\b/g) || [];
@@ -376,10 +411,8 @@ function renderDemand() {
       if (playerCounts[name]) playerCounts[name].count += 0.5;
     });
   });
-
   const sorted = Object.values(playerCounts).sort((a,b) => b.count - a.count).slice(0, 10);
   const max = sorted[0]?.count || 1;
-
   if (!sorted.length) {
     document.getElementById('demandPlayers').innerHTML = `<div class="empty">No watchlist data yet.</div>`;
   } else {
@@ -401,18 +434,13 @@ function renderDemand() {
       </div>`;
     }).join('');
   }
-
-  // Top questions by keyword frequency
   const qKeywords = {};
   ALL_SESSIONS.forEach(s => {
     const q = (s.question || '').toLowerCase();
     ['start','sit','draft','waiver','trade','add','drop','injury','props','pick'].forEach(kw => {
-      if (q.includes(kw)) {
-        qKeywords[kw] = (qKeywords[kw] || 0) + 1;
-      }
+      if (q.includes(kw)) qKeywords[kw] = (qKeywords[kw] || 0) + 1;
     });
   });
-
   const sortedKW = Object.entries(qKeywords).sort((a,b) => b[1]-a[1]);
   if (!sortedKW.length) {
     document.getElementById('demandQuestions').innerHTML = `<div class="empty">No question data yet.</div>`;
@@ -434,22 +462,19 @@ function renderDemand() {
   }
 }
 
-/* ── PATTERNS ── */
 function renderPatterns() {
-  // Session breakdown
   const webSessions = ALL_SESSIONS.filter(s => !s.phone).length;
   const smsSessions = ALL_SESSIONS.filter(s => s.phone).length;
-  const avgPerUser  = ALL_USERS.length ? (ALL_SESSIONS.length / ALL_USERS.length).toFixed(1) : '—';
-
+  const proUsers    = ALL_USERS.filter(u => u.is_pro).length;
+  const avgPerUser  = proUsers ? (ALL_SESSIONS.length / proUsers).toFixed(1) : '—';
   document.getElementById('patternBreakdown').innerHTML = `
     <div class="pattern-item"><span class="pattern-key">Web sessions</span><span class="pattern-val green">${webSessions}</span></div>
     <div class="pattern-item"><span class="pattern-key">SMS sessions</span><span class="pattern-val green">${smsSessions}</span></div>
-    <div class="pattern-item"><span class="pattern-key">Avg per user</span><span class="pattern-val">${avgPerUser}</span></div>
+    <div class="pattern-item"><span class="pattern-key">Avg per PRO user</span><span class="pattern-val">${avgPerUser}</span></div>
+    <div class="pattern-item"><span class="pattern-key">PRO users</span><span class="pattern-val">${proUsers}</span></div>
     <div class="pattern-item"><span class="pattern-key">Total users</span><span class="pattern-val">${ALL_USERS.length}</span></div>
   `;
-
-  // Question types
-  const types = {draft:0, lineup:0, waiver:0, trade:0, injury:0, props:0, other:0};
+  const types = {draft:0,lineup:0,waiver:0,trade:0,injury:0,props:0,other:0};
   ALL_SESSIONS.forEach(s => {
     const q = (s.question||'').toLowerCase();
     if (q.includes('draft')||q.includes('pick')||q.includes('adp')) types.draft++;
@@ -460,13 +485,10 @@ function renderPatterns() {
     else if (q.includes('prop')||q.includes('over')||q.includes('under')) types.props++;
     else types.other++;
   });
-
   document.getElementById('patternTypes').innerHTML = Object.entries(types)
     .sort((a,b)=>b[1]-a[1])
     .map(([k,v])=>`<div class="pattern-item"><span class="pattern-key" style="text-transform:capitalize">${k}</span><span class="pattern-val ${v>0?'green':''}">${v}</span></div>`)
     .join('');
-
-  // Activity by week
   const byWeek = {};
   ALL_SESSIONS.forEach(s => {
     const wk = `Wk ${s.week||'?'}`;
@@ -477,13 +499,11 @@ function renderPatterns() {
     const nb = parseInt(b[0].replace('Wk ',''))||0;
     return nb-na;
   }).slice(0,8);
-
   document.getElementById('patternActivity').innerHTML = sortedWeeks.length
     ? sortedWeeks.map(([wk,cnt])=>`<div class="pattern-item"><span class="pattern-key">${wk}</span><span class="pattern-val">${cnt} session${cnt!==1?'s':''}</span></div>`).join('')
     : '<div class="empty">No data yet.</div>';
 }
 
-/* ── HELPERS ── */
 function posClass(pos) {
   const p = (pos||'').toUpperCase();
   if(p.startsWith('QB')) return 'qb';
@@ -501,13 +521,10 @@ function escHtml(str) {
   return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* ── INIT ── */
 if (sessionStorage.getItem('cc_auth') === '1') {
   document.getElementById('gate').style.display = 'none';
   loadAll();
 }
-
-// Auto-refresh every 5 minutes
 setInterval(loadAll, 5 * 60 * 1000);
 </script>
 </body>
