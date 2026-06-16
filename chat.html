@@ -690,6 +690,38 @@ function reaskQuestion(text) {
   closeDrawer();
 }
 
+async function loadHistorySession(sessionId, fallbackText) {
+  closeDrawer();
+  // If we have a session ID, fetch the full Q&A from the backend
+  if (sessionId && USER?.email) {
+    try {
+      const res = await fetch(`${API}/api/chat/history?email=${encodeURIComponent(USER.email)}&limit=20`);
+      const data = await res.json();
+      if (data.ok && data.sessions) {
+        const session = data.sessions.find(s => s.id === sessionId);
+        if (session) {
+          // Add a visual divider
+          const wrap = document.getElementById('messages');
+          const divider = document.createElement('div');
+          divider.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 0;margin:4px 0';
+          divider.innerHTML = `<div style="flex:1;height:1px;background:var(--b1)"></div><span style="font-size:10px;color:var(--t3);font-family:var(--fd);font-weight:700;white-space:nowrap">WK ${session.week||'?'} · PAST CONVERSATION</span><div style="flex:1;height:1px;background:var(--b1)"></div>`;
+          wrap.appendChild(divider);
+          // Show the original question and answer
+          addMessage('user', session.question);
+          addMessage('oc', formatResponse(session.answer));
+          wrap.scrollTop = wrap.scrollHeight;
+          return;
+        }
+      }
+    } catch(e) {
+      console.error('loadHistorySession error:', e.message);
+    }
+  }
+  // Fallback: pre-fill the input
+  document.getElementById('inputBox').value = fallbackText;
+  document.getElementById('inputBox').focus();
+}
+
 function onWLInput(val) {
   const sugg = document.getElementById('wlSuggestion');
   if (!val || val.length < 2) { sugg.style.display = 'none'; return; }
@@ -955,7 +987,7 @@ function renderProfile() {
   document.getElementById('userInitials').textContent = (n.split(' ').map(w=>w[0]).join('').toUpperCase()).slice(0,2);
   if (!CONTEXT) return;
   document.getElementById('leagueContext').innerHTML = (CONTEXT.league||[]).map(l=>`<div class="mem-item"><div class="mem-dot"></div>${l}</div>`).join('');
-  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>`<div class="hist-item" onclick="reaskQuestion('${h.text.replace(/'/g,"\\'")}')"><span class="hist-week">${h.week}</span><span style="flex:1">${h.text}</span><span style="font-size:9px;color:var(--t3);margin-left:4px;flex-shrink:0">${h.time||''}</span></div>`).join('');
+  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>`<div class="hist-item" onclick="loadHistorySession(${h.id||0}, '${h.text.replace(/'/g,"\\'")}')"><span class="hist-week">${h.week}</span><span style="flex:1">${h.text}</span></div>`).join('');
 }
 
 function renderCtxBar() {
