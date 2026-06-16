@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GFDHub — Logging you in...</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800;900&family=Figtree:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07080d;color:#f0f2f9;font-family:'Figtree',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#0d0f17;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:48px 40px;max-width:420px;width:100%;text-align:center}
+.logo{font-family:'Exo 2',sans-serif;font-weight:900;font-size:26px;letter-spacing:-1px;color:#f0f2f9;margin-bottom:32px}
+.logo em{color:#00e5a0;font-style:normal}
+.spinner{width:48px;height:48px;border:3px solid rgba(0,229,160,.2);border-top-color:#00e5a0;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+h2{font-family:'Exo 2',sans-serif;font-size:22px;font-weight:900;letter-spacing:-1px;margin-bottom:10px}
+p{font-size:15px;color:#6e7a94;line-height:1.6}
+.error{display:none;background:rgba(255,77,106,.08);border:1px solid rgba(255,77,106,.2);border-radius:10px;padding:16px;margin-top:24px}
+.error p{color:#ff4d6a}
+.back-btn{display:inline-block;margin-top:20px;padding:10px 24px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#6e7a94;font-size:14px;font-weight:600;text-decoration:none;font-family:'Exo 2',sans-serif;transition:all .15s}
+.back-btn:hover{color:#f0f2f9;border-color:rgba(255,255,255,0.2)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">GFD<em>Hub</em></div>
+  <div class="spinner" id="spinner"></div>
+  <h2 id="title">Logging you in...</h2>
+  <p id="msg">Verifying your magic link. This takes a second.</p>
+  <div class="error" id="errorBox">
+    <p id="errorMsg">This link is invalid or has expired.</p>
+    <a href="/" class="back-btn">← Back to GFDHub</a>
+  </div>
+</div>
+
+<script>
+async function verify() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+
+  if (!token) {
+    showError('No login token found. Please request a new magic link.');
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.gfdhub.com/api/auth/verify?token=${encodeURIComponent(token)}`);
+    const data = await res.json();
+
+    if (data.ok && data.email) {
+      localStorage.setItem('gfd_email', data.email);
+      document.getElementById('title').textContent = 'You\'re in! 🏈';
+      document.getElementById('msg').textContent = 'Redirecting to your dashboard...';
+      document.getElementById('spinner').style.borderTopColor = '#00e5a0';
+      setTimeout(() => { window.location.href = '/chat'; }, 1200);
+    } else {
+      showError(data.error || 'This link is invalid or has already been used. Please request a new one.');
+    }
+  } catch (e) {
+    showError('Something went wrong. Please try again or request a new magic link.');
+  }
+}
+
+function showError(msg) {
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('title').textContent = 'Link expired';
+  document.getElementById('msg').textContent = '';
+  document.getElementById('errorMsg').textContent = msg;
+  document.getElementById('errorBox').style.display = 'block';
+}
+
+verify();
+</script>
+</body>
+</html>
