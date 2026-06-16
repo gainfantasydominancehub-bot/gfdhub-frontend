@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear
 .glow{position:fixed;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(0,232,122,0.08) 0%,transparent 70%);pointer-events:none;z-index:0}
 .wrap{position:relative;z-index:1;width:100%;max-width:520px;animation:fadeUp .5s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
 .logo{font-family:var(--fd);font-weight:900;font-size:20px;letter-spacing:-1px;color:var(--t1);text-decoration:none;display:block;text-align:center;margin-bottom:36px}
 .logo em{color:var(--ac);font-style:normal}
 .step-indicator{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:28px}
@@ -33,8 +33,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background-image:linear
 h1{font-family:var(--fd);font-size:clamp(26px,5vw,38px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;text-align:center}
 h1 em{color:var(--ac);font-style:italic}
 .sub{font-size:15px;color:var(--t2);line-height:1.65;text-align:center;margin-bottom:36px;max-width:420px;margin-left:auto;margin-right:auto}
-
-/* ── SMS CARD ── */
 .sms-card{background:linear-gradient(135deg,rgba(0,229,160,0.08) 0%,rgba(0,229,160,0.03) 100%);border:1.5px solid rgba(0,229,160,0.25);border-radius:16px;padding:24px 28px;margin-bottom:16px;position:relative;overflow:hidden}
 .sms-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(ellipse,rgba(0,229,160,0.12) 0%,transparent 70%);pointer-events:none}
 .sms-card-eyebrow{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--ac);font-family:var(--fd);margin-bottom:10px}
@@ -57,11 +55,9 @@ h1 em{color:var(--ac);font-style:italic}
 .sms-success-body{font-size:12px;color:var(--t2);line-height:1.5}
 .sms-success-number{font-family:var(--fd);font-weight:900;color:var(--t1);font-size:16px;letter-spacing:.5px;margin:6px 0 2px}
 .sms-error{font-size:12px;color:var(--red);margin-top:6px;display:none}
-
 .form-card{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:28px;margin-bottom:12px}
 .field-label{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);font-family:var(--fd);margin-bottom:6px;display:block}
 .field-sub{font-size:12px;color:var(--t3);margin-bottom:12px;font-family:var(--fb);line-height:1.5}
-
 .options{display:grid;gap:8px}
 .options.cols2{grid-template-columns:1fr 1fr}
 .options.cols3{grid-template-columns:1fr 1fr 1fr}
@@ -77,28 +73,22 @@ h1 em{color:var(--ac);font-style:italic}
 .opt-check{position:absolute;top:8px;right:8px;width:14px;height:14px;border-radius:50%;background:var(--ac);display:none;align-items:center;justify-content:center}
 .opt.selected .opt-check{display:flex}
 .opt-check svg{width:8px;height:8px;stroke:#041a0f;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-
 .opt.compact{padding:10px 8px;text-align:center}
 .opt.compact .opt-main{font-size:16px;font-weight:900;letter-spacing:-.5px;margin:0}
 .opt.compact .opt-sub{font-size:10px;margin-top:2px}
-
 .card-divider{height:1px;background:var(--b1);margin:20px 0}
-
 .text-input{width:100%;background:var(--s2);border:1.5px solid var(--b1);border-radius:10px;padding:12px 15px;font-size:14px;color:var(--t1);font-family:var(--fb);outline:none;transition:border-color .15s}
 .text-input:focus{border-color:var(--ac)}
 .text-input::placeholder{color:var(--t3)}
 select.text-input{cursor:pointer}
-
 .opt-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);background:var(--s3);padding:2px 8px;border-radius:10px;font-family:var(--fd);margin-left:8px;vertical-align:middle}
 .req-badge{display:inline-flex;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);font-family:var(--fd);margin-left:6px;vertical-align:middle}
-
 .advanced-toggle{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3);cursor:pointer;margin-top:12px;transition:color .15s;font-family:var(--fb)}
 .advanced-toggle:hover{color:var(--t2)}
 .advanced-toggle svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
 .advanced-toggle.open svg{transform:rotate(90deg)}
 .advanced-fields{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--b1)}
 .advanced-fields.show{display:block}
-
 .submit-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--ac);color:#041a0f;font-size:16px;font-weight:900;border:none;border-radius:10px;cursor:pointer;font-family:var(--fd);letter-spacing:-.3px;transition:all .15s;margin-top:4px}
 .submit-btn:hover{background:#00ffaa;transform:translateY(-2px)}
 .submit-btn:disabled{background:var(--s3);color:var(--t3);cursor:not-allowed;transform:none}
@@ -106,7 +96,6 @@ select.text-input{cursor:pointer}
 .error-msg{font-size:13px;color:var(--red);text-align:center;margin-top:10px;display:none;font-family:var(--fb)}
 .skip-link{text-align:center;font-size:12px;color:var(--t3);margin-top:14px;cursor:pointer;transition:color .15s;font-family:var(--fb)}
 .skip-link:hover{color:var(--t2)}
-
 @media(max-width:480px){
   .options.cols3{grid-template-columns:1fr 1fr}
   .options.cols4{grid-template-columns:1fr 1fr}
@@ -139,12 +128,14 @@ select.text-input{cursor:pointer}
     <div class="sms-card-title">🏈 Text your AI OC like a friend.</div>
     <div class="sms-card-body">At the tailgate, 20 minutes before lineups lock your key player is ruled out — just text the AI OC and get your answer. No dashboards, text like a friend! Just add your mobile number and save.</div>
     <div class="sms-input-row">
-      <input type="tel" class="sms-input" id="smsPhone" placeholder="(516) 555-0100" oninput="formatPhone(this)" maxlength="14">
+      <!-- FIX 2: phone field is optional — no required attribute -->
+      <input type="tel" class="sms-input" id="smsPhone" placeholder="(516) 555-0100 · Optional" oninput="formatPhone(this)" maxlength="14">
       <button class="sms-activate-btn" id="smsBtn" onclick="activateSMS()">Activate SMS</button>
     </div>
+    <!-- FIX 1: Added "Msg frequency may vary" + kept existing STOP/HELP language -->
     <div class="sms-opt-in">
       <input type="checkbox" id="smsOptIn" onchange="updateSMSBtn()">
-      <label for="smsOptIn">I agree to receive SMS messages from GFDHub AI OC at the number provided. Message &amp; data rates may apply. Reply STOP to unsubscribe, HELP for help. View our <a href="/privacy" target="_blank">Privacy Policy</a>.</label>
+      <label for="smsOptIn">I agree to receive SMS messages from GFDHub AI OC at the number provided. Message &amp; data rates may apply. Msg frequency may vary. Reply STOP to unsubscribe, HELP for help. View our <a href="/privacy" target="_blank">Privacy Policy</a>.</label>
     </div>
     <div class="sms-error" id="smsError"></div>
     <div class="sms-success" id="smsSuccess">
@@ -223,28 +214,23 @@ select.text-input{cursor:pointer}
     <div class="field-sub">Affects waiver wire depth and trade values — the AI OC needs this to know how scarce players really are.</div>
     <div class="options cols5" id="sizeOpts">
       <div class="opt compact" onclick="select('team_size','8',this)">
-        <div class="opt-main">8</div>
-        <div class="opt-sub">teams</div>
+        <div class="opt-main">8</div><div class="opt-sub">teams</div>
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
       <div class="opt compact" onclick="select('team_size','10',this)">
-        <div class="opt-main">10</div>
-        <div class="opt-sub">teams</div>
+        <div class="opt-main">10</div><div class="opt-sub">teams</div>
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
       <div class="opt compact" onclick="select('team_size','12',this)">
-        <div class="opt-main">12</div>
-        <div class="opt-sub">teams</div>
+        <div class="opt-main">12</div><div class="opt-sub">teams</div>
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
       <div class="opt compact" onclick="select('team_size','14',this)">
-        <div class="opt-main">14</div>
-        <div class="opt-sub">teams</div>
+        <div class="opt-main">14</div><div class="opt-sub">teams</div>
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
       <div class="opt compact" onclick="select('team_size','16',this)">
-        <div class="opt-main">16</div>
-        <div class="opt-sub">teams</div>
+        <div class="opt-main">16</div><div class="opt-sub">teams</div>
         <div class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
     </div>
@@ -323,10 +309,14 @@ function formatPhone(el) {
   updateSMSBtn();
 }
 
+// FIX 2: Phone is now optional — only require checkbox to enable button if phone is entered
 function updateSMSBtn() {
   const phone = document.getElementById('smsPhone').value.replace(/\D/g,'');
   const checked = document.getElementById('smsOptIn').checked;
-  document.getElementById('smsBtn').disabled = !(phone.length === 10 && checked);
+  // Enable button if: checkbox checked AND (phone is empty OR phone is complete 10 digits)
+  // This makes phone optional but validates it if entered
+  const phoneValid = phone.length === 0 || phone.length === 10;
+  document.getElementById('smsBtn').disabled = !(checked && phoneValid && phone.length === 10);
 }
 
 async function activateSMS() {
