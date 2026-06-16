@@ -59,7 +59,8 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .wl-init.rb{background:rgba(0,229,160,.1);color:var(--rb);border:1px solid rgba(0,229,160,.2)}
 .wl-init.wr{background:rgba(77,166,255,.1);color:var(--wr);border:1px solid rgba(77,166,255,.2)}
 .wl-init.te{background:rgba(180,122,255,.1);color:var(--te);border:1px solid rgba(180,122,255,.2)}
-.wl-init.k,.wl-init.def{background:var(--s3);color:var(--t2);border:1px solid var(--b1)}
+.wl-init.k{background:var(--s3);color:var(--t2);border:1px solid var(--b1)}
+.wl-init.def{background:rgba(77,166,255,.08);color:var(--blu);border:1px solid rgba(77,166,255,.2);font-size:8px;font-weight:900;letter-spacing:-.3px}
 .wl-info{flex:1;min-width:0}
 .wl-name{font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--fd)}
 .wl-meta{font-size:10px;color:var(--t3);display:flex;align-items:center;gap:4px;margin-top:1px}
@@ -386,7 +387,6 @@ const PLAYER_LOOKUP = [
   {name:'Kyle Pitts',team:'ATL',pos:'TE'},{name:'Sam LaPorta',team:'DET',pos:'TE'},
   {name:'Patrick Mahomes',team:'KC',pos:'QB'},{name:'Caleb Williams',team:'CHI',pos:'QB'},
   {name:'Sam Darnold',team:'SEA',pos:'QB'},{name:'Dak Prescott',team:'DAL',pos:'QB'},
-  {name:'Matthew Stafford',team:'LAR',pos:'QB'},
   {name:'Kyler Murray',team:'MIN',pos:'QB'},{name:'Jake Ferguson',team:'DAL',pos:'TE'},
   {name:'Harold Fannin Jr.',team:'CLE',pos:'TE'},{name:'RJ Harvey',team:'DEN',pos:'RB'},
   {name:'Chuba Hubbard',team:'CAR',pos:'RB'},{name:'Tony Pollard',team:'TEN',pos:'RB'},
@@ -394,14 +394,42 @@ const PLAYER_LOOKUP = [
   {name:'TreVeyon Henderson',team:'NE',pos:'RB'},{name:'Carnell Tate',team:'TEN',pos:'WR'},
   {name:'Jadarian Price',team:'SEA',pos:'RB'},{name:'Jaylen Warren',team:'PIT',pos:'RB'},
   {name:'Jaxson Dart',team:'NYG',pos:'QB'},{name:'Najee Harris',team:'LAC',pos:'RB'},
+  // ── DST ──
+  {name:'Arizona Cardinals DST',team:'ARI',pos:'DST'},{name:'Atlanta Falcons DST',team:'ATL',pos:'DST'},
+  {name:'Baltimore Ravens DST',team:'BAL',pos:'DST'},{name:'Buffalo Bills DST',team:'BUF',pos:'DST'},
+  {name:'Carolina Panthers DST',team:'CAR',pos:'DST'},{name:'Chicago Bears DST',team:'CHI',pos:'DST'},
+  {name:'Cincinnati Bengals DST',team:'CIN',pos:'DST'},{name:'Cleveland Browns DST',team:'CLE',pos:'DST'},
+  {name:'Dallas Cowboys DST',team:'DAL',pos:'DST'},{name:'Denver Broncos DST',team:'DEN',pos:'DST'},
+  {name:'Detroit Lions DST',team:'DET',pos:'DST'},{name:'Green Bay Packers DST',team:'GB',pos:'DST'},
+  {name:'Houston Texans DST',team:'HOU',pos:'DST'},{name:'Indianapolis Colts DST',team:'IND',pos:'DST'},
+  {name:'Jacksonville Jaguars DST',team:'JAC',pos:'DST'},{name:'Kansas City Chiefs DST',team:'KC',pos:'DST'},
+  {name:'Las Vegas Raiders DST',team:'LV',pos:'DST'},{name:'Los Angeles Chargers DST',team:'LAC',pos:'DST'},
+  {name:'Los Angeles Rams DST',team:'LAR',pos:'DST'},{name:'Miami Dolphins DST',team:'MIA',pos:'DST'},
+  {name:'Minnesota Vikings DST',team:'MIN',pos:'DST'},{name:'New England Patriots DST',team:'NE',pos:'DST'},
+  {name:'New Orleans Saints DST',team:'NO',pos:'DST'},{name:'New York Giants DST',team:'NYG',pos:'DST'},
+  {name:'New York Jets DST',team:'NYJ',pos:'DST'},{name:'Philadelphia Eagles DST',team:'PHI',pos:'DST'},
+  {name:'Pittsburgh Steelers DST',team:'PIT',pos:'DST'},{name:'San Francisco 49ers DST',team:'SF',pos:'DST'},
+  {name:'Seattle Seahawks DST',team:'SEA',pos:'DST'},{name:'Tampa Bay Buccaneers DST',team:'TB',pos:'DST'},
+  {name:'Tennessee Titans DST',team:'TEN',pos:'DST'},{name:'Washington Commanders DST',team:'WAS',pos:'DST'},
 ];
 
 function resolveFromLookup(input) {
   const q = input.toLowerCase().trim();
+  // Exact match first
   let match = PLAYER_LOOKUP.find(p => p.name.toLowerCase() === q);
   if (match) return match;
+  // Last name match
   match = PLAYER_LOOKUP.find(p => p.name.toLowerCase().split(' ').pop() === q);
   if (match) return match;
+  // DST: match by city, nickname, or abbreviation e.g. "seahawks", "sea", "seattle"
+  match = PLAYER_LOOKUP.find(p => {
+    if (p.pos !== 'DST') return false;
+    const nameLower = p.name.toLowerCase();
+    return nameLower.includes(q) || p.team.toLowerCase() === q ||
+      nameLower.split(' ').some(w => w.startsWith(q) && q.length >= 3);
+  });
+  if (match) return match;
+  // Partial match for skill players
   match = PLAYER_LOOKUP.find(p => p.name.toLowerCase().includes(q) || q.includes(p.name.toLowerCase().split(' ').pop()));
   return match || null;
 }
@@ -413,11 +441,13 @@ function posClass(pos) {
   if (p.startsWith('RB')) return 'rb';
   if (p.startsWith('WR')) return 'wr';
   if (p.startsWith('TE')) return 'te';
+  if (p === 'DST' || p === 'DEF') return 'def';
   return 'k';
 }
 
-function posInitials(name) {
+function posInitials(name, pos) {
   if (!name) return '?';
+  if (pos === 'DST' || pos === 'DEF') return 'DST';
   const parts = name.trim().split(' ');
   if (parts.length >= 2) return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
   return name.slice(0,2).toUpperCase();
@@ -434,7 +464,7 @@ function renderWatchlist() {
   }
   panel.innerHTML = WATCHLIST.map((p, i) => `
     <div class="wl-tile" onclick="openPlayerPanel(${i})" onmouseenter="showWLPopup(event,${i})" onmousemove="moveWLPopup(event)" onmouseleave="hideWLPopup()">
-      <div class="wl-init ${posClass(p.pos)}">${posInitials(p.name)}</div>
+      <div class="wl-init ${posClass(p.pos)}">${posInitials(p.name, p.pos)}</div>
       <div class="wl-info">
         <div class="wl-name">${p.name}</div>
         <div class="wl-meta">
@@ -531,7 +561,7 @@ async function openPlayerPanel(idx) {
   ACTIVE_PLAYER = { ...player, idx };
 
   const initEl = document.getElementById('ppInit');
-  initEl.textContent = posInitials(player.name);
+  initEl.textContent = posInitials(player.name, player.pos);
   initEl.className = `pp-init ${posClass(player.pos)}`;
   document.getElementById('ppName').textContent = player.name;
   document.getElementById('ppMeta').textContent = `${player.pos||'?'}${player.team?' · '+player.team:''}`;
@@ -1099,7 +1129,19 @@ function renderProfile() {
   document.getElementById('userInitials').textContent = (n.split(' ').map(w=>w[0]).join('').toUpperCase()).slice(0,2);
   if (!CONTEXT) return;
   document.getElementById('leagueContext').innerHTML = (CONTEXT.league||[]).map(l=>`<div class="mem-item"><div class="mem-dot"></div>${l}</div>`).join('');
-  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>`<div class="hist-item" onclick="loadHistorySession(0, '${h.text.replace(/'/g,"\\'")}')"><span class="hist-week" style="color:var(--ac);flex-shrink:0">${h.week}</span><span style="flex:1;color:var(--t1);cursor:pointer">${h.text}</span></div>`).join('');
+  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>{
+    const dt = h.created_at ? new Date(h.created_at) : null;
+    const timeStr = dt ? dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' · ' + dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : '';
+    return `<div class="hist-item" onclick="loadHistorySession(0, '${h.text.replace(/'/g,"\\'")}')">
+      <div style="display:flex;flex-direction:column;flex:1;min-width:0;gap:2px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="hist-week" style="color:var(--ac);flex-shrink:0">${h.week}</span>
+          <span style="flex:1;color:var(--t1)">${h.text}</span>
+        </div>
+        ${timeStr ? `<span style="font-size:9px;color:var(--t3);padding-left:2px">${timeStr}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderCtxBar() {
@@ -1147,6 +1189,57 @@ function formatResponse(text) {
   return html;
 }
 
+/* ── LIVE DATA CONTEXT FOR AI OC PROMPT ── */
+async function fetchLiveContext(question) {
+  const context = { odds: [], weather: null, projections: [] };
+  
+  try {
+    // Always fetch current odds for game context
+    const oddsRes = await fetch(`${API}/api/odds`);
+    const oddsData = await oddsRes.json();
+    if (oddsData.ok && oddsData.games) {
+      // Filter to games with meaningful totals
+      context.odds = oddsData.games
+        .filter(g => g.totalLine)
+        .map(g => `${g.away}@${g.home}: total ${g.totalLine}, spread ${g.homeSpread > 0 ? '+' : ''}${g.homeSpread} ${g.home}`)
+        .slice(0, 8);
+    }
+  } catch(e) {}
+
+  try {
+    // Fetch projections for current week
+    const projRes = await fetch(`${API}/api/projections?week=${CONTEXT?.week || 1}`);
+    const projData = await projRes.json();
+    if (projData.ok && projData.projections) {
+      // Match players mentioned in question or on watchlist
+      const qLower = question.toLowerCase();
+      const relevant = projData.projections.filter(p => {
+        const nameLower = (p.name || '').toLowerCase();
+        const onWatchlist = WATCHLIST.some(w => w.name.toLowerCase() === nameLower);
+        const inQuestion = qLower.includes(nameLower.split(' ').pop());
+        return onWatchlist || inQuestion;
+      }).slice(0, 6);
+      context.projections = relevant.map(p =>
+        `${p.name} (${p.pos}): ${p.fantasyPts ? p.fantasyPts + ' proj pts' : 'no projection'}`
+      );
+    }
+  } catch(e) {}
+
+  try {
+    // Weather — only active in-season, dormant returns fast
+    const weatherRes = await fetch(`${API}/api/weather?city=Buffalo&state=NY`);
+    const weatherData = await weatherRes.json();
+    if (weatherData.ok && weatherData.weather && !weatherData.dormant) {
+      const w = weatherData.weather;
+      if (w.highWind || w.rain || w.snow) {
+        context.weather = `Weather alert: ${w.city} — ${w.windSpeed}mph wind${w.rain ? ', rain' : ''}${w.snow ? ', snow' : ''}. High wind impacts passing games.`;
+      }
+    }
+  } catch(e) {}
+
+  return context;
+}
+
 async function sendMessage() {
   if (WAITING) return;
   const box = document.getElementById('inputBox');
@@ -1168,6 +1261,16 @@ async function sendMessage() {
     ? `User's Watchlist: ${WATCHLIST.map(p=>`${p.name} (${p.pos})`).join(', ')}`
     : 'Watchlist empty — first session';
 
+  // Fetch live data context — non-blocking, enriches AI OC calls
+  const liveCtx = await fetchLiveContext(q);
+  const oddsContext = liveCtx.odds.length
+    ? `LIVE VEGAS ODDS THIS WEEK:\n${liveCtx.odds.join('\n')}`
+    : 'Vegas odds: offseason / not yet available';
+  const projContext = liveCtx.projections.length
+    ? `WEEKLY PROJECTIONS:\n${liveCtx.projections.join('\n')}`
+    : '';
+  const weatherContext = liveCtx.weather || '';
+
   const systemPrompt = `You are the GFDHub AI Offensive Coordinator — the sharpest, most confident fantasy football analyst available. You make data-backed lineup decisions and always give ONE clear recommendation.
 
 ${window._DATE_CTX || getSeasonContext()}
@@ -1176,6 +1279,15 @@ USER'S LEAGUE PROFILE:
 - Scoring: ${CONTEXT?.scoring||'PPR'}, Platform: ${CONTEXT?.platform||'Yahoo'}, Week ${CONTEXT?.week||1}
 - ${wlContext}
 - History: ${(CONTEXT?.history||[]).map(h=>`${h.week}: ${h.text}`).join(' | ')||'First session'}
+
+LIVE DATA — USE THIS IN YOUR ANALYSIS:
+${oddsContext}
+${projContext ? projContext : ''}
+${weatherContext ? weatherContext : ''}
+
+When Vegas totals are available: cite them. High totals (48+) = good passing game environments. Low totals (under 42) = grind-it-out games, run-heavy, lower ceilings for WRs/QBs. Spreads matter for DST — big favorites get more opportunities.
+When projections are available: reference them by name. "Projected for X pts" is a concrete data point.
+When weather flags are active: always mention wind/rain impact on the relevant players.
 
 TIER 1 AUTO-START LIST — If a player below is healthy and active, ALWAYS recommend starting them. Never hedge, never say "it depends", never cite matchup concerns. The only exception is confirmed Out/IR status.
 QB AUTO-STARTS: Josh Allen, Lamar Jackson, Drake Maye, Joe Burrow, Jayden Daniels, Jalen Hurts
