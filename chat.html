@@ -569,7 +569,8 @@ async function openPlayerPanel(idx) {
 
     const playerID = searchData.players?.[0]?.playerID;
     if (!playerID) {
-      document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Season stats available from Week 1 — Sept 9, 2026.</div>`;
+      // Offseason: show bio + rank + AI OC Take
+      await renderOffseasonPanel(player);
       return;
     }
 
@@ -578,6 +579,112 @@ async function openPlayerPanel(idx) {
     renderPlayerPanel(usageData, injuryMatch);
   } catch(e) {
     document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Couldn't load data right now.</div>`;
+  }
+}
+
+/* ── PLAYER RANKINGS LOOKUP ── */
+function getPlayerRankInfo(name) {
+  const rankings = [
+    {name:'Bijan Robinson',rank:1,tier:'ELITE ANCHOR',bye:11},
+    {name:'Jahmyr Gibbs',rank:2,tier:'ELITE ANCHOR',bye:6},
+    {name:"Ja'Marr Chase",rank:3,tier:'ELITE ANCHOR',bye:6},
+    {name:'Puka Nacua',rank:4,tier:'ELITE ANCHOR',bye:11},
+    {name:'Jaxon Smith-Njigba',rank:5,tier:'ELITE ANCHOR',bye:11},
+    {name:'Amon-Ra St. Brown',rank:6,tier:'TOP 10',bye:6},
+    {name:'Christian McCaffrey',rank:7,tier:'TOP 10',bye:8},
+    {name:'CeeDee Lamb',rank:8,tier:'TOP 10',bye:14},
+    {name:'Jonathan Taylor',rank:9,tier:'TOP 10',bye:13},
+    {name:'Justin Jefferson',rank:10,tier:'TOP 10',bye:6},
+    {name:'James Cook III',rank:11,tier:'TOP 15',bye:7},
+    {name:'Drake London',rank:12,tier:'TOP 15',bye:11},
+    {name:'Ashton Jeanty',rank:13,tier:'TOP 15 ROOKIE',bye:13},
+    {name:"De'Von Achane",rank:14,tier:'TOP 15',bye:6},
+    {name:'Nico Collins',rank:15,tier:'TOP 15',bye:8},
+    {name:'Chase Brown',rank:16,tier:'TOP 20',bye:6},
+    {name:'Brock Bowers',rank:17,tier:'PREMIUM TE',bye:13},
+    {name:'Saquon Barkley',rank:18,tier:'TOP 20',bye:10},
+    {name:'George Pickens',rank:19,tier:'TOP 20',bye:14},
+    {name:'Trey McBride',rank:20,tier:'PREMIUM TE',bye:14},
+    {name:'A.J. Brown',rank:21,tier:'TOP 25',bye:11},
+    {name:'Omarion Hampton',rank:22,tier:'TOP 25 ROOKIE',bye:7},
+    {name:'Chris Olave',rank:23,tier:'TOP 25',bye:8},
+    {name:'Derrick Henry',rank:24,tier:'TOP 25',bye:13},
+    {name:'Kenneth Walker III',rank:25,tier:'TOP 25',bye:5},
+    {name:'Josh Allen',rank:26,tier:'TOP QB',bye:7},
+    {name:'Lamar Jackson',rank:33,tier:'TOP QB',bye:13},
+    {name:'Drake Maye',rank:34,tier:'TOP QB',bye:11},
+    {name:'Travis Hunter',rank:72,tier:'⚠️ TWO-WAY ROOKIE',bye:12},
+  ];
+  const q = name.toLowerCase();
+  return rankings.find(r => r.name.toLowerCase() === q ||
+    r.name.toLowerCase().includes(q.split(' ').pop())) || null;
+}
+
+async function renderOffseasonPanel(player) {
+  const rankInfo = getPlayerRankInfo(player.name);
+
+  // Build bio section immediately
+  let html = '';
+
+  // Rank + tier badge
+  if (rankInfo) {
+    const tierColor = rankInfo.tier.includes('ELITE') ? 'var(--ac)' :
+                      rankInfo.tier.includes('ROOKIE') ? 'var(--amb)' :
+                      rankInfo.tier.includes('TE') ? 'var(--pur)' :
+                      rankInfo.tier.includes('QB') ? 'var(--qb)' : 'var(--blu)';
+    html += `<div class="pp-section">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="text-align:center;background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:10px 14px;min-width:60px">
+          <div style="font-family:var(--fd);font-size:28px;font-weight:900;color:var(--ac);line-height:1;letter-spacing:-1px">#${rankInfo.rank}</div>
+          <div style="font-size:9px;color:var(--t3);font-family:var(--fd);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:3px">ECR 2026</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:800;color:${tierColor};font-family:var(--fd);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px">${rankInfo.tier}</div>
+          <div style="font-size:12px;color:var(--t2)">Bye Week <strong style="color:var(--t1);font-family:var(--fd)">${rankInfo.bye}</strong></div>
+          <div style="font-size:11px;color:var(--t3);margin-top:2px">FantasyPros Half-PPR ECR</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Season stats coming soon
+  html += `<div class="pp-section">
+    <div class="pp-section-label">2026 Season Stats</div>
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:9px;padding:14px;text-align:center">
+      <div style="font-size:12px;color:var(--t2);line-height:1.6">Live stats available from<br><strong style="color:var(--t1);font-family:var(--fd)">Week 1 — Sept 9, 2026</strong></div>
+    </div>
+  </div>`;
+
+  // AI OC Take — loading state first
+  html += `<div class="pp-section" id="aiTakeSection">
+    <div class="pp-section-label">AI OC 2026 Take</div>
+    <div style="background:var(--ac2);border:1px solid rgba(0,229,160,.2);border-radius:9px;padding:14px" id="aiTakeContent">
+      <div class="pp-loading"><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div></div>
+    </div>
+  </div>`;
+
+  document.getElementById('ppBody').innerHTML = html;
+
+  // Fire AI OC Take call
+  try {
+    const pos = player.pos || '?';
+    const team = player.team || '?';
+    const rankStr = rankInfo ? `He is ranked #${rankInfo.rank} overall in 2026 Half-PPR ECR.` : '';
+    const prompt = `You are the GFDHub AI Offensive Coordinator. Give a sharp 2-sentence 2026 fantasy football outlook for ${player.name} (${pos}, ${team}). ${rankStr} Be specific about what makes them a must-draft, value, or risk. No hedging — make the call. Start directly with the player analysis, no preamble.`;
+
+    const res = await fetch('https://api.gfdhub.com/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: prompt,
+        messages: [{ role: 'user', content: `2026 fantasy outlook for ${player.name}` }]
+      })
+    });
+    const data = await res.json();
+    const take = data.answer || 'Check back for the AI OC take on this player.';
+    document.getElementById('aiTakeContent').innerHTML = `<div style="font-size:13px;color:var(--t1);line-height:1.65">${take}</div>`;
+  } catch(e) {
+    document.getElementById('aiTakeContent').innerHTML = `<div style="font-size:12px;color:var(--t3)">AI OC take unavailable right now.</div>`;
   }
 }
 
