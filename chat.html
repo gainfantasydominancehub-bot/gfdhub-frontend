@@ -876,7 +876,7 @@ function askAboutPlayer() {
   if (!ACTIVE_PLAYER) return;
   closePlayerPanel();
   document.getElementById('inputBox').value = `Tell me about ${ACTIVE_PLAYER.name} for the 2026 season`;
-  document.getElementById('inputBox').focus();
+  setTimeout(() => sendMessage(), 100);
 }
 
 function toggleDrawer() {
