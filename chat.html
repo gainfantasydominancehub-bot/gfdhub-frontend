@@ -386,6 +386,7 @@ const PLAYER_LOOKUP = [
   {name:'Kyle Pitts',team:'ATL',pos:'TE'},{name:'Sam LaPorta',team:'DET',pos:'TE'},
   {name:'Patrick Mahomes',team:'KC',pos:'QB'},{name:'Caleb Williams',team:'CHI',pos:'QB'},
   {name:'Sam Darnold',team:'SEA',pos:'QB'},{name:'Dak Prescott',team:'DAL',pos:'QB'},
+  {name:'Matthew Stafford',team:'LAR',pos:'QB'},
   {name:'Kyler Murray',team:'MIN',pos:'QB'},{name:'Jake Ferguson',team:'DAL',pos:'TE'},
   {name:'Harold Fannin Jr.',team:'CLE',pos:'TE'},{name:'RJ Harvey',team:'DEN',pos:'RB'},
   {name:'Chuba Hubbard',team:'CAR',pos:'RB'},{name:'Tony Pollard',team:'TEN',pos:'RB'},
@@ -874,8 +875,9 @@ function closePlayerPanel() {
 
 function askAboutPlayer() {
   if (!ACTIVE_PLAYER) return;
+  const playerName = ACTIVE_PLAYER.name;
   closePlayerPanel();
-  document.getElementById('inputBox').value = `Tell me about ${ACTIVE_PLAYER.name} for the 2026 season`;
+  document.getElementById('inputBox').value = `Tell me about ${playerName} for the 2026 season`;
   setTimeout(() => sendMessage(), 300);
 }
 
