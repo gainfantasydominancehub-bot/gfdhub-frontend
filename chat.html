@@ -597,9 +597,7 @@ async function openPlayerPanel(idx) {
 
     const playerID = searchData.players?.[0]?.playerID;
     if (!playerID) {
-      // No usage data yet — show offseason panel with rank + AI OC take
       await renderOffseasonPanel(player);
-      return;
       return;
     }
 
@@ -607,7 +605,13 @@ async function openPlayerPanel(idx) {
     const usageData = await usageRes.json();
     renderPlayerPanel(usageData, injuryMatch);
   } catch(e) {
-    document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Couldn't load data right now.</div>`;
+    console.error('openPlayerPanel error:', e.message);
+    // Fall back to offseason panel rather than showing error
+    try {
+      await renderOffseasonPanel(ACTIVE_PLAYER || player);
+    } catch(e2) {
+      document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Couldn't load data right now.</div>`;
+    }
   }
 }
 
