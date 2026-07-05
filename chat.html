@@ -597,7 +597,9 @@ async function openPlayerPanel(idx) {
 
     const playerID = searchData.players?.[0]?.playerID;
     if (!playerID) {
-      document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">No usage data available for this player yet.</div>`;
+      // No usage data yet — show offseason panel with rank + AI OC take
+      await renderOffseasonPanel(player);
+      return;
       return;
     }
 
@@ -613,6 +615,13 @@ function renderPlayerPanel(data, injury) {
   const s = data.summary || {};
   const games = data.games || [];
   const pos = (ACTIVE_PLAYER?.pos||'').toUpperCase();
+
+  // No in-season data yet — fall back to offseason panel
+  if (!games.length) {
+    renderOffseasonPanel(ACTIVE_PLAYER);
+    return;
+  }
+
   const isRB = pos.startsWith('RB');
   const isWR = pos.startsWith('WR');
   const isTE = pos.startsWith('TE');
