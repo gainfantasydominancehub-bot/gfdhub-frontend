@@ -19,6 +19,8 @@
   --qb:#ffb347;--rb:#00e5a0;--wr:#4da6ff;--te:#b47aff;--k:#6e7a94;
 }
 body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── TOPBAR ── */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:var(--topbar-h);background:var(--s1);border-bottom:1px solid var(--b1);flex-shrink:0;gap:8px}
 .tb-left{display:flex;align-items:center;gap:10px;min-width:0}
 .logo{font-family:var(--fd);font-weight:900;font-size:18px;letter-spacing:-.5px;color:var(--t1);text-decoration:none;flex-shrink:0}
@@ -33,12 +35,16 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .season-badge{font-size:10px;font-weight:700;color:var(--amb);background:rgba(255,179,71,.1);border:1px solid rgba(255,179,71,.2);padding:3px 10px;border-radius:20px;font-family:var(--fd);white-space:nowrap}
 .nav-link{font-size:13px;color:var(--t2);text-decoration:none;transition:color .12s;padding:4px 10px;border-radius:6px;white-space:nowrap}
 .nav-link:hover{color:var(--t1);background:var(--s2)}
-.hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:36px;height:36px;background:var(--s2);border:1px solid var(--b1);border-radius:8px;cursor:pointer;padding:0;flex-shrink:0;-webkit-appearance:none;appearance:none}
-.hamburger span{display:block;width:18px;height:2px;background:var(--t1);border-radius:2px;transition:all .2s;flex-shrink:0}
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:4px;width:36px;height:36px;background:var(--s2);border:1px solid var(--b1);border-radius:8px;cursor:pointer;padding:8px;flex-shrink:0}
+.hamburger span{display:block;height:2px;background:var(--t2);border-radius:1px;transition:all .2s}
 .hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* ── MAIN LAYOUT ── */
 .main{display:flex;flex:1;overflow:hidden;position:relative}
+
+/* ── LEFT SIDEBAR ── */
 .lsb{width:224px;background:var(--s1);border-right:1px solid var(--b1);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;transition:transform .25s ease}
 .lsb-head{padding:16px 16px 10px;border-bottom:1px solid var(--b1)}
 .lsb-title{font-family:var(--fd);font-size:10.5px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;color:var(--t3)}
@@ -46,9 +52,11 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .mem-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:7px;font-family:var(--fd)}
 .mem-item{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:5px;font-size:11.5px;color:var(--t2);margin-bottom:2px}
 .mem-dot{width:5px;height:5px;border-radius:50%;background:var(--ac);flex-shrink:0}
-.hist-item{display:flex;align-items:flex-start;gap:6px;padding:6px 8px;border-radius:6px;font-size:11px;color:var(--t1);margin-bottom:3px;cursor:pointer;transition:all .12s;line-height:1.4;border:1px solid transparent}
-.hist-item:hover{background:var(--s2);border-color:var(--b1)}
+.hist-item{display:flex;align-items:flex-start;gap:6px;padding:5px 6px;border-radius:5px;font-size:11px;color:var(--t2);margin-bottom:2px;cursor:pointer;transition:background .12s;line-height:1.4}
+.hist-item:hover{background:var(--s2)}
 .hist-week{color:var(--t3);font-size:9.5px;flex-shrink:0;margin-top:1px;font-family:var(--fd);font-weight:700}
+
+/* ── WATCHLIST ── */
 .watchlist-empty{font-size:11px;color:var(--t3);padding:6px;line-height:1.5;font-style:italic}
 .wl-tile{display:flex;align-items:center;gap:8px;padding:6px;border-radius:7px;cursor:pointer;transition:background .12s;margin-bottom:3px;position:relative}
 .wl-tile:hover{background:var(--s2)}
@@ -59,8 +67,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .wl-init.rb{background:rgba(0,229,160,.1);color:var(--rb);border:1px solid rgba(0,229,160,.2)}
 .wl-init.wr{background:rgba(77,166,255,.1);color:var(--wr);border:1px solid rgba(77,166,255,.2)}
 .wl-init.te{background:rgba(180,122,255,.1);color:var(--te);border:1px solid rgba(180,122,255,.2)}
-.wl-init.k{background:var(--s3);color:var(--t2);border:1px solid var(--b1)}
-.wl-init.def{background:rgba(77,166,255,.08);color:var(--blu);border:1px solid rgba(77,166,255,.2);font-size:8px;font-weight:900;letter-spacing:-.3px}
+.wl-init.k,.wl-init.def{background:var(--s3);color:var(--t2);border:1px solid var(--b1)}
 .wl-info{flex:1;min-width:0}
 .wl-name{font-size:12px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--fd)}
 .wl-meta{font-size:10px;color:var(--t3);display:flex;align-items:center;gap:4px;margin-top:1px}
@@ -71,9 +78,12 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .wl-remove{opacity:0;width:16px;height:16px;border-radius:50%;background:var(--s3);border:1px solid var(--b1);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity .15s;font-size:9px;color:var(--t3)}
 .wl-tile:hover .wl-remove{opacity:1}
 .wl-remove:hover{background:rgba(255,77,106,.15);border-color:var(--red);color:var(--red)}
+
 .lsb-footer{padding:12px;margin-top:auto}
 .clear-btn{padding:7px;background:var(--s2);border:1px solid var(--b1);border-radius:7px;font-size:11.5px;color:var(--t3);cursor:pointer;font-family:var(--fb);text-align:center;transition:all .12s;width:100%}
 .clear-btn:hover{border-color:var(--b2);color:var(--t2)}
+
+/* ── CHAT ── */
 .chat-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .messages{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin;scrollbar-color:var(--s3) transparent}
 .msg{display:flex;gap:9px;align-items:flex-start;animation:msgIn .2s ease both}
@@ -88,6 +98,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .bubble.oc{background:var(--s2);border:1px solid var(--b1);color:var(--t1);border-radius:10px 10px 10px 2px}
 .bubble.user{background:var(--ac2);border:1px solid rgba(0,229,160,.2);color:var(--t1);border-radius:10px 10px 2px 10px}
 .bubble b{color:var(--ac);font-weight:700}
+/* Clickable player names in OC bubbles */
 .player-link{color:var(--ac);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;font-weight:600;transition:opacity .12s}
 .player-link:hover{opacity:.75}
 .call-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:12px;font-family:var(--fd);margin:2px 0 6px}
@@ -96,6 +107,8 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .call-add{background:var(--amb);color:#041a0f}
 .call-drop{background:var(--s3);color:var(--red);border:1px solid var(--red)}
 .msg-time{font-size:10px;color:var(--t3)}
+
+/* ── TYPING ── */
 .typing{display:none;align-items:center;gap:9px;padding:0 16px 8px}
 .typing.show{display:flex}
 .typing-ava{width:32px;height:32px;border-radius:50%;background:var(--ac2);border:1px solid rgba(0,229,160,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ac);font-family:var(--fd);flex-shrink:0}
@@ -104,6 +117,8 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .dot:nth-child(2){animation-delay:.15s}
 .dot:nth-child(3){animation-delay:.3s}
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px);background:var(--ac)}}
+
+/* ── INPUT BAR ── */
 .input-bar{padding:10px 14px 12px;background:var(--s1);border-top:1px solid var(--b1);flex-shrink:0}
 .ctx-bar{display:flex;align-items:center;gap:8px;padding:0 0 8px;font-size:11px;color:var(--t3);flex-wrap:wrap}
 .ctx-item{display:flex;align-items:center;gap:4px}
@@ -121,6 +136,8 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .send-btn svg{width:18px;height:18px;fill:none;stroke:#041a0f;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .send-btn:disabled{background:var(--s3);cursor:not-allowed;transform:none;box-shadow:none}
 .send-btn:disabled svg{stroke:var(--t3)}
+
+/* ── PLAYER PANEL ── */
 .player-panel{position:fixed;top:0;right:0;bottom:0;width:320px;background:var(--s1);border-left:1px solid var(--b1);z-index:60;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;overflow:hidden}
 .player-panel.open{transform:translateX(0)}
 .pp-header{padding:16px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:12px;flex-shrink:0}
@@ -153,12 +170,17 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .pp-ask-btn:hover{background:#00ffb0;transform:translateY(-1px)}
 .pp-ask-btn svg{width:14px;height:14px;fill:none;stroke:#041a0f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .pp-footer{padding:14px 16px;border-top:1px solid var(--b1);flex-shrink:0}
+
+/* ── OVERLAYS ── */
 .drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;backdrop-filter:blur(2px)}
 .drawer-overlay.show{display:block}
 .panel-overlay{display:none;position:fixed;inset:0;z-index:55}
 .panel-overlay.show{display:block}
+
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+
+/* ── WATCHLIST HOVER POPUP ── */
 .wl-popup{position:fixed;z-index:500;background:var(--s1);border:1px solid rgba(0,229,160,.3);border-radius:12px;padding:14px 16px;min-width:200px;max-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 24px rgba(0,229,160,.08);pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .15s,transform .15s}
 .wl-popup.show{opacity:1;transform:translateY(0)}
 .wl-popup-pos{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-size:9px;font-weight:800;font-family:var(--fd);margin-right:8px;flex-shrink:0}
@@ -174,6 +196,8 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .wl-popup-status.q{background:rgba(255,179,71,.1);color:#ffb347;border:1px solid rgba(255,179,71,.2)}
 .wl-popup-status.ir{background:rgba(255,77,106,.1);color:#ff4d6a;border:1px solid rgba(255,77,106,.2)}
 .wl-popup-cta{font-size:10px;color:var(--ac);font-family:var(--fd);font-weight:700;letter-spacing:.3px}
+
+/* ══ MOBILE ≤ 640px ══ */
 @media(max-width:640px){
   .topbar{padding:0 12px}
   .oc-badge{font-size:9px;padding:3px 8px;letter-spacing:.5px}
@@ -263,7 +287,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
       <div id="watchlistPanel"></div>
     </div>
     <div class="mem-section">
-      <div class="mem-label" style="color:var(--t2)">All AI OC Conversations</div>
+      <div class="mem-label">Recent questions</div>
       <div id="historyContext"></div>
     </div>
     <div class="lsb-footer">
@@ -296,6 +320,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
   </div>
 </div>
 
+<!-- PLAYER PANEL -->
 <div class="player-panel" id="playerPanel">
   <div class="pp-header">
     <div class="pp-init" id="ppInit"></div>
@@ -328,8 +353,11 @@ let WAITING = false;
 let WATCHLIST = [];
 let ACTIVE_PLAYER = null;
 
+/* ── KNOWN NFL PLAYER NAMES (for response parsing) ── */
+// Common first+last name patterns — expanded list of recognizable names
 const NFL_FIRST_NAMES = new Set(['Josh','Patrick','Lamar','Joe','Justin','Dak','Jalen','Tua','Trevor','Brock','Baker','Kirk','Jordan','Derek','Sam','Geno','Kenny','Deshaun','Russell','Mac','Jimmy','Daniel','Matthew','Ryan','Aaron','Tom','Kyler','Tyler','Jared','Carson','Davis','Caleb','Drake','Bo','CeeDee','Davante','Tyreek','Stefon','Justin','Cooper','Deebo','Michael','Keenan','Chris','Amari','DK','Tee','Gabe','Tank','Puka','Amon-Ra','Jaylen','Rashee','Xavier','Zay','Courtland','Quentin','Marvin','Malik','Jaylen','Rome','Saquon','Christian','Derrick','Nick','Tony','Najee','Jonathan','Dalvin','Alvin','Cam','Josh','De\'Von','Rhamondre','Isiah','Zack','Miles','Travis','Mark','Sam','Dawson','Cole','Dallas','Evan','Jake','T.J.','Micah','Nick','Myles','Maxx','Aidan','Will','Joey','Sauce','Jaire','Stephon','Darius','Tariq','Sauce','Trevon','Sauce']);
 
+/* ── PLAYER LOOKUP TABLE (from Top 300 ECR rankings) ── */
 const PLAYER_LOOKUP = [
   {name:'Bijan Robinson',team:'ATL',pos:'RB'},{name:'Jahmyr Gibbs',team:'DET',pos:'RB'},
   {name:"Ja'Marr Chase",team:'CIN',pos:'WR'},{name:'Puka Nacua',team:'LAR',pos:'WR'},
@@ -394,25 +422,9 @@ const PLAYER_LOOKUP = [
   {name:'TreVeyon Henderson',team:'NE',pos:'RB'},{name:'Carnell Tate',team:'TEN',pos:'WR'},
   {name:'Jadarian Price',team:'SEA',pos:'RB'},{name:'Jaylen Warren',team:'PIT',pos:'RB'},
   {name:'Jaxson Dart',team:'NYG',pos:'QB'},{name:'Najee Harris',team:'LAC',pos:'RB'},
-  // ── DST ──
-  {name:'Arizona Cardinals DST',team:'ARI',pos:'DST'},{name:'Atlanta Falcons DST',team:'ATL',pos:'DST'},
-  {name:'Baltimore Ravens DST',team:'BAL',pos:'DST'},{name:'Buffalo Bills DST',team:'BUF',pos:'DST'},
-  {name:'Carolina Panthers DST',team:'CAR',pos:'DST'},{name:'Chicago Bears DST',team:'CHI',pos:'DST'},
-  {name:'Cincinnati Bengals DST',team:'CIN',pos:'DST'},{name:'Cleveland Browns DST',team:'CLE',pos:'DST'},
-  {name:'Dallas Cowboys DST',team:'DAL',pos:'DST'},{name:'Denver Broncos DST',team:'DEN',pos:'DST'},
-  {name:'Detroit Lions DST',team:'DET',pos:'DST'},{name:'Green Bay Packers DST',team:'GB',pos:'DST'},
-  {name:'Houston Texans DST',team:'HOU',pos:'DST'},{name:'Indianapolis Colts DST',team:'IND',pos:'DST'},
-  {name:'Jacksonville Jaguars DST',team:'JAC',pos:'DST'},{name:'Kansas City Chiefs DST',team:'KC',pos:'DST'},
-  {name:'Las Vegas Raiders DST',team:'LV',pos:'DST'},{name:'Los Angeles Chargers DST',team:'LAC',pos:'DST'},
-  {name:'Los Angeles Rams DST',team:'LAR',pos:'DST'},{name:'Miami Dolphins DST',team:'MIA',pos:'DST'},
-  {name:'Minnesota Vikings DST',team:'MIN',pos:'DST'},{name:'New England Patriots DST',team:'NE',pos:'DST'},
-  {name:'New Orleans Saints DST',team:'NO',pos:'DST'},{name:'New York Giants DST',team:'NYG',pos:'DST'},
-  {name:'New York Jets DST',team:'NYJ',pos:'DST'},{name:'Philadelphia Eagles DST',team:'PHI',pos:'DST'},
-  {name:'Pittsburgh Steelers DST',team:'PIT',pos:'DST'},{name:'San Francisco 49ers DST',team:'SF',pos:'DST'},
-  {name:'Seattle Seahawks DST',team:'SEA',pos:'DST'},{name:'Tampa Bay Buccaneers DST',team:'TB',pos:'DST'},
-  {name:'Tennessee Titans DST',team:'TEN',pos:'DST'},{name:'Washington Commanders DST',team:'WAS',pos:'DST'},
 ];
 
+/* ── RESOLVE PLAYER FROM LOOKUP TABLE ── */
 function resolveFromLookup(input) {
   const q = input.toLowerCase().trim();
   // Exact match first
@@ -421,19 +433,12 @@ function resolveFromLookup(input) {
   // Last name match
   match = PLAYER_LOOKUP.find(p => p.name.toLowerCase().split(' ').pop() === q);
   if (match) return match;
-  // DST: match by city, nickname, or abbreviation e.g. "seahawks", "sea", "seattle"
-  match = PLAYER_LOOKUP.find(p => {
-    if (p.pos !== 'DST') return false;
-    const nameLower = p.name.toLowerCase();
-    return nameLower.includes(q) || p.team.toLowerCase() === q ||
-      nameLower.split(' ').some(w => w.startsWith(q) && q.length >= 3);
-  });
-  if (match) return match;
-  // Partial match for skill players
+  // Partial match (contains)
   match = PLAYER_LOOKUP.find(p => p.name.toLowerCase().includes(q) || q.includes(p.name.toLowerCase().split(' ').pop()));
   return match || null;
 }
 
+/* ── POS COLOR ── */
 function posClass(pos) {
   if (!pos) return 'k';
   const p = pos.toUpperCase();
@@ -441,13 +446,11 @@ function posClass(pos) {
   if (p.startsWith('RB')) return 'rb';
   if (p.startsWith('WR')) return 'wr';
   if (p.startsWith('TE')) return 'te';
-  if (p === 'DST' || p === 'DEF') return 'def';
   return 'k';
 }
 
-function posInitials(name, pos) {
+function posInitials(name) {
   if (!name) return '?';
-  if (pos === 'DST' || pos === 'DEF') return 'DST';
   const parts = name.trim().split(' ');
   if (parts.length >= 2) return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
   return name.slice(0,2).toUpperCase();
@@ -464,7 +467,7 @@ function renderWatchlist() {
   }
   panel.innerHTML = WATCHLIST.map((p, i) => `
     <div class="wl-tile" onclick="openPlayerPanel(${i})" onmouseenter="showWLPopup(event,${i})" onmousemove="moveWLPopup(event)" onmouseleave="hideWLPopup()">
-      <div class="wl-init ${posClass(p.pos)}">${posInitials(p.name, p.pos)}</div>
+      <div class="wl-init ${posClass(p.pos)}">${posInitials(p.name)}</div>
       <div class="wl-info">
         <div class="wl-name">${p.name}</div>
         <div class="wl-meta">
@@ -492,36 +495,26 @@ function removeFromWatchlist(idx) {
   saveWatchlist();
 }
 
-// FIX: saveWatchlist now logs errors and ensures context row exists
 async function saveWatchlist() {
   if (!USER?.email || USER.email === 'demo@gfdhub.com') return;
   try {
-    const res = await fetch(`${API}/api/user/context`, {
+    await fetch(`${API}/api/user/context`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: USER.email,
-        scoring: CONTEXT?.scoring || 'PPR',
-        platform: CONTEXT?.platform || 'Yahoo',
-        team_size: CONTEXT?.team_size || 10,
-        watchlist: WATCHLIST
-      })
+      body: JSON.stringify({ email: USER.email, watchlist: WATCHLIST })
     });
-    const data = await res.json();
-    if (!data.ok) {
-      console.error('saveWatchlist failed:', data.error);
-    }
-  } catch(e) {
-    console.error('saveWatchlist error:', e.message);
-  }
+  } catch(e) {}
 }
 
+/* ── EXTRACT PLAYER NAMES ── */
+// Extracts "First Last" patterns from any text
 function extractPlayerNames(text) {
   const found = [];
   const matches = text.match(/\b([A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]*(?:\'[A-Za-z]+)?(?:\s+[A-Z][a-záéíóúàèìòùâêîôûäëïöü\-\'\.]*(?:\'[A-Za-z]+)?){1,2})\b/g) || [];
   const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','January','February','March','April','May','June','July','August','September','October','November','December','New','York','Los','Angeles','San','Green','Bay','Kansas','City']);
   matches.forEach(m => {
     const words = m.split(' ');
+    // Must be 2 words, neither in skip list, total length >= 8 (filters out very short false positives)
     if (words.length === 2 && !words.some(w => skipWords.has(w)) && m.length >= 8) {
       found.push(m);
     }
@@ -529,7 +522,9 @@ function extractPlayerNames(text) {
   return [...new Set(found)];
 }
 
+// Also extract from AI OC responses — looks for names mentioned
 function extractFromResponse(text) {
+  // Strip HTML tags first
   const clean = text.replace(/<[^>]+>/g, ' ');
   return extractPlayerNames(clean);
 }
@@ -543,6 +538,7 @@ async function resolveAndAddPlayers(names) {
         const p = data.players[0];
         const nameLower = name.toLowerCase();
         const resultLower = p.name.toLowerCase();
+        // Match if any word from the searched name appears in the result
         const anyWordMatches = nameLower.split(' ').some(word =>
           word.length > 2 && resultLower.includes(word)
         );
@@ -561,7 +557,7 @@ async function openPlayerPanel(idx) {
   ACTIVE_PLAYER = { ...player, idx };
 
   const initEl = document.getElementById('ppInit');
-  initEl.textContent = posInitials(player.name, player.pos);
+  initEl.textContent = posInitials(player.name);
   initEl.className = `pp-init ${posClass(player.pos)}`;
   document.getElementById('ppName').textContent = player.name;
   document.getElementById('ppMeta').textContent = `${player.pos||'?'}${player.team?' · '+player.team:''}`;
@@ -575,6 +571,7 @@ async function openPlayerPanel(idx) {
   document.getElementById('playerPanel').classList.add('open');
   document.getElementById('panelOverlay').classList.add('show');
 
+  // Fetch Tank01 + ESPN in parallel
   try {
     const [searchRes, injuryRes] = await Promise.all([
       fetch(`${API}/api/player/search?name=${encodeURIComponent(player.name)}`),
@@ -600,8 +597,7 @@ async function openPlayerPanel(idx) {
 
     const playerID = searchData.players?.[0]?.playerID;
     if (!playerID) {
-      // Offseason: show bio + rank + AI OC Take
-      await renderOffseasonPanel(player);
+      document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">No usage data available for this player yet.</div>`;
       return;
     }
 
@@ -610,112 +606,6 @@ async function openPlayerPanel(idx) {
     renderPlayerPanel(usageData, injuryMatch);
   } catch(e) {
     document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center">Couldn't load data right now.</div>`;
-  }
-}
-
-/* ── PLAYER RANKINGS LOOKUP ── */
-function getPlayerRankInfo(name) {
-  const rankings = [
-    {name:'Bijan Robinson',rank:1,tier:'ELITE ANCHOR',bye:11},
-    {name:'Jahmyr Gibbs',rank:2,tier:'ELITE ANCHOR',bye:6},
-    {name:"Ja'Marr Chase",rank:3,tier:'ELITE ANCHOR',bye:6},
-    {name:'Puka Nacua',rank:4,tier:'ELITE ANCHOR',bye:11},
-    {name:'Jaxon Smith-Njigba',rank:5,tier:'ELITE ANCHOR',bye:11},
-    {name:'Amon-Ra St. Brown',rank:6,tier:'TOP 10',bye:6},
-    {name:'Christian McCaffrey',rank:7,tier:'TOP 10',bye:8},
-    {name:'CeeDee Lamb',rank:8,tier:'TOP 10',bye:14},
-    {name:'Jonathan Taylor',rank:9,tier:'TOP 10',bye:13},
-    {name:'Justin Jefferson',rank:10,tier:'TOP 10',bye:6},
-    {name:'James Cook III',rank:11,tier:'TOP 15',bye:7},
-    {name:'Drake London',rank:12,tier:'TOP 15',bye:11},
-    {name:'Ashton Jeanty',rank:13,tier:'TOP 15 ROOKIE',bye:13},
-    {name:"De'Von Achane",rank:14,tier:'TOP 15',bye:6},
-    {name:'Nico Collins',rank:15,tier:'TOP 15',bye:8},
-    {name:'Chase Brown',rank:16,tier:'TOP 20',bye:6},
-    {name:'Brock Bowers',rank:17,tier:'PREMIUM TE',bye:13},
-    {name:'Saquon Barkley',rank:18,tier:'TOP 20',bye:10},
-    {name:'George Pickens',rank:19,tier:'TOP 20',bye:14},
-    {name:'Trey McBride',rank:20,tier:'PREMIUM TE',bye:14},
-    {name:'A.J. Brown',rank:21,tier:'TOP 25',bye:11},
-    {name:'Omarion Hampton',rank:22,tier:'TOP 25 ROOKIE',bye:7},
-    {name:'Chris Olave',rank:23,tier:'TOP 25',bye:8},
-    {name:'Derrick Henry',rank:24,tier:'TOP 25',bye:13},
-    {name:'Kenneth Walker III',rank:25,tier:'TOP 25',bye:5},
-    {name:'Josh Allen',rank:26,tier:'TOP QB',bye:7},
-    {name:'Lamar Jackson',rank:33,tier:'TOP QB',bye:13},
-    {name:'Drake Maye',rank:34,tier:'TOP QB',bye:11},
-    {name:'Travis Hunter',rank:72,tier:'⚠️ TWO-WAY ROOKIE',bye:12},
-  ];
-  const q = name.toLowerCase();
-  return rankings.find(r => r.name.toLowerCase() === q ||
-    r.name.toLowerCase().includes(q.split(' ').pop())) || null;
-}
-
-async function renderOffseasonPanel(player) {
-  const rankInfo = getPlayerRankInfo(player.name);
-
-  // Build bio section immediately
-  let html = '';
-
-  // Rank + tier badge
-  if (rankInfo) {
-    const tierColor = rankInfo.tier.includes('ELITE') ? 'var(--ac)' :
-                      rankInfo.tier.includes('ROOKIE') ? 'var(--amb)' :
-                      rankInfo.tier.includes('TE') ? 'var(--pur)' :
-                      rankInfo.tier.includes('QB') ? 'var(--qb)' : 'var(--blu)';
-    html += `<div class="pp-section">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div style="text-align:center;background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:10px 14px;min-width:60px">
-          <div style="font-family:var(--fd);font-size:28px;font-weight:900;color:var(--ac);line-height:1;letter-spacing:-1px">#${rankInfo.rank}</div>
-          <div style="font-size:9px;color:var(--t3);font-family:var(--fd);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:3px">ECR 2026</div>
-        </div>
-        <div style="flex:1">
-          <div style="font-size:11px;font-weight:800;color:${tierColor};font-family:var(--fd);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px">${rankInfo.tier}</div>
-          <div style="font-size:12px;color:var(--t2)">Bye Week <strong style="color:var(--t1);font-family:var(--fd)">${rankInfo.bye}</strong></div>
-          <div style="font-size:11px;color:var(--t3);margin-top:2px">FantasyPros Half-PPR ECR</div>
-        </div>
-      </div>
-    </div>`;
-  }
-
-  // Season stats coming soon
-  html += `<div class="pp-section">
-    <div class="pp-section-label">2026 Season Stats</div>
-    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:9px;padding:14px;text-align:center">
-      <div style="font-size:12px;color:var(--t2);line-height:1.6">Live stats available from<br><strong style="color:var(--t1);font-family:var(--fd)">Week 1 — Sept 9, 2026</strong></div>
-    </div>
-  </div>`;
-
-  // AI OC Take — loading state first
-  html += `<div class="pp-section" id="aiTakeSection">
-    <div class="pp-section-label">AI OC 2026 Take</div>
-    <div style="background:var(--ac2);border:1px solid rgba(0,229,160,.2);border-radius:9px;padding:14px" id="aiTakeContent">
-      <div class="pp-loading"><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div><div class="pp-loading-dot"></div></div>
-    </div>
-  </div>`;
-
-  document.getElementById('ppBody').innerHTML = html;
-
-  // Fire AI OC Take call
-  try {
-    const pos = player.pos || '?';
-    const team = player.team || '?';
-    const rankStr = rankInfo ? `He is ranked #${rankInfo.rank} overall in 2026 Half-PPR ECR.` : '';
-    const prompt = `You are the GFDHub AI Offensive Coordinator. Give a sharp 2-sentence 2026 fantasy football outlook for ${player.name} (${pos}, ${team}). ${rankStr} Be specific about what makes them a must-draft, value, or risk. No hedging — make the call. Start directly with the player analysis, no preamble.`;
-
-    const res = await fetch('https://api.gfdhub.com/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system: prompt,
-        messages: [{ role: 'user', content: `2026 fantasy outlook for ${player.name}` }]
-      })
-    });
-    const data = await res.json();
-    const take = data.answer || 'Check back for the AI OC take on this player.';
-    document.getElementById('aiTakeContent').innerHTML = `<div style="font-size:13px;color:var(--t1);line-height:1.65">${take}</div>`;
-  } catch(e) {
-    document.getElementById('aiTakeContent').innerHTML = `<div style="font-size:12px;color:var(--t3)">AI OC take unavailable right now.</div>`;
   }
 }
 
@@ -728,13 +618,9 @@ function renderPlayerPanel(data, injury) {
   const isTE = pos.startsWith('TE');
   const isSkill = isRB || isWR || isTE;
 
-  // If no games data yet (offseason), show friendly message
-  if (!games.length) {
-    document.getElementById('ppBody').innerHTML = `<div style="color:var(--t3);font-size:13px;padding:20px 0;text-align:center;line-height:1.6">Season stats available from<br><strong style="color:var(--t2)">Week 1 — Sept 9, 2026</strong></div>`;
-    return;
-  }
-
   let html = '';
+
+  // Usage stats
   html += `<div class="pp-section"><div class="pp-section-label">Last ${s.games||6} games — usage</div><div class="pp-stats">`;
   if (isSkill) {
     html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.snapShare||'N/A'}</div><div class="pp-stat-label">Snap %</div></div>`;
@@ -752,6 +638,7 @@ function renderPlayerPanel(data, injury) {
   }
   html += `</div></div>`;
 
+  // Injury section
   if (injury) {
     const injStatus = injury.status?.toLowerCase().includes('out') ? 'ir'
       : injury.status?.toLowerCase().includes('quest') ? 'q' : 'ok';
@@ -766,6 +653,7 @@ function renderPlayerPanel(data, injury) {
     </div>`;
   }
 
+  // Game log
   if (games.length) {
     html += `<div class="pp-section"><div class="pp-section-label">Recent game log</div>`;
     games.slice(0,5).forEach(g => {
@@ -780,6 +668,8 @@ function renderPlayerPanel(data, injury) {
   document.getElementById('ppBody').innerHTML = html;
 }
 
+// Open panel by player name (called from clickable names in chat)
+/* ── WATCHLIST HOVER POPUP ── */
 let _popupTimeout;
 function showWLPopup(e, idx) {
   const p = WATCHLIST[idx];
@@ -809,7 +699,9 @@ function positionWLPopup(e) {
   popup.style.top = top + 'px';
 }
 
-function moveWLPopup(e) { positionWLPopup(e); }
+function moveWLPopup(e) {
+  positionWLPopup(e);
+}
 
 function hideWLPopup() {
   _popupTimeout = setTimeout(() => {
@@ -828,41 +720,6 @@ function reaskQuestion(text) {
   closeDrawer();
 }
 
-async function loadHistorySession(sessionId, fallbackText) {
-  closeDrawer();
-  // Fetch all history and match by question text (works without IDs)
-  if (USER?.email) {
-    try {
-      const res = await fetch(`${API}/api/chat/history?email=${encodeURIComponent(USER.email)}&limit=50`);
-      const data = await res.json();
-      if (data.ok && data.sessions) {
-        // Match by question text containing the fallback text snippet
-        const snippet = fallbackText.replace('...','').toLowerCase().trim();
-        const session = data.sessions.find(s =>
-          s.question.toLowerCase().includes(snippet) ||
-          snippet.includes(s.question.toLowerCase().slice(0,40))
-        );
-        if (session) {
-          const wrap = document.getElementById('messages');
-          const divider = document.createElement('div');
-          divider.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 0;margin:8px 0';
-          divider.innerHTML = `<div style="flex:1;height:1px;background:var(--b1)"></div><span style="font-size:10px;color:var(--t3);font-family:var(--fd);font-weight:700;white-space:nowrap;letter-spacing:.5px">WK ${session.week||'?'} · PAST CONVERSATION</span><div style="flex:1;height:1px;background:var(--b1)"></div>`;
-          wrap.appendChild(divider);
-          addMessage('user', session.question);
-          addMessage('oc', formatResponse(session.answer));
-          wrap.scrollTop = wrap.scrollHeight;
-          return;
-        }
-      }
-    } catch(e) {
-      console.error('loadHistorySession error:', e.message);
-    }
-  }
-  // Fallback: pre-fill the input
-  document.getElementById('inputBox').value = fallbackText;
-  document.getElementById('inputBox').focus();
-}
-
 function onWLInput(val) {
   const sugg = document.getElementById('wlSuggestion');
   if (!val || val.length < 2) { sugg.style.display = 'none'; return; }
@@ -878,7 +735,9 @@ function onWLInput(val) {
 function acceptSuggestion() {
   const sugg = document.getElementById('wlSuggestion');
   const parts = sugg.textContent.split(' · ');
-  if (parts.length >= 1) document.getElementById('wlAddInput').value = parts[0];
+  if (parts.length >= 1) {
+    document.getElementById('wlAddInput').value = parts[0];
+  }
   sugg.style.display = 'none';
   addPlayerManual();
 }
@@ -888,6 +747,7 @@ function openPlayerPanelByName(name) {
   if (idx >= 0) {
     openPlayerPanel(idx);
   } else {
+    // Add to watchlist first then open
     addToWatchlist(name);
     setTimeout(() => {
       const newIdx = WATCHLIST.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
@@ -905,12 +765,12 @@ function closePlayerPanel() {
 
 function askAboutPlayer() {
   if (!ACTIVE_PLAYER) return;
-  const playerName = ACTIVE_PLAYER.name;
   closePlayerPanel();
-  document.getElementById('inputBox').value = `Tell me about ${playerName} for the 2026 season`;
-  setTimeout(() => sendMessage(), 300);
+  document.getElementById('inputBox').value = `Tell me about ${ACTIVE_PLAYER.name} for the 2026 season`;
+  document.getElementById('inputBox').focus();
 }
 
+/* ── DRAWER ── */
 function toggleDrawer() {
   const lsb = document.getElementById('lsb');
   const ham = document.getElementById('hamburger');
@@ -928,6 +788,7 @@ function closeDrawer() {
 }
 window.addEventListener('resize', () => { if (window.innerWidth > 640) closeDrawer(); });
 
+/* ── SEASON CONTEXT ── */
 function getSeasonContext() {
   const now = new Date();
   const opener      = new Date('2026-09-09');
@@ -1083,7 +944,7 @@ CRITICAL: Reference 2026 season stats. Treat every call as championship-level st
   return `Current date: ${dateStr}. The 2026 NFL season has concluded. Reference 2026 season stats and begin framing 2027 draft prep where relevant.`;
 }
 
-/* ── AUTH / INIT ── FIX: auto-create user_context row if missing ── */
+/* ── AUTH / INIT ── */
 async function init() {
   const email = localStorage.getItem('gfd_email');
   if (!email) { window.location.href = '/index.html'; return; }
@@ -1097,28 +958,12 @@ async function init() {
     USER = data.user;
     CONTEXT = data.context;
     WATCHLIST = data.context.watchlist || [];
-
-    // FIX: if watchlist came back empty AND no context row exists, seed it now
-    // This ensures every PRO user has a user_context row for future saves
-    if (!data.context.scoring) {
-      await fetch(`${API}/api/user/context`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: USER.email,
-          scoring: 'PPR',
-          platform: 'Yahoo',
-          team_size: 10,
-          watchlist: []
-        })
-      }).catch(e => console.error('Context seed error:', e.message));
-    }
-
     renderProfile();
     renderWatchlist();
     renderCtxBar();
     sendWelcome();
   } catch (e) {
+    // Network error — show minimal error state rather than redirecting
     document.getElementById('messages').innerHTML = `<div style="text-align:center;padding:48px;color:var(--t3);font-size:14px">Having trouble connecting. <a href="/index.html" style="color:var(--ac)">Return to home</a></div>`;
   }
 }
@@ -1129,19 +974,7 @@ function renderProfile() {
   document.getElementById('userInitials').textContent = (n.split(' ').map(w=>w[0]).join('').toUpperCase()).slice(0,2);
   if (!CONTEXT) return;
   document.getElementById('leagueContext').innerHTML = (CONTEXT.league||[]).map(l=>`<div class="mem-item"><div class="mem-dot"></div>${l}</div>`).join('');
-  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>{
-    const dt = h.created_at ? new Date(h.created_at) : null;
-    const timeStr = dt ? dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + ' · ' + dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}) : '';
-    return `<div class="hist-item" onclick="loadHistorySession(0, '${h.text.replace(/'/g,"\\'")}')">
-      <div style="display:flex;flex-direction:column;flex:1;min-width:0;gap:2px">
-        <div style="display:flex;align-items:center;gap:6px">
-          <span class="hist-week" style="color:var(--ac);flex-shrink:0">${h.week}</span>
-          <span style="flex:1;color:var(--t1)">${h.text}</span>
-        </div>
-        ${timeStr ? `<span style="font-size:9px;color:var(--t3);padding-left:2px">${timeStr}</span>` : ''}
-      </div>
-    </div>`;
-  }).join('');
+  document.getElementById('historyContext').innerHTML = (CONTEXT.history||[]).map(h=>`<div class="hist-item" onclick="reaskQuestion('${h.text.replace(/'/g,"\\'")}')"><span class="hist-week">${h.week}</span><span style="flex:1">${h.text}</span><span style="font-size:9px;color:var(--t3);margin-left:4px;flex-shrink:0">${h.time||''}</span></div>`).join('');
 }
 
 function renderCtxBar() {
@@ -1152,7 +985,8 @@ function renderCtxBar() {
 
 function sendWelcome() {
   window._DATE_CTX = getSeasonContext();
-  addMessage('oc', `Welcome to GFDHub, your place to Gain Fantasy Dominance. What questions do you have?`);
+  const text = `Welcome to GFDHub, your place to Gain Fantasy Dominance. What questions do you have?`;
+  addMessage('oc', text);
 }
 
 function addMessage(role, html) {
@@ -1170,6 +1004,7 @@ function addMessage(role, html) {
   wrap.scrollTop = wrap.scrollHeight;
 }
 
+/* ── FORMAT RESPONSE — with clickable player names ── */
 function formatResponse(text) {
   let html = text
     .replace(/\*\*(.*?)\*\*/g,'<b>$1</b>')
@@ -1180,6 +1015,7 @@ function formatResponse(text) {
     .replace(/\bADD\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/g,'<span class="call-tag call-add">+ ADD $1</span>')
     .replace(/\bDROP\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/g,'<span class="call-tag call-drop">× DROP $1</span>');
 
+  // Make player names in Watchlist clickable
   WATCHLIST.forEach(p => {
     const escaped = p.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const re = new RegExp(`(?<!<[^>]*)\\b(${escaped})\\b(?![^<]*>)`, 'g');
@@ -1187,57 +1023,6 @@ function formatResponse(text) {
   });
 
   return html;
-}
-
-/* ── LIVE DATA CONTEXT FOR AI OC PROMPT ── */
-async function fetchLiveContext(question) {
-  const context = { odds: [], weather: null, projections: [] };
-  
-  try {
-    // Always fetch current odds for game context
-    const oddsRes = await fetch(`${API}/api/odds`);
-    const oddsData = await oddsRes.json();
-    if (oddsData.ok && oddsData.games) {
-      // Filter to games with meaningful totals
-      context.odds = oddsData.games
-        .filter(g => g.totalLine)
-        .map(g => `${g.away}@${g.home}: total ${g.totalLine}, spread ${g.homeSpread > 0 ? '+' : ''}${g.homeSpread} ${g.home}`)
-        .slice(0, 8);
-    }
-  } catch(e) {}
-
-  try {
-    // Fetch projections for current week
-    const projRes = await fetch(`${API}/api/projections?week=${CONTEXT?.week || 1}`);
-    const projData = await projRes.json();
-    if (projData.ok && projData.projections) {
-      // Match players mentioned in question or on watchlist
-      const qLower = question.toLowerCase();
-      const relevant = projData.projections.filter(p => {
-        const nameLower = (p.name || '').toLowerCase();
-        const onWatchlist = WATCHLIST.some(w => w.name.toLowerCase() === nameLower);
-        const inQuestion = qLower.includes(nameLower.split(' ').pop());
-        return onWatchlist || inQuestion;
-      }).slice(0, 6);
-      context.projections = relevant.map(p =>
-        `${p.name} (${p.pos}): ${p.fantasyPts ? p.fantasyPts + ' proj pts' : 'no projection'}`
-      );
-    }
-  } catch(e) {}
-
-  try {
-    // Weather — only active in-season, dormant returns fast
-    const weatherRes = await fetch(`${API}/api/weather?city=Buffalo&state=NY`);
-    const weatherData = await weatherRes.json();
-    if (weatherData.ok && weatherData.weather && !weatherData.dormant) {
-      const w = weatherData.weather;
-      if (w.highWind || w.rain || w.snow) {
-        context.weather = `Weather alert: ${w.city} — ${w.windSpeed}mph wind${w.rain ? ', rain' : ''}${w.snow ? ', snow' : ''}. High wind impacts passing games.`;
-      }
-    }
-  } catch(e) {}
-
-  return context;
 }
 
 async function sendMessage() {
@@ -1254,22 +1039,13 @@ async function sendMessage() {
   document.getElementById('typing').classList.add('show');
   document.getElementById('messages').scrollTop = 99999;
 
+  // Extract player names from user message and add to watchlist
   const userNames = extractPlayerNames(q);
   if (userNames.length) resolveAndAddPlayers(userNames);
 
   const wlContext = WATCHLIST.length
     ? `User's Watchlist: ${WATCHLIST.map(p=>`${p.name} (${p.pos})`).join(', ')}`
     : 'Watchlist empty — first session';
-
-  // Fetch live data context — non-blocking, enriches AI OC calls
-  const liveCtx = await fetchLiveContext(q);
-  const oddsContext = liveCtx.odds.length
-    ? `LIVE VEGAS ODDS THIS WEEK:\n${liveCtx.odds.join('\n')}`
-    : 'Vegas odds: offseason / not yet available';
-  const projContext = liveCtx.projections.length
-    ? `WEEKLY PROJECTIONS:\n${liveCtx.projections.join('\n')}`
-    : '';
-  const weatherContext = liveCtx.weather || '';
 
   const systemPrompt = `You are the GFDHub AI Offensive Coordinator — the sharpest, most confident fantasy football analyst available. You make data-backed lineup decisions and always give ONE clear recommendation.
 
@@ -1279,15 +1055,6 @@ USER'S LEAGUE PROFILE:
 - Scoring: ${CONTEXT?.scoring||'PPR'}, Platform: ${CONTEXT?.platform||'Yahoo'}, Week ${CONTEXT?.week||1}
 - ${wlContext}
 - History: ${(CONTEXT?.history||[]).map(h=>`${h.week}: ${h.text}`).join(' | ')||'First session'}
-
-LIVE DATA — USE THIS IN YOUR ANALYSIS:
-${oddsContext}
-${projContext ? projContext : ''}
-${weatherContext ? weatherContext : ''}
-
-When Vegas totals are available: cite them. High totals (48+) = good passing game environments. Low totals (under 42) = grind-it-out games, run-heavy, lower ceilings for WRs/QBs. Spreads matter for DST — big favorites get more opportunities.
-When projections are available: reference them by name. "Projected for X pts" is a concrete data point.
-When weather flags are active: always mention wind/rain impact on the relevant players.
 
 TIER 1 AUTO-START LIST — If a player below is healthy and active, ALWAYS recommend starting them. Never hedge, never say "it depends", never cite matchup concerns. The only exception is confirmed Out/IR status.
 QB AUTO-STARTS: Josh Allen, Lamar Jackson, Drake Maye, Joe Burrow, Jayden Daniels, Jalen Hurts
@@ -1310,11 +1077,17 @@ RESPONSE RULES:
 6. Sound like an expert coordinator who's watched the film
 7. For draft advice: always cite consensus ADP/ranking. Never recommend a player more than 2 rounds outside their consensus position`;
 
+  // Extract team abbreviations from Watchlist + question for live data injection
+  const mentionedTeams = [
+    ...WATCHLIST.map(p => p.team).filter(Boolean),
+    ...PLAYER_LOOKUP.filter(p => q.toLowerCase().includes(p.name.toLowerCase().split(' ').pop())).map(p => p.team)
+  ].filter((t, i, arr) => t && arr.indexOf(t) === i).slice(0, 6);
+
   try {
     const res = await fetch(`${API}/api/chat`, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:systemPrompt, messages:MSGS.slice(-10)})
+      body:JSON.stringify({system:systemPrompt, messages:MSGS.slice(-10), teams:mentionedTeams})
     });
     const data = await res.json();
     const answer = data.answer || "Couldn't reach the AI right now. Try again in a moment.";
@@ -1327,7 +1100,12 @@ RESPONSE RULES:
     }).catch(()=>{});
 
     document.getElementById('typing').classList.remove('show');
-    addMessage('oc', formatResponse(answer));
+    const formatted = formatResponse(answer);
+    addMessage('oc', formatted);
+
+    // Also extract player names from AI response and add to watchlist
+    // Note: we only extract player names from USER messages, not AI responses
+    // AI responses contain too many false positives (mid-sentence capitalized phrases)
 
   } catch(e) {
     document.getElementById('typing').classList.remove('show');
@@ -1349,10 +1127,13 @@ function addPlayerManual() {
   const input = document.getElementById('wlAddInput');
   const raw = input.value.trim();
   if (!raw || raw.length < 2) return;
+
+  // Try to resolve from lookup table first
   const resolved = resolveFromLookup(raw);
   if (resolved) {
     addToWatchlist(resolved.name, resolved.pos, resolved.team, 'ok');
   } else {
+    // Add as-is with unknown position
     addToWatchlist(raw, '', '', 'ok');
   }
   input.value = '';
