@@ -251,21 +251,29 @@ tr:hover td{background:rgba(255,255,255,.02)}
 
 <script>
 const API = 'https://api.gfdhub.com';
-const ADMIN_EMAIL = 'inquiries@digitalmarketinggen.com';
-const ADMIN_PASS  = 'GFDHub2026!';
 
 let ALL_SESSIONS  = [];
 let ALL_WATCHLIST = [];
 let ALL_USERS     = [];
 
-function login() {
+async function login() {
   const email = document.getElementById('gateEmail').value.trim();
   const pass  = document.getElementById('gatePass').value;
-  if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
-    document.getElementById('gate').style.display = 'none';
-    sessionStorage.setItem('cc_auth', '1');
-    loadAll();
-  } else {
+  try {
+    const res = await fetch(`${API}/api/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      sessionStorage.setItem('cc_token', data.token);
+      document.getElementById('gate').style.display = 'none';
+      loadAll();
+    } else {
+      document.getElementById('gateError').style.display = 'block';
+    }
+  } catch(e) {
     document.getElementById('gateError').style.display = 'block';
   }
 }
@@ -280,9 +288,10 @@ function switchTab(name, el) {
 async function loadAll() {
   document.getElementById('lastRefresh').textContent = 'Refreshing...';
   try {
+    const headers = { 'x-admin-key': sessionStorage.getItem('cc_token') || '' };
     const [sessRes, ctxRes] = await Promise.all([
-      fetch(`${API}/api/admin/sessions`),
-      fetch(`${API}/api/admin/watchlist`)
+      fetch(`${API}/api/admin/sessions`, { headers }),
+      fetch(`${API}/api/admin/watchlist`, { headers })
     ]);
     const sessData = await sessRes.json();
     const ctxData  = await ctxRes.json();
@@ -521,7 +530,7 @@ function escHtml(str) {
   return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-if (sessionStorage.getItem('cc_auth') === '1') {
+if (sessionStorage.getItem('cc_token')) {
   document.getElementById('gate').style.display = 'none';
   loadAll();
 }
