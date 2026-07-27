@@ -1190,9 +1190,22 @@ function formatResponse(text) {
 }
 
 /* ── LIVE DATA CONTEXT FOR AI OC PROMPT ── */
+function getRelevantPlayers(question) {
+  const mentionedNames = extractPlayerNames(question);
+  const relevant = [...WATCHLIST];
+  mentionedNames.forEach(name => {
+    if (!relevant.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+      const resolved = resolveFromLookup(name);
+      if (resolved) relevant.push(resolved);
+    }
+  });
+  return relevant.slice(0, 5);
+}
+
 async function fetchLiveContext(question) {
-  const context = { odds: [], weather: null, projections: [] };
-  
+  const context = { odds: [], weather: null, projections: [], injuries: [], usage: [] };
+  const relevantPlayers = getRelevantPlayers(question);
+
   try {
     // Always fetch current odds for game context
     const oddsRes = await fetch(`${API}/api/odds`);
@@ -1222,6 +1235,41 @@ async function fetchLiveContext(question) {
       context.projections = relevant.map(p =>
         `${p.name} (${p.pos}): ${p.fantasyPts ? p.fantasyPts + ' proj pts' : 'no projection'}`
       );
+    }
+  } catch(e) {}
+
+  try {
+    if (relevantPlayers.length) {
+      const injuryRes = await fetch(`${API}/api/injuries`);
+      const injuryData = await injuryRes.json();
+      if (injuryData.ok && injuryData.injuries) {
+        relevantPlayers.forEach(p => {
+          const lastName = p.name.split(' ').pop().toLowerCase();
+          const match = injuryData.injuries.find(i => i.player.toLowerCase().includes(lastName));
+          if (match) {
+            context.injuries.push(`${p.name}: ${match.status}${match.detail ? ' — ' + match.detail : ''}${match.return ? ' (est. return ' + match.return + ')' : ''}`);
+          }
+        });
+      }
+    }
+  } catch(e) {}
+
+  try {
+    for (const p of relevantPlayers.slice(0, 4)) {
+      const searchRes = await fetch(`${API}/api/player/search?name=${encodeURIComponent(p.name)}`);
+      const searchData = await searchRes.json();
+      const playerID = searchData.players?.[0]?.playerID;
+      if (!playerID) continue;
+      const usageRes = await fetch(`${API}/api/player/usage?playerID=${playerID}&games=3`);
+      const usageData = await usageRes.json();
+      const s = usageData.summary;
+      if (s && usageData.games?.length) {
+        const parts = [];
+        if (s.targetShare !== 'N/A') parts.push(`target share ${s.targetShare}`);
+        if (s.carryShare !== 'N/A') parts.push(`carry share ${s.carryShare}`);
+        if (s.snapShare !== 'N/A') parts.push(`snap % ${s.snapShare}`);
+        context.usage.push(`${p.name} (last ${s.games} games): ${parts.join(', ')}, avg ${s.avgTargets} tgt / ${s.avgCarries} car / ${s.avgSnaps} snaps`);
+      }
     }
   } catch(e) {}
 
@@ -1270,6 +1318,8 @@ async function sendMessage() {
     ? `WEEKLY PROJECTIONS:\n${liveCtx.projections.join('\n')}`
     : '';
   const weatherContext = liveCtx.weather || '';
+  const injuryContext = liveCtx.injuries.length ? `INJURY STATUS:\n${liveCtx.injuries.join('\n')}` : '';
+  const usageContext = liveCtx.usage.length ? `USAGE STATS (target/carry/snap share, recent games):\n${liveCtx.usage.join('\n')}` : '';
 
   const systemPrompt = `You are the GFDHub AI Offensive Coordinator — the sharpest, most confident fantasy football analyst available. You make data-backed lineup decisions and always give ONE clear recommendation.
 
@@ -1283,6 +1333,8 @@ USER'S LEAGUE PROFILE:
 LIVE DATA — USE THIS IN YOUR ANALYSIS:
 ${oddsContext}
 ${projContext ? projContext : ''}
+${injuryContext ? injuryContext : ''}
+${usageContext ? usageContext : ''}
 ${weatherContext ? weatherContext : ''}
 
 When Vegas totals are available: cite them. High totals (48+) = good passing game environments. Low totals (under 42) = grind-it-out games, run-heavy, lower ceilings for WRs/QBs. Spreads matter for DST — big favorites get more opportunities.
