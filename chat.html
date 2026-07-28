@@ -1203,7 +1203,7 @@ function getRelevantPlayers(question) {
 }
 
 async function fetchLiveContext(question) {
-  const context = { odds: [], weather: null, projections: [], injuries: [], usage: [] };
+  const context = { odds: [], weather: null, projections: [], injuries: [], usage: [], news: [] };
   const relevantPlayers = getRelevantPlayers(question);
 
   try {
@@ -1279,6 +1279,25 @@ async function fetchLiveContext(question) {
     }
   } catch(e) {}
 
+    try {
+    if (relevantPlayers.length) {
+      const newsRes = await fetch(`${API}/api/news`);
+      const newsData = await newsRes.json();
+      if (newsData.ok && newsData.news) {
+        relevantPlayers.forEach(p => {
+          const lastName = p.name.split(' ').pop().toLowerCase();
+          const match = newsData.news.find(n =>
+            (n.player || '').toLowerCase().includes(lastName) ||
+            (n.headline || '').toLowerCase().includes(lastName)
+          );
+          if (match && match.headline) {
+            context.news.push(`${p.name}: ${match.headline}`);
+          }
+        });
+      }
+    }
+  } catch(e) {}
+
   try {
     // Weather — only active in-season, dormant returns fast
     const weatherRes = await fetch(`${API}/api/weather?city=Buffalo&state=NY`);
@@ -1333,6 +1352,8 @@ async function sendMessage() {
   const weatherContext = liveCtx.weather || '';
   const injuryContext = liveCtx.injuries.length ? `INJURY STATUS:\n${liveCtx.injuries.join('\n')}` : '';
   const usageContext = liveCtx.usage.length ? `USAGE STATS (target/carry/snap share, recent games):\n${liveCtx.usage.join('\n')}` : '';
+  const validNews = (liveCtx.news || []).filter(n => typeof n === 'string' && n.length > 0 && !n.includes('undefined'));
+  const newsContext = validNews.length ? `RECENT NEWS:\n${validNews.join('\n')}` : '';
 
   const systemPrompt = `You are the GFDHub AI Offensive Coordinator — the sharpest, most confident fantasy football analyst available. You make data-backed lineup decisions and always give ONE clear recommendation.
 
@@ -1349,6 +1370,7 @@ ${oddsContext}
 ${projContext ? projContext : ''}
 ${injuryContext ? injuryContext : ''}
 ${usageContext ? usageContext : ''}
+${newsContext ? newsContext : ''}
 ${weatherContext ? weatherContext : ''}
 
 When Vegas totals are available: cite them. High totals (48+) = good passing game environments. Low totals (under 42) = grind-it-out games, run-heavy, lower ceilings for WRs/QBs. Spreads matter for DST — big favorites get more opportunities. Implied team totals are pre-calculated in the odds data — cite them directly (e.g., "CIN implied at 28.5") instead of making the user do the math.
