@@ -1414,6 +1414,23 @@ RESPONSE RULES:
       body:JSON.stringify({email:USER?.email, question:q, answer, week:CONTEXT?.week})
     }).catch(()=>{});
 
+    // Capture paired START/SIT calls for accuracy tracking
+    const startMatch = answer.match(/\bSTART\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/);
+    const sitMatch = answer.match(/\bSIT\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/);
+    if (startMatch && sitMatch) {
+      fetch(`${API}/api/oc-calls/log`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          email:USER?.email,
+          playerA:startMatch[1].trim(),
+          playerB:sitMatch[1].trim(),
+          aiPick:startMatch[1].trim(),
+          week:CONTEXT?.week
+        })
+      }).catch(()=>{});
+    }
+
     document.getElementById('typing').classList.remove('show');
     addMessage('oc', formatResponse(answer));
 
