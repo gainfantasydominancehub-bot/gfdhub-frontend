@@ -1214,7 +1214,13 @@ async function fetchLiveContext(question) {
       // Filter to games with meaningful totals
       context.odds = oddsData.games
         .filter(g => g.totalLine)
-        .map(g => `${g.away}@${g.home}: total ${g.totalLine}, spread ${g.homeSpread > 0 ? '+' : ''}${g.homeSpread} ${g.home}`)
+        .map(g => {
+          const total = parseFloat(g.totalLine);
+          const homeSpread = parseFloat(g.homeSpread) || 0;
+          const homeImplied = (total / 2) - (homeSpread / 2);
+          const awayImplied = total - homeImplied;
+          return `${g.away}@${g.home}: total ${g.totalLine}, spread ${g.homeSpread > 0 ? '+' : ''}${g.homeSpread} ${g.home} — implied: ${g.home} ${homeImplied.toFixed(1)}, ${g.away} ${awayImplied.toFixed(1)}`;
+        })
         .slice(0, 8);
     }
   } catch(e) {}
@@ -1337,7 +1343,7 @@ ${injuryContext ? injuryContext : ''}
 ${usageContext ? usageContext : ''}
 ${weatherContext ? weatherContext : ''}
 
-When Vegas totals are available: cite them. High totals (48+) = good passing game environments. Low totals (under 42) = grind-it-out games, run-heavy, lower ceilings for WRs/QBs. Spreads matter for DST — big favorites get more opportunities.
+When Vegas totals are available: cite them. High totals (48+) = good passing game environments. Low totals (under 42) = grind-it-out games, run-heavy, lower ceilings for WRs/QBs. Spreads matter for DST — big favorites get more opportunities. Implied team totals are pre-calculated in the odds data — cite them directly (e.g., "CIN implied at 28.5") instead of making the user do the math.
 When projections are available: reference them by name. "Projected for X pts" is a concrete data point.
 When weather flags are active: always mention wind/rain impact on the relevant players.
 
