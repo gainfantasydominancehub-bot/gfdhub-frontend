@@ -1314,14 +1314,21 @@ async function sendMessage() {
   const wlContext = WATCHLIST.length
     ? `User's Watchlist: ${WATCHLIST.map(p=>`${p.name} (${p.pos})`).join(', ')}`
     : 'Watchlist empty — first session';
+  const rosterContext = (CONTEXT?.roster && CONTEXT.roster.length)
+    ? `User's Actual Roster: ${CONTEXT.roster.map(p=>`${p.name} (${p.pos})`).join(', ')}`
+    : 'Roster not yet entered — user hasn\'t set up their bench in onboarding';
 
   // Fetch live data context — non-blocking, enriches AI OC calls
   const liveCtx = await fetchLiveContext(q);
-  const oddsContext = liveCtx.odds.length
-    ? `LIVE VEGAS ODDS THIS WEEK:\n${liveCtx.odds.join('\n')}`
+  // Trust guard: filter out any malformed entries before building context strings
+  const validOdds = (liveCtx.odds || []).filter(o => typeof o === 'string' && o.length > 0 && !o.includes('NaN') && !o.includes('undefined'));
+  const validProjections = (liveCtx.projections || []).filter(p => typeof p === 'string' && p.length > 0 && !p.includes('null') && !p.includes('undefined'));
+
+  const oddsContext = validOdds.length
+    ? `LIVE VEGAS ODDS THIS WEEK:\n${validOdds.join('\n')}`
     : 'Vegas odds: offseason / not yet available';
-  const projContext = liveCtx.projections.length
-    ? `WEEKLY PROJECTIONS:\n${liveCtx.projections.join('\n')}`
+  const projContext = validProjections.length
+    ? `WEEKLY PROJECTIONS:\n${validProjections.join('\n')}`
     : '';
   const weatherContext = liveCtx.weather || '';
   const injuryContext = liveCtx.injuries.length ? `INJURY STATUS:\n${liveCtx.injuries.join('\n')}` : '';
@@ -1333,6 +1340,7 @@ ${window._DATE_CTX || getSeasonContext()}
 
 USER'S LEAGUE PROFILE:
 - Scoring: ${CONTEXT?.scoring||'PPR'}, Platform: ${CONTEXT?.platform||'Yahoo'}, Week ${CONTEXT?.week||1}
+- ${rosterContext}
 - ${wlContext}
 - History: ${(CONTEXT?.history||[]).map(h=>`${h.week}: ${h.text}`).join(' | ')||'First session'}
 
