@@ -171,6 +171,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
     <button class="tab" onclick="switchTab('users',this)">👤 Users</button>
     <button class="tab" onclick="switchTab('demand',this)">📊 Demand Intel</button>
     <button class="tab" onclick="switchTab('patterns',this)">🔍 Patterns</button>
+    <button class="tab" onclick="switchTab('accuracy',this)">🎯 Accuracy</button>
   </div>
 
   <!-- QUESTIONS -->
@@ -247,14 +248,45 @@ tr:hover td{background:rgba(255,255,255,.02)}
     </div>
   </div>
 
+  <!-- ACCURACY -->
+  <div class="panel" id="panel-accuracy">
+    <div class="pattern-grid" style="margin-bottom:20px">
+      <div class="pattern-card">
+        <div class="pattern-card-label">AI OC Accuracy</div>
+        <div id="accuracySummary"><div class="loading">Loading...</div></div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-card-label">vs. Consensus Rank Pick</div>
+        <div id="accuracyComparison"><div class="loading">Loading...</div></div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-card-label">Rolling 4-Week Trend</div>
+        <div id="accuracyTrend"><div class="loading">Loading...</div></div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-header">
+        <div>
+          <div class="table-title">Graded Calls</div>
+          <div class="table-meta">Every call checked against real outcomes</div>
+        </div>
+      </div>
+      <div id="accuracyCallsBody">
+        <div class="loading">Loading graded calls...<div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
 const API = 'https://api.gfdhub.com';
 
-let ALL_SESSIONS  = [];
+let ALL_SESSIONS = [];
 let ALL_WATCHLIST = [];
-let ALL_USERS     = [];
+let ALL_USERS = [];
+let ALL_ACCURACY_WEEKLY = [];
+let ALL_ACCURACY_CALLS = [];
 
 async function login() {
   const email = document.getElementById('gateEmail').value.trim();
@@ -289,20 +321,25 @@ async function loadAll() {
   document.getElementById('lastRefresh').textContent = 'Refreshing...';
   try {
     const headers = { 'x-admin-key': sessionStorage.getItem('cc_token') || '' };
-    const [sessRes, ctxRes] = await Promise.all([
-      fetch(`${API}/api/admin/sessions`, { headers }),
-      fetch(`${API}/api/admin/watchlist`, { headers })
+   const [sessRes, ctxRes, accRes] = await Promise.all([
+    fetch(`${API}/api/admin/sessions`, { headers }),
+    fetch(`${API}/api/admin/watchlist`, { headers }),
+    fetch(`${API}/api/admin/accuracy`, { headers })
     ]);
     const sessData = await sessRes.json();
-    const ctxData  = await ctxRes.json();
-    ALL_SESSIONS  = sessData.sessions || [];
+    const ctxData = await ctxRes.json();
+    const accData = await accRes.json();
+    ALL_SESSIONS = sessData.sessions || [];
     ALL_WATCHLIST = ctxData.watchlist || [];
-    ALL_USERS     = ctxData.users     || [];
+    ALL_USERS = ctxData.users || [];
+    ALL_ACCURACY_WEEKLY = accData.weekly || [];
+    ALL_ACCURACY_CALLS = accData.calls || [];
     renderStats();
     renderQuestions();
     renderUsers();
     renderDemand();
     renderPatterns();
+    renderAccuracy();
     document.getElementById('lastRefresh').textContent = `Last refresh: ${new Date().toLocaleTimeString()}`;
   } catch(e) {
     document.getElementById('lastRefresh').textContent = 'Error loading data';
@@ -511,6 +548,58 @@ function renderPatterns() {
   document.getElementById('patternActivity').innerHTML = sortedWeeks.length
     ? sortedWeeks.map(([wk,cnt])=>`<div class="pattern-item"><span class="pattern-key">${wk}</span><span class="pattern-val">${cnt} session${cnt!==1?'s':''}</span></div>`).join('')
     : '<div class="empty">No data yet.</div>';
+}
+
+function renderAccuracy() {
+  const calls = ALL_ACCURACY_CALLS;
+  const graded = calls.filter(c => c.ai_correct !== null);
+  const totalGraded = graded.length;
+  const aiCorrectCount = graded.filter(c => c.ai_correct).length;
+  const aiHitRate = totalGraded ? Math.round((aiCorrectCount / totalGraded) * 100) : null;
+
+  const naiveGraded = calls.filter(c => c.naive_rank_correct !== null);
+  const naiveCorrectCount = naiveGraded.filter(c => c.naive_rank_correct).length;
+  const naiveHitRate = naiveGraded.length ? Math.round((naiveCorrectCount / naiveGraded.length) * 100) : null;
+
+  document.getElementById('accuracySummary').innerHTML = totalGraded
+    ? `<div class="pattern-item"><span class="pattern-key">Hit rate</span><span class="pattern-val green">${aiHitRate}%</span></div>
+       <div class="pattern-item"><span class="pattern-key">Graded calls</span><span class="pattern-val">${totalGraded}</span></div>`
+    : `<div class="empty">No graded calls yet.</div>`;
+
+  document.getElementById('accuracyComparison').innerHTML = naiveGraded.length
+    ? `<div class="pattern-item"><span class="pattern-key">AI OC</span><span class="pattern-val green">${aiHitRate}%</span></div>
+       <div class="pattern-item"><span class="pattern-key">Consensus rank pick</span><span class="pattern-val">${naiveHitRate}%</span></div>
+       <div class="pattern-item"><span class="pattern-key">Margin</span><span class="pattern-val ${aiHitRate > naiveHitRate ? 'green' : 'amb'}">${(aiHitRate - naiveHitRate) > 0 ? '+' : ''}${aiHitRate - naiveHitRate}pts</span></div>`
+    : `<div class="empty">No comparable calls yet.</div>`;
+
+  const weekly = [...ALL_ACCURACY_WEEKLY].filter(w => w.total_calls > 0).sort((a,b) => b.week - a.week).slice(0, 8);
+  document.getElementById('accuracyTrend').innerHTML = weekly.length
+    ? weekly.map(w => `<div class="pattern-item"><span class="pattern-key">Wk ${w.week}</span><span class="pattern-val">${w.rolling_4wk_hit_rate != null ? Math.round(w.rolling_4wk_hit_rate * 100) + '%' : '—'}</span></div>`).join('')
+    : `<div class="empty">No weekly data yet.</div>`;
+
+  if (!calls.length) {
+    document.getElementById('accuracyCallsBody').innerHTML = `<div class="empty">No graded calls yet.</div>`;
+    return;
+  }
+  const rows = calls.slice(0, 200).map(c => {
+    const dt = c.graded_at ? new Date(c.graded_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '—';
+    const resultBadge = c.ai_correct === true
+      ? `<span class="pro-badge yes">✓ Correct</span>`
+      : c.ai_correct === false
+      ? `<span class="pro-badge no">✗ Miss</span>`
+      : `<span style="color:var(--t3);font-size:11px">Pending</span>`;
+    return `<tr>
+      <td><span class="week-badge">Wk ${c.week||'?'}</span></td>
+      <td><div class="td-question">${escHtml(c.ai_pick||'')}</div></td>
+      <td><div class="td-answer">${escHtml(c.player_a_name||'')} (${c.player_a_actual_pts ?? '—'} pts) vs ${escHtml(c.player_b_name||'')} (${c.player_b_actual_pts ?? '—'} pts)</div></td>
+      <td>${resultBadge}</td>
+      <td><div class="td-time">${dt}</div></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('accuracyCallsBody').innerHTML = `
+    <table><thead><tr>
+      <th>Week</th><th>AI Pick</th><th>Matchup</th><th>Result</th><th>Graded</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function posClass(pos) {
