@@ -719,6 +719,15 @@ async function renderOffseasonPanel(player) {
   }
 }
 
+function formatGameDate(gameID) {
+  if (!gameID) return '';
+  const datePart = gameID.split('_')[0];
+  if (datePart.length !== 8) return '';
+  const y = datePart.slice(0,4), m = datePart.slice(4,6), d = datePart.slice(6,8);
+  const dt = new Date(`${y}-${m}-${d}`);
+  return dt.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+}
+
 function renderPlayerPanel(data, injury) {
   const s = data.summary || {};
   const games = data.games || [];
@@ -737,18 +746,20 @@ function renderPlayerPanel(data, injury) {
   let html = '';
   html += `<div class="pp-section"><div class="pp-section-label">Last ${s.games||6} games — usage</div><div class="pp-stats">`;
   if (isSkill) {
-    html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.snapShare||'N/A'}</div><div class="pp-stat-label">Snap %</div></div>`;
+    html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.avgSnapPct||'N/A'}</div><div class="pp-stat-label">Snap %</div></div>`;
   }
   if (isWR || isTE) {
-    html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.targetShare||'N/A'}</div><div class="pp-stat-label">Target %</div></div>
-             <div class="pp-stat"><div class="pp-stat-val">${s.avgTargets||'0'}</div><div class="pp-stat-label">Avg Tgts</div></div>`;
+    const trendTag = s.trend?.targetsDirection && s.trend.targetsDirection !== 'N/A' ? s.trend.targetsDirection : '—';
+    html += `<div class="pp-stat"><div class="pp-stat-val">${s.avgTargets||'0'}</div><div class="pp-stat-label">Avg Tgts</div></div>
+             <div class="pp-stat"><div class="pp-stat-val">${trendTag}</div><div class="pp-stat-label">Tgt Trend</div></div>`;
   }
   if (isRB) {
-    html += `<div class="pp-stat"><div class="pp-stat-val highlight">${s.carryShare||'N/A'}</div><div class="pp-stat-label">Carry %</div></div>
-             <div class="pp-stat"><div class="pp-stat-val">${s.avgCarries||'0'}</div><div class="pp-stat-label">Avg Carries</div></div>`;
+    const trendTag = s.trend?.carriesDirection && s.trend.carriesDirection !== 'N/A' ? s.trend.carriesDirection : '—';
+    html += `<div class="pp-stat"><div class="pp-stat-val">${s.avgCarries||'0'}</div><div class="pp-stat-label">Avg Carries</div></div>
+             <div class="pp-stat"><div class="pp-stat-val">${trendTag}</div><div class="pp-stat-label">Car Trend</div></div>`;
   }
   if (!isSkill) {
-    html += `<div class="pp-stat"><div class="pp-stat-val">${s.avgSnaps||'N/A'}</div><div class="pp-stat-label">Avg Snaps</div></div>`;
+    html += `<div class="pp-stat"><div class="pp-stat-val">${s.avgSnapPct||'N/A'}</div><div class="pp-stat-label">Avg Snap %</div></div>`;
   }
   html += `</div></div>`;
 
@@ -772,7 +783,7 @@ function renderPlayerPanel(data, injury) {
       const val = isWR||isTE ? `${g.targets} tgt · ${g.receptions} rec · ${g.recYards} yds`
                 : isRB ? `${g.carries} car · ${g.rushYards} yds`
                 : `${g.fantasyPts} pts`;
-      html += `<div class="pp-game-row"><span class="pp-game-opp">Wk${g.week} vs ${g.opponent||'?'}</span><span class="pp-game-val">${val}</span></div>`;
+      html += `<div class="pp-game-row"><span class="pp-game-opp">${formatGameDate(g.gameID)} vs ${g.opponent||'?'}</span><span class="pp-game-val">${val}</span></div>`;
     });
     html += `</div>`;
   }
@@ -1270,11 +1281,18 @@ async function fetchLiveContext(question) {
       const usageData = await usageRes.json();
       const s = usageData.summary;
       if (s && usageData.games?.length) {
-        const parts = [];
-        if (s.targetShare !== 'N/A') parts.push(`target share ${s.targetShare}`);
-        if (s.carryShare !== 'N/A') parts.push(`carry share ${s.carryShare}`);
-        if (s.snapShare !== 'N/A') parts.push(`snap % ${s.snapShare}`);
-        context.usage.push(`${p.name} (last ${s.games} games): ${parts.join(', ')}, avg ${s.avgTargets} tgt / ${s.avgCarries} car / ${s.avgSnaps} snaps`);
+        const parts = [`avg ${s.avgTargets} tgt / ${s.avgCarries} car / ${s.avgSnapPct} snaps`];
+        const t = s.trend || {};
+        if (t.targetsDirection && t.targetsDirection !== 'N/A') {
+          parts.push(`targets trending ${t.targetsDirection} (last 3: ${t.last3AvgTargets} vs season ${t.seasonAvgTargets})`);
+        }
+        if (t.carriesDirection && t.carriesDirection !== 'N/A') {
+          parts.push(`carries trending ${t.carriesDirection} (last 3: ${t.last3AvgCarries} vs season ${t.seasonAvgCarries})`);
+        }
+        if (t.snapPctDirection && t.snapPctDirection !== 'N/A') {
+          parts.push(`snap % trending ${t.snapPctDirection} (last 3: ${t.last3SnapPct} vs season ${t.seasonSnapPct})`);
+        }
+        context.usage.push(`${p.name} (last ${s.games} games): ${parts.join(', ')}`);
       }
     }
   } catch(e) {}
@@ -1450,18 +1468,32 @@ function toggleWLInput() {
   if (!visible) setTimeout(() => document.getElementById('wlAddInput').focus(), 50);
 }
 
-function addPlayerManual() {
+async function addPlayerManual() {
   const input = document.getElementById('wlAddInput');
   const raw = input.value.trim();
   if (!raw || raw.length < 2) return;
+  input.value = '';
+  document.getElementById('wlAddRow').style.display = 'none';
+
   const resolved = resolveFromLookup(raw);
   if (resolved) {
     addToWatchlist(resolved.name, resolved.pos, resolved.team, 'ok');
-  } else {
-    addToWatchlist(raw, '', '', 'ok');
+    return;
   }
-  input.value = '';
-  document.getElementById('wlAddRow').style.display = 'none';
+
+  // Not in the local lookup table — resolve against the live Tank01
+  // search instead of storing the raw typed text verbatim
+  try {
+    const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(raw)}`);
+    const data = await res.json();
+    const match = data.players?.[0];
+    if (match) {
+      addToWatchlist(match.name, match.pos, match.team, 'ok');
+      return;
+    }
+  } catch(e) {}
+
+  addToWatchlist(raw, '', '', 'ok');
 }
 
 function quickAsk(q) {
