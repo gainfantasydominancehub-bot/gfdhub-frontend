@@ -1203,14 +1203,18 @@ function formatResponse(text) {
 /* ── LIVE DATA CONTEXT FOR AI OC PROMPT ── */
 function getRelevantPlayers(question) {
   const mentionedNames = extractPlayerNames(question);
-  const relevant = [...WATCHLIST];
+  const mentioned = [];
   mentionedNames.forEach(name => {
-    if (!relevant.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+    const onWatchlist = WATCHLIST.find(p => p.name.toLowerCase() === name.toLowerCase());
+    if (onWatchlist) {
+      mentioned.push(onWatchlist);
+    } else {
       const resolved = resolveFromLookup(name);
-      if (resolved) relevant.push(resolved);
+      if (resolved) mentioned.push(resolved);
     }
   });
-  return relevant.slice(0, 5);
+  const rest = WATCHLIST.filter(p => !mentioned.some(m => m.name.toLowerCase() === p.name.toLowerCase()));
+  return [...mentioned, ...rest].slice(0, 5);
 }
 
 async function fetchLiveContext(question) {
