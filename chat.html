@@ -1085,7 +1085,8 @@ CRITICAL: If usage, injury, odds, or trend data has been provided in this conver
     const week = Math.min(Math.floor((now - opener) / (7*24*60*60*1000)) + 1, 18);
     return `Current date: ${dateStr}.
 We are in the 2026 NFL PLAYOFF PUSH, Week ${week}. Fantasy playoffs are here — every call is win or go home.
-CRITICAL: Reference 2026 season stats only. Prioritize high-floor players and safe targets over boom/bust options.`;
+CRITICAL: Reference 2026 season stats only. Prioritize high-floor players and safe targets over boom/bust options.
+CRITICAL: If usage, injury, odds, or trend data has been provided in this conversation's live context, treat it as authoritative and cite it directly. Do not substitute general knowledge or assumptions where live data is available.`;
   }
   if (now < superBowl) {
     return `Current date: ${dateStr}.
