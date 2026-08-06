@@ -1091,7 +1091,8 @@ CRITICAL: If usage, injury, odds, or trend data has been provided in this conver
   if (now < superBowl) {
     return `Current date: ${dateStr}.
 We are in the 2026-27 NFL PLAYOFFS.
-CRITICAL: Reference 2026 season stats. Treat every call as championship-level stakes.`;
+CRITICAL: Reference 2026 season stats. Treat every call as championship-level stakes.
+CRITICAL: If usage, injury, odds, or trend data has been provided in this conversation's live context, treat it as authoritative and cite it directly. Do not substitute general knowledge or assumptions where live data is available.`;
   }
   return `Current date: ${dateStr}. The 2026 NFL season has concluded. Reference 2026 season stats and begin framing 2027 draft prep where relevant.`;
 }
