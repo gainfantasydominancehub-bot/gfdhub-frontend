@@ -941,7 +941,7 @@ window.addEventListener('resize', () => { if (window.innerWidth > 640) closeDraw
 
 function getSeasonContext() {
   const now = new Date();
-  const opener      = new Date('2026-09-09');
+  const opener      = new Date('2026-09-09'); // Must match `seasonStart` in index.js's getCurrentWeek()
   const playoffPush = new Date('2026-12-21');
   const nflPlayoffs = new Date('2027-01-05');
   const superBowl   = new Date('2027-02-09');
