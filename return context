@@ -1221,13 +1221,22 @@ function getRelevantPlayers(question) {
 }
 
 async function fetchLiveContext(question) {
-  const context = { odds: [], weather: null, projections: [], injuries: [], usage: [], news: [] };
+  const context = { odds: [], weather: null, projections: [], injuries: [], usage: [], news: [], defense: [] };
   const relevantPlayers = getRelevantPlayers(question);
+      let teamOpponentMap = {};
 
   try {
     // Always fetch current odds for game context
     const oddsRes = await fetch(`${API}/api/odds`);
     const oddsData = await oddsRes.json();
+          if (oddsData.ok && oddsData.games) {
+        oddsData.games.forEach(g => {
+          if (g.home && g.away) {
+            teamOpponentMap[g.home.toUpperCase()] = g.away.toUpperCase();
+            teamOpponentMap[g.away.toUpperCase()] = g.home.toUpperCase();
+          }
+        });
+      }
     if (oddsData.ok && oddsData.games) {
       // Filter to games with meaningful totals
       context.odds = oddsData.games
@@ -1334,6 +1343,23 @@ async function fetchLiveContext(question) {
       }
     }
   } catch(e) {}
+  
+    try {
+      for (const p of relevantPlayers.slice(0, 4)) {
+        const searchRes = await fetch(`${API}/api/player/search?name=${encodeURIComponent(p.name)}`);
+        const searchData = await searchRes.json();
+        const playerTeam = searchData.players?.[0]?.team;
+        if (!playerTeam) continue;
+        const opponent = teamOpponentMap[playerTeam.toUpperCase()];
+        if (!opponent) continue; // no game found for this team (bye week, or odds not posted yet)
+        const defRes = await fetch(`${API}/api/defense/recent-form?team=${opponent}&games=3`);
+        const defData = await defRes.json();
+        if (defData.ok && defData.summary) {
+          const s = defData.summary;
+          context.defense.push(`${p.name} faces ${opponent} (last ${defData.games} games): ${s.avgPointsAllowed} pts/g allowed, ${s.avgYardsAllowed} yds/g allowed`);
+        }
+      }
+    } catch(e) {}
 
   return context;
 }
