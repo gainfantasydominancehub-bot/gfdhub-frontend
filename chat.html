@@ -553,6 +553,23 @@ function extractPlayerNames(text) {
   });
   return [...new Set(found)];
 }
+  
+// Looser than extractPlayerNames() — that one requires full two-word
+// names, so single-word entries ("Swift or Montgomery") fell through
+// with zero matches. This is scoped specifically to the #28 start/sit
+// routing decision: look for a direct "<Name> or <Name>" pattern,
+// 1-2 capitalized words each side.
+function extractStartSitPair(text) {
+  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then']);
+  const namePart = "[A-Z][a-zA-Z'\\.]*(?:\\s+[A-Z][a-zA-Z'\\.]*)?";
+  const re = new RegExp(`\\b(${namePart})\\s+or\\s+(${namePart})\\b`);
+  const m = text.match(re);
+  if (!m) return null;
+  const a = m[1].trim(), b = m[2].trim();
+  const bad = (n) => n.split(' ').some(w => skipWords.has(w)) || n.length < 3;
+  if (bad(a) || bad(b)) return null;
+  return [a, b];
+}
 
 function extractFromResponse(text) {
   const clean = text.replace(/<[^>]+>/g, ' ');
@@ -1467,13 +1484,14 @@ async function sendMessage() {
   
     // #28: route genuine 2-player start/sit questions to the grounded
     // /api/ai/startsit endpoint + verdict card, instead of general chat.
-    const isStartSitQuestion = userNames.length === 2 && /\b(start|sit)\b/i.test(q);
+    const startSitPair = extractStartSitPair(q);
+    const isStartSitQuestion = !!startSitPair && /\b(start|sit)\b/i.test(q);
     if (isStartSitQuestion) {
       try {
         const res = await fetch(`${API}/api/ai/startsit`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ player1: userNames[0], player2: userNames[1] })
+                    body: JSON.stringify({ player1: startSitPair[0], player2: startSitPair[1] })
         });
         const data = await res.json();
         document.getElementById('typing').classList.remove('show');
