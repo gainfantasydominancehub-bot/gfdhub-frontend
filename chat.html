@@ -153,6 +153,31 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .pp-ask-btn:hover{background:#00ffb0;transform:translateY(-1px)}
 .pp-ask-btn svg{width:14px;height:14px;fill:none;stroke:#041a0f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .pp-footer{padding:14px 16px;border-top:1px solid var(--b1);flex-shrink:0}
+  .sscard{background:var(--s2);border:1px solid var(--b1);border-radius:14px;padding:18px;max-width:100%}
+.sscard-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
+.sscard-label{font-family:var(--fd);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ac)}
+.sscard-badge{font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:.3px;white-space:nowrap;color:var(--amb);background:rgba(255,179,71,.12);border:1px solid rgba(255,179,71,.25);padding:4px 12px;border-radius:20px}
+.sscard-players{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sscard-player{border-radius:10px;padding:12px 14px;border:1px solid}
+.sscard-player.start{background:var(--ac2);border-color:rgba(0,229,160,.25)}
+.sscard-player.sit{background:rgba(255,77,106,.08);border-color:rgba(255,77,106,.22)}
+.sscard-tag{font-family:var(--fd);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.sscard-player.start .sscard-tag{color:var(--ac)}
+.sscard-player.sit .sscard-tag{color:var(--red)}
+.sscard-name{font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);letter-spacing:-.2px}
+.sscard-meta{font-size:11px;color:var(--t2);margin-top:2px}
+.sscard-proj{font-family:var(--fd);font-size:22px;font-weight:900;margin-top:10px;letter-spacing:-.5px}
+.sscard-player.start .sscard-proj{color:var(--ac)}
+.sscard-player.sit .sscard-proj{color:var(--red)}
+.sscard-proj-label{font-size:10px;color:var(--t3);font-weight:700;text-transform:uppercase;margin-left:4px;font-family:var(--fb)}
+.sscard-reasoning{background:var(--s3);border:1px solid var(--b1);border-radius:9px;padding:12px 14px;font-size:13px;color:var(--t1);line-height:1.6;margin-bottom:14px}
+.sscard-qualifier{font-size:12.5px;color:var(--pur);text-align:center;margin-bottom:14px;font-family:var(--fb);font-weight:600}
+.sscard-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--b1)}
+.sscard-brand{font-family:var(--fd);font-weight:900;font-size:12px;color:var(--t1);letter-spacing:-.3px}
+.sscard-brand em{color:var(--ac);font-style:normal}
+.sscard-tagline{font-size:11px;color:var(--t3)}
+.sscard-share{width:26px;height:26px;border-radius:50%;background:var(--s3);border:1px solid var(--b1);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;font-size:12px;flex-shrink:0}
+.sscard-share:hover{border-color:var(--b2);color:var(--t1)}
 .drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40;backdrop-filter:blur(2px)}
 .drawer-overlay.show{display:block}
 .panel-overlay{display:none;position:fixed;inset:0;z-index:55}
@@ -913,6 +938,65 @@ function closePlayerPanel() {
   document.getElementById('panelOverlay').classList.remove('show');
   ACTIVE_PLAYER = null;
 }
+  
+function addStartSitCard(r) {
+  const wrap = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg';
+  const tier = r.tier || {};
+  const sm = r.start_meta || {};
+  const im = r.sit_meta || {};
+  const metaLine = (pos, team) => [pos, team].filter(Boolean).join(' · ');
+  div.innerHTML = `
+    <div class="msg-ava oc">OC</div>
+    <div class="msg-body">
+      <div class="sscard">
+        <div class="sscard-header">
+          <span class="sscard-label">AI OC Verdict</span>
+          <span class="sscard-badge">${tier.tagline || ''} · ${r.confidence}%</span>
+        </div>
+        <div class="sscard-players">
+          <div class="sscard-player start">
+            <div class="sscard-tag">Start</div>
+            <div class="sscard-name">${r.start}</div>
+            <div class="sscard-meta">${metaLine(sm.pos, sm.team)}</div>
+            <div class="sscard-proj">${r.start_proj}<span class="sscard-proj-label">proj pts</span></div>
+          </div>
+          <div class="sscard-player sit">
+            <div class="sscard-tag">Sit</div>
+            <div class="sscard-name">${r.sit}</div>
+            <div class="sscard-meta">${metaLine(im.pos, im.team)}</div>
+            <div class="sscard-proj">${r.sit_proj}<span class="sscard-proj-label">proj pts</span></div>
+          </div>
+        </div>
+        <div class="sscard-reasoning">${r.reasoning || ''}</div>
+        <div class="sscard-qualifier">${tier.tagline || ''} — ${tier.qualifier || ''}.</div>
+        <div class="sscard-footer">
+          <span class="sscard-brand">GFD<em>HUB</em></span>
+          <span class="sscard-tagline">No vibes. No regrets.</span>
+          <button class="sscard-share" onclick="shareStartSitCard(this)" title="Share">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"/><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="msg-time">AI OC · just now</div>
+    </div>`;
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function shareStartSitCard(btn) {
+  const card = btn.closest('.sscard');
+  const startName = card.querySelector('.sscard-player.start .sscard-name').textContent;
+  const sitName = card.querySelector('.sscard-player.sit .sscard-name').textContent;
+  const text = `AI OC says: Start ${startName} over ${sitName} this week. No vibes. No regrets. 🏈`;
+  const url = 'https://gfdhub.com';
+  if (navigator.share) {
+    navigator.share({ text, url }).catch(() => {});
+  } else {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+  }
+}
 
 function askAboutPlayer() {
   if (!ACTIVE_PLAYER) return;
@@ -1380,6 +1464,44 @@ async function sendMessage() {
 
   const userNames = extractPlayerNames(q);
   if (userNames.length) resolveAndAddPlayers(userNames);
+  
+    // #28: route genuine 2-player start/sit questions to the grounded
+    // /api/ai/startsit endpoint + verdict card, instead of general chat.
+    const isStartSitQuestion = userNames.length === 2 && /\b(start|sit)\b/i.test(q);
+    if (isStartSitQuestion) {
+      try {
+        const res = await fetch(`${API}/api/ai/startsit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ player1: userNames[0], player2: userNames[1] })
+        });
+        const data = await res.json();
+        document.getElementById('typing').classList.remove('show');
+        if (data.ok && data.result) {
+          addStartSitCard(data.result);
+          fetch(`${API}/api/oc-calls/log`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: USER?.email,
+              playerA: data.result.start,
+              playerB: data.result.sit,
+              aiPick: data.result.start,
+              week: CONTEXT?.week
+            })
+          }).catch(()=>{});
+        } else {
+          addMessage('oc', 'Having trouble making that call right now. Try again in a moment.');
+        }
+      } catch(e) {
+        document.getElementById('typing').classList.remove('show');
+        addMessage('oc', 'Having trouble making that call right now. Try again in a moment.');
+      }
+      WAITING = false;
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('inputBox').focus();
+      return;
+    }
 
   const wlContext = WATCHLIST.length
     ? `User's Watchlist: ${WATCHLIST.map(p=>`${p.name} (${p.pos})`).join(', ')}`
