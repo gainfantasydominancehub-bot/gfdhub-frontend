@@ -165,6 +165,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .sscard-player.start .sscard-tag{color:var(--ac)}
 .sscard-player.sit .sscard-tag{color:var(--red)}
 .sscard-name{font-family:var(--fd);font-size:15px;font-weight:800;color:var(--t1);letter-spacing:-.2px}
+  .sscard-player-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .sscard-meta{font-size:11px;color:var(--t2);margin-top:2px}
 .sscard-proj{font-family:var(--fd);font-size:22px;font-weight:900;margin-top:10px;letter-spacing:-.5px}
 .sscard-player.start .sscard-proj{color:var(--ac)}
@@ -972,17 +973,27 @@ function addStartSitCard(r) {
           <span class="sscard-label">AI OC Verdict</span>
           <span class="sscard-badge">${tier.tagline || ''} · ${r.confidence}%</span>
         </div>
-        <div class="sscard-players">
+                <div class="sscard-players">
           <div class="sscard-player start">
             <div class="sscard-tag">Start</div>
-            <div class="sscard-name">${r.start}</div>
-            <div class="sscard-meta">${metaLine(sm.pos, sm.team)}</div>
+            <div class="sscard-player-head">
+              <div class="wl-init ${posClass(sm.pos)}">${posInitials(r.start, sm.pos)}</div>
+              <div>
+                <div class="sscard-name">${r.start}</div>
+                <div class="sscard-meta">${metaLine(sm.pos, sm.team)}</div>
+              </div>
+            </div>
             <div class="sscard-proj">${r.start_proj}<span class="sscard-proj-label">proj pts</span></div>
           </div>
           <div class="sscard-player sit">
             <div class="sscard-tag">Sit</div>
-            <div class="sscard-name">${r.sit}</div>
-            <div class="sscard-meta">${metaLine(im.pos, im.team)}</div>
+            <div class="sscard-player-head">
+              <div class="wl-init ${posClass(im.pos)}">${posInitials(r.sit, im.pos)}</div>
+              <div>
+                <div class="sscard-name">${r.sit}</div>
+                <div class="sscard-meta">${metaLine(im.pos, im.team)}</div>
+              </div>
+            </div>
             <div class="sscard-proj">${r.sit_proj}<span class="sscard-proj-label">proj pts</span></div>
           </div>
         </div>
