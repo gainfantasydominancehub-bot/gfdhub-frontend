@@ -561,10 +561,16 @@ function extractPlayerNames(text) {
 // routing decision: look for a direct "<Name> or <Name>" pattern,
 // 1-2 capitalized words each side.
 function extractStartSitPair(text) {
+  // Strip a leading "Start"/"Sit" command word — when it opens the
+  // sentence it's always sentence-capitalized, which let it get
+  // greedily swallowed into a two-word name candidate (e.g. "Start
+  // Dart" from "Start Dart or Maye"), causing the whole match to be
+  // correctly rejected by the skipWord filter but with no fallback.
   const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then']);
+  const stripped = text.replace(/^\s*(start|sit)\b/i, '').trim();
   const namePart = "[A-Z][a-zA-Z'\\.]*(?:\\s+[A-Z][a-zA-Z'\\.]*)?";
   const re = new RegExp(`\\b(${namePart})\\s+or\\s+(${namePart})\\b`);
-  const m = text.match(re);
+  const m = stripped.match(re) || text.match(re);
   if (!m) return null;
   const a = m[1].trim(), b = m[2].trim();
   const bad = (n) => n.split(' ').some(w => skipWords.has(w)) || n.length < 3;
