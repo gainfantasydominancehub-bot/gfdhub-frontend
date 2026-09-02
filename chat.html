@@ -573,7 +573,7 @@ async function extractStartSitPair(text) {
   const leftWords = m[1].trim().split(/\s+/).slice(-3);
   const rightWords = m[2].trim().split(/\s+/).slice(0, 3);
 
-  async function bestMatch(words, fromEnd) {
+    async function bestMatch(words, fromEnd) {
     for (const n of [2, 1]) {
       const slice = fromEnd ? words.slice(-n) : words.slice(0, n);
       const candidate = slice.join(' ');
@@ -581,7 +581,19 @@ async function extractStartSitPair(text) {
       try {
         const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(candidate)}`);
         const data = await res.json();
-        if (data.players && data.players.length > 0) return data.players[0].name;
+        // Reject substring-only coincidences (e.g. "now" matching inside
+        // "Ragnow", "later" inside "Slater") — require the candidate to
+        // match at real word boundaries within the returned player's name.
+        if (data.players && data.players.length > 0) {
+          const hit = data.players[0];
+          const cWords = candidate.toLowerCase().split(/\s+/);
+          const nWords = hit.name.toLowerCase().split(/\s+/).map(w => w.replace(/[.,]/g, ''));
+          let wholeWord = false;
+          for (let i = 0; i <= nWords.length - cWords.length; i++) {
+            if (cWords.every((w, j) => nWords[i + j] === w)) { wholeWord = true; break; }
+          }
+          if (wholeWord) return hit.name;
+        }
       } catch(e) {}
     }
     return null;
