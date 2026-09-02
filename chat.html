@@ -471,6 +471,21 @@ function resolveFromLookup(input) {
   return match || null;
 }
 
+// Checks the user's own watchlist for an exact full-name or exact
+// last-name match — used by extractStartSitPair()'s bestMatch() so a
+// player known only via watchlist (not in the backend's curated list)
+// still resolves correctly, since the backend has no visibility into a
+// given user's personal watchlist. Exact equality only, never substring,
+// so this can't reintroduce the earlier "now"-inside-"Ragnow" bug.
+function matchWatchlist(candidate) {
+  const q = candidate.toLowerCase().trim();
+  let match = WATCHLIST.find(p => p.name.toLowerCase() === q);
+  if (match) return match.name;
+  match = WATCHLIST.find(p => p.name.toLowerCase().split(' ').pop() === q);
+  if (match) return match.name;
+  return null;
+}
+
 function posClass(pos) {
   if (!pos) return 'k';
   const p = pos.toUpperCase();
@@ -584,11 +599,16 @@ async function extractStartSitPair(text) {
   const leftWords = m[1].trim().split(/\s+/).slice(-3);
   const rightWords = m[2].trim().split(/\s+/).slice(0, 3);
 
-    async function bestMatch(words, fromEnd) {
+        async function bestMatch(words, fromEnd) {
     for (const n of [2, 1]) {
       const slice = fromEnd ? words.slice(-n) : words.slice(0, n);
       const candidate = slice.join(' ');
       if (candidate.length < 3) continue;
+
+      // Check the user's own watchlist first — see matchWatchlist() above.
+      const wlMatch = matchWatchlist(candidate);
+      if (wlMatch) return wlMatch;
+
       try {
         const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(candidate)}`);
         const data = await res.json();
