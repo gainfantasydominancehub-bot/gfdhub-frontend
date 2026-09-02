@@ -555,27 +555,42 @@ function extractPlayerNames(text) {
   return [...new Set(found)];
 }
   
-// Looser than extractPlayerNames() — that one requires full two-word
-// names, so single-word entries ("Swift or Montgomery") fell through
-// with zero matches. This is scoped specifically to the #28 start/sit
-// routing decision: look for a direct "<Name> or <Name>" pattern,
-// 1-2 capitalized words each side.
-function extractStartSitPair(text) {
-  // Strip a leading "Start"/"Sit" command word — when it opens the
-  // sentence it's always sentence-capitalized, which let it get
-  // greedily swallowed into a two-word name candidate (e.g. "Start
-  // Dart" from "Start Dart or Maye"), causing the whole match to be
-  // correctly rejected by the skipWord filter but with no fallback.
-  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then']);
-  const stripped = text.replace(/^\s*(start|sit)\b/i, '').trim();
-  const namePart = "[A-Z][a-zA-Z'\\.]*(?:\\s+[A-Z][a-zA-Z'\\.]*)?";
-  const re = new RegExp(`\\b(${namePart})\\s+or\\s+(${namePart})\\b`);
-  const m = stripped.match(re) || text.match(re);
-  if (!m) return null;
-  const a = m[1].trim(), b = m[2].trim();
-  const bad = (n) => n.split(' ').some(w => skipWords.has(w)) || n.length < 3;
-  if (bad(a) || bad(b)) return null;
-  return [a, b];
+// Validates candidates against the real player database (/api/player/search)
+// instead of guessing from sentence shape (capitalization, skipwords) — the
+// old approach couldn't distinguish "Start Dart or Maye" from "Start now or
+// later" without either missing real lowercase names or false-triggering on
+// ordinary sentences. Three-state return:
+//   {shape:false}            — not a player question at all, falls through
+//                               to general chat exactly as before
+//   {shape:true, pair:[a,b]} — both sides resolved, route to the verdict card
+//   {shape:true, pair:null}  — looks like a start/sit question but one side
+//                               didn't resolve (typo/unknown player) — show
+//                               a dedicated message instead of silently
+//                               falling through to an unrelated answer
+async function extractStartSitPair(text) {
+  const m = text.match(/\b(.+?)\s+or\s+(.+?)(?:[.,!?]|$)/i);
+  if (!m) return { shape: false };
+  const leftWords = m[1].trim().split(/\s+/).slice(-3);
+  const rightWords = m[2].trim().split(/\s+/).slice(0, 3);
+
+  async function bestMatch(words, fromEnd) {
+    for (const n of [2, 1]) {
+      const slice = fromEnd ? words.slice(-n) : words.slice(0, n);
+      const candidate = slice.join(' ');
+      if (candidate.length < 3) continue;
+      try {
+        const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(candidate)}`);
+        const data = await res.json();
+        if (data.players && data.players.length > 0) return data.players[0].name;
+      } catch(e) {}
+    }
+    return null;
+  }
+
+  const [a, b] = await Promise.all([bestMatch(leftWords, true), bestMatch(rightWords, false)]);
+  if (a && b) return { shape: true, pair: [a, b] };
+  if (a || b) return { shape: true, pair: null };
+  return { shape: false };
 }
 
 function extractFromResponse(text) {
@@ -1501,43 +1516,46 @@ async function sendMessage() {
   
     // #28: route genuine 2-player start/sit questions to the grounded
     // /api/ai/startsit endpoint + verdict card, instead of general chat.
-    const startSitPair = extractStartSitPair(q);
-    const isStartSitQuestion = !!startSitPair && /\b(start|sit)\b/i.test(q);
-    if (isStartSitQuestion) {
-      try {
-        const res = await fetch(`${API}/api/ai/startsit`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ player1: startSitPair[0], player2: startSitPair[1] })
-        });
-        const data = await res.json();
-        document.getElementById('typing').classList.remove('show');
-        if (data.ok && data.result) {
-          addStartSitCard(data.result);
-          fetch(`${API}/api/oc-calls/log`, {
+        const startSitResult = await extractStartSitPair(q);
+    if (startSitResult.shape) {
+      if (startSitResult.pair) {
+        try {
+          const res = await fetch(`${API}/api/ai/startsit`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: USER?.email,
-              playerA: data.result.start,
-              playerB: data.result.sit,
-              aiPick: data.result.start,
-              week: CONTEXT?.week
-            })
-          }).catch(()=>{});
-        } else {
+            body: JSON.stringify({ player1: startSitResult.pair[0], player2: startSitResult.pair[1] })
+          });
+          const data = await res.json();
+          document.getElementById('typing').classList.remove('show');
+          if (data.ok && data.result) {
+            addStartSitCard(data.result);
+            fetch(`${API}/api/oc-calls/log`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: USER?.email,
+                playerA: data.result.start,
+                playerB: data.result.sit,
+                aiPick: data.result.start,
+                week: CONTEXT?.week
+              })
+            }).catch(()=>{});
+          } else {
+            addMessage('oc', 'Having trouble making that call right now. Try again in a moment.');
+          }
+        } catch(e) {
+          document.getElementById('typing').classList.remove('show');
           addMessage('oc', 'Having trouble making that call right now. Try again in a moment.');
         }
-      } catch(e) {
+      } else {
         document.getElementById('typing').classList.remove('show');
-        addMessage('oc', 'Having trouble making that call right now. Try again in a moment.');
+        addMessage('oc', "Couldn't find one of those players — try the full name, or ask me directly.");
       }
       WAITING = false;
       document.getElementById('sendBtn').disabled = false;
       document.getElementById('inputBox').focus();
       return;
     }
-
   const wlContext = WATCHLIST.length
     ? `User's Watchlist: ${WATCHLIST.map(p=>`${p.name} (${p.pos})`).join(', ')}`
     : 'Watchlist empty — first session';
