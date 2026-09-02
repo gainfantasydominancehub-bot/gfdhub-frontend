@@ -88,6 +88,17 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .bubble.oc{background:var(--s2);border:1px solid var(--b1);color:var(--t1);border-radius:10px 10px 10px 2px}
 .bubble.user{background:var(--ac2);border:1px solid rgba(0,229,160,.2);color:var(--t1);border-radius:10px 10px 2px 10px}
 .bubble b{color:var(--ac);font-weight:700}
+.explain-block{margin-top:6px;font-size:11.5px}
+.explain-block summary{cursor:pointer;color:var(--t3);font-family:var(--fd);font-weight:700;font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;list-style:none;display:flex;align-items:center;gap:5px;padding:2px 0;user-select:none}
+.explain-block summary::-webkit-details-marker{display:none}
+.explain-block summary::before{content:'▸';font-size:9px;color:var(--t3);transition:transform .15s}
+.explain-block[open] summary::before{content:'▾'}
+.explain-block:hover summary{color:var(--t2)}
+.explain-body{margin-top:6px;padding:10px 12px;background:var(--s2);border:1px solid var(--b1);border-radius:8px}
+.explain-group{margin-bottom:8px}
+.explain-group:last-child{margin-bottom:0}
+.explain-label{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ac);font-family:var(--fd);margin-bottom:3px}
+.explain-item{font-size:11.5px;color:var(--t2);line-height:1.5;padding-left:2px}
 .player-link{color:var(--ac);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;font-weight:600;transition:opacity .12s}
 .player-link:hover{opacity:.75}
 .call-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:12px;font-family:var(--fd);margin:2px 0 6px}
@@ -1314,7 +1325,7 @@ function sendWelcome() {
   addMessage('oc', `Welcome to GFDHub, your place to Gain Fantasy Dominance. What questions do you have?`);
 }
 
-function addMessage(role, html) {
+function addMessage(role, html, explainHtml = '') {
   const wrap = document.getElementById('messages');
   const div = document.createElement('div');
   div.className = 'msg' + (role==='user'?' user':'');
@@ -1323,6 +1334,7 @@ function addMessage(role, html) {
     <div class="msg-ava ${role}">${ava}</div>
     <div class="msg-body">
       <div class="bubble ${role}">${html}</div>
+      ${explainHtml}
       <div class="msg-time">${role==='user'?'just now':'AI OC · just now'}</div>
     </div>`;
   wrap.appendChild(div);
@@ -1346,6 +1358,38 @@ function formatResponse(text) {
   });
 
   return html;
+}
+
+// #27: explainability — surfaces exactly which already-gathered liveCtx
+// categories had real data for this specific answer. General chat only —
+// the #28 verdict card already cites real numbers in its own reasoning
+// text, so it's out of scope here. No new data, no new fetches, just
+// exposing what was already assembled for the prompt.
+function buildExplainGroups(liveCtx, validOdds, validProjections, validNews) {
+  const groups = [];
+  if (validOdds.length) groups.push({ label: 'Vegas odds', items: validOdds });
+  if (validProjections.length) groups.push({ label: 'Projections', items: validProjections });
+  if (liveCtx.injuries.length) groups.push({ label: 'Injury status', items: liveCtx.injuries });
+  if (liveCtx.usage.length) groups.push({ label: 'Usage trends', items: liveCtx.usage });
+  if (liveCtx.defense.length) groups.push({ label: 'Opponent defense', items: liveCtx.defense });
+  if (liveCtx.homeAway.length) groups.push({ label: 'Home/away', items: liveCtx.homeAway });
+  if (liveCtx.gameScript.length) groups.push({ label: 'Game script', items: liveCtx.gameScript });
+  if (validNews.length) groups.push({ label: 'Recent news', items: validNews });
+  if (liveCtx.weather) groups.push({ label: 'Weather', items: [liveCtx.weather] });
+  return groups;
+}
+
+function renderExplainBlock(groups) {
+  if (!groups.length) return '';
+  const body = groups.map(g => `
+    <div class="explain-group">
+      <div class="explain-label">${g.label}</div>
+      ${g.items.map(i => `<div class="explain-item">${i}</div>`).join('')}
+    </div>`).join('');
+  return `<details class="explain-block">
+    <summary>Why this call</summary>
+    <div class="explain-body">${body}</div>
+  </details>`;
 }
 
 /* ── LIVE DATA CONTEXT FOR AI OC PROMPT ── */
@@ -1706,8 +1750,9 @@ RESPONSE RULES:
       }).catch(()=>{});
     }
 
-    document.getElementById('typing').classList.remove('show');
-    addMessage('oc', formatResponse(answer));
+        document.getElementById('typing').classList.remove('show');
+    const explainGroups = buildExplainGroups(liveCtx, validOdds, validProjections, validNews);
+    addMessage('oc', formatResponse(answer), renderExplainBlock(explainGroups));
 
   } catch(e) {
     document.getElementById('typing').classList.remove('show');
