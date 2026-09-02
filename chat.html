@@ -1365,10 +1365,25 @@ function getRelevantPlayers(question) {
   return [...mentioned, ...rest].slice(0, 5);
 }
 
+// #20: pure derivation from Vegas spread — favorite (negative spread) implies
+// positive game script (leading, run-heavy); underdog implies negative script
+// (trailing, more pass volume/garbage time). No new fetch — reuses spread
+// already pulled for #21 and the existing odds context.
+function describeGameScript(spread) {
+  const s = parseFloat(spread);
+  if (isNaN(s)) return null;
+  if (s <= -7) return "Big favorite — lean positive game script (run-heavy, clock control)";
+  if (s <= -3) return "Moderate favorite — lean positive game script";
+  if (s < 3)   return "Near pick'em — neutral game script";
+  if (s < 7)   return "Moderate underdog — lean negative game script (more passing volume)";
+  return "Big underdog — lean negative game script (garbage-time passing volume)";
+}
+
 async function fetchLiveContext(question) {
-  const context = { odds: [], weather: null, projections: [], injuries: [], usage: [], news: [], defense: [] };
+  const context = { odds: [], weather: null, projections: [], injuries: [], usage: [], news: [], defense: [], homeAway: [], gameScript: [] };
   const relevantPlayers = getRelevantPlayers(question);
       let teamOpponentMap = {};
+      let teamGameMap = {};
 
   try {
     // Always fetch current odds for game context
@@ -1376,10 +1391,13 @@ async function fetchLiveContext(question) {
     const oddsData = await oddsRes.json();
           if (oddsData.ok && oddsData.games) {
         oddsData.games.forEach(g => {
-          if (g.home && g.away) {
-            teamOpponentMap[g.home.toUpperCase()] = g.away.toUpperCase();
-            teamOpponentMap[g.away.toUpperCase()] = g.home.toUpperCase();
-          }
+                      if (g.home && g.away) {
+              const home = g.home.toUpperCase(), away = g.away.toUpperCase();
+              teamOpponentMap[home] = away;
+              teamOpponentMap[away] = home;
+              teamGameMap[home] = { isHome: true, opponent: away, spread: g.homeSpread, total: g.totalLine };
+              teamGameMap[away] = { isHome: false, opponent: home, spread: g.awaySpread, total: g.totalLine };
+            }
         });
       }
     if (oddsData.ok && oddsData.games) {
@@ -1489,13 +1507,24 @@ async function fetchLiveContext(question) {
     }
   } catch(e) {}
   
-    try {
+        try {
       for (const p of relevantPlayers.slice(0, 4)) {
         const searchRes = await fetch(`${API}/api/player/search?name=${encodeURIComponent(p.name)}`);
         const searchData = await searchRes.json();
         const playerTeam = searchData.players?.[0]?.team;
         if (!playerTeam) continue;
-        const opponent = teamOpponentMap[playerTeam.toUpperCase()];
+        const teamUp = playerTeam.toUpperCase();
+
+        // #21 home/away + #20 game script — derived from data already in
+        // teamGameMap, no new fetch
+        const gameInfo = teamGameMap[teamUp];
+        if (gameInfo) {
+          context.homeAway.push(`${p.name} (${teamUp}): ${gameInfo.isHome ? 'Home' : 'Away'} vs ${gameInfo.opponent}`);
+          const scriptDesc = describeGameScript(gameInfo.spread);
+          if (scriptDesc) context.gameScript.push(`${p.name}: ${scriptDesc} (spread ${gameInfo.spread})`);
+        }
+
+        const opponent = teamOpponentMap[teamUp];
         if (!opponent) continue; // no game found for this team (bye week, or odds not posted yet)
         const defRes = await fetch(`${API}/api/defense/recent-form?team=${opponent}&games=3`);
         const defData = await defRes.json();
@@ -1587,11 +1616,15 @@ async function sendMessage() {
   const projContext = validProjections.length
     ? `WEEKLY PROJECTIONS:\n${validProjections.join('\n')}`
     : '';
-  const weatherContext = liveCtx.weather || '';
+    const weatherContext = liveCtx.weather || '';
   const injuryContext = liveCtx.injuries.length ? `INJURY STATUS:\n${liveCtx.injuries.join('\n')}` : '';
   const usageContext = liveCtx.usage.length ? `USAGE STATS (target/carry/snap share, recent games):\n${liveCtx.usage.join('\n')}` : '';
   const validNews = (liveCtx.news || []).filter(n => typeof n === 'string' && n.length > 0 && !n.includes('undefined'));
   const newsContext = validNews.length ? `RECENT NEWS:\n${validNews.join('\n')}` : '';
+  // #19/#14 bug fix: this data was computed and cached but never reached the prompt
+  const defenseContext = liveCtx.defense.length ? `OPPONENT DEFENSIVE FORM (last 3 games):\n${liveCtx.defense.join('\n')}` : '';
+  const homeAwayContext = liveCtx.homeAway.length ? `HOME/AWAY:\n${liveCtx.homeAway.join('\n')}` : '';
+  const gameScriptContext = liveCtx.gameScript.length ? `GAME SCRIPT:\n${liveCtx.gameScript.join('\n')}` : '';
 
   const systemPrompt = `You are the GFDHub AI Offensive Coordinator — the sharpest, most confident fantasy football analyst available. You make data-backed lineup decisions and always give ONE clear recommendation.
 
@@ -1608,12 +1641,16 @@ ${oddsContext}
 ${projContext ? projContext : ''}
 ${injuryContext ? injuryContext : ''}
 ${usageContext ? usageContext : ''}
+${defenseContext ? defenseContext : ''}
+${homeAwayContext ? homeAwayContext : ''}
+${gameScriptContext ? gameScriptContext : ''}
 ${newsContext ? newsContext : ''}
 ${weatherContext ? weatherContext : ''}
 
 When Vegas totals are available: cite them. High totals (48+) = good passing game environments. Low totals (under 42) = grind-it-out games, run-heavy, lower ceilings for WRs/QBs. Spreads matter for DST — big favorites get more opportunities. Implied team totals are pre-calculated in the odds data — cite them directly (e.g., "CIN implied at 28.5") instead of making the user do the math.
 When projections are available: reference them by name. "Projected for X pts" is a concrete data point.
 When weather flags are active: always mention wind/rain impact on the relevant players.
+When game script or home/away data is available: a positive script (favorite) supports RB volume and clock-control; a negative script (underdog) supports pass volume and garbage-time production, especially for WRs/TEs on that team.
 
 TIER 1 AUTO-START LIST — If a player below is healthy and active, ALWAYS recommend starting them. Never hedge, never say "it depends", never cite matchup concerns. The only exception is confirmed Out/IR status.
 QB AUTO-STARTS: Josh Allen, Lamar Jackson, Drake Maye, Joe Burrow, Jayden Daniels, Jalen Hurts
