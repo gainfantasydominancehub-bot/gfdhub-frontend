@@ -1021,6 +1021,27 @@ function closePlayerPanel() {
   ACTIVE_PLAYER = null;
 }
   
+// #28 card explainability — mirrors #27's buildExplainGroups() for
+// general chat, but shaped for the card's r.facts.player1/player2 (from
+// /api/ai/startsit) instead of liveCtx. No new data — same facts that
+// grounded the Claude prompt for this exact call. Reuses the existing
+// renderExplainBlock() from #27 as-is, no new render code needed.
+// Groups are ordered Start-first, Sit-second to match the card's visual
+// layout, regardless of which was originally player1/player2.
+function buildCardExplainGroups(r) {
+  if (!r.facts) return [];
+  const allFacts = [r.facts.player1, r.facts.player2].filter(f => f && f.length);
+  const findByName = (name) => allFacts.find(facts => facts[0]?.label === 'Player' && facts[0].text.startsWith(name + ' ('));
+  const ordered = [findByName(r.start), findByName(r.sit)].filter(Boolean);
+  const finalFacts = ordered.length === 2 ? ordered : allFacts;
+  return finalFacts.map(facts => {
+    if (facts[0].label === 'Resolution') {
+      return { label: 'Unresolved player', items: [facts[0].text] };
+    }
+    return { label: facts[0].text, items: facts.slice(1).map(f => f.text) };
+  });
+}
+
 function addStartSitCard(r) {
   const wrap = document.getElementById('messages');
   const div = document.createElement('div');
@@ -1029,6 +1050,7 @@ function addStartSitCard(r) {
   const sm = r.start_meta || {};
   const im = r.sit_meta || {};
   const metaLine = (pos, team) => [pos, team].filter(Boolean).join(' · ');
+  const explainHtml = renderExplainBlock(buildCardExplainGroups(r));
   div.innerHTML = `
     <div class="msg-ava oc">OC</div>
     <div class="msg-body">
@@ -1063,7 +1085,7 @@ function addStartSitCard(r) {
         </div>
         <div class="sscard-reasoning">${r.reasoning || ''}</div>
         <div class="sscard-qualifier">${tier.tagline || ''} — ${tier.qualifier || ''}.</div>
-        <div class="sscard-footer">
+                <div class="sscard-footer">
           <span class="sscard-brand">GFD<em>HUB</em></span>
           <span class="sscard-tagline">No vibes. No regrets.</span>
           <button class="sscard-share" onclick="shareStartSitCard(this)" title="Share">
@@ -1071,6 +1093,7 @@ function addStartSitCard(r) {
           </button>
         </div>
       </div>
+      ${explainHtml}
       <div class="msg-time">AI OC · just now</div>
     </div>`;
   wrap.appendChild(div);
