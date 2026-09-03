@@ -1791,11 +1791,21 @@ RESPONSE RULES:
 7. For draft advice: always cite consensus ADP/ranking. Never recommend a player more than 2 rounds outside their consensus position
 8. CRITICAL — accuracy tracking depends on this: whenever your answer compares two specific named players for a lineup decision (a start/sit choice), you MUST literally include BOTH "START [Name]" AND "SIT [Name]" somewhere in the response, exact case, even though only one is the lead call from Rule 1. Do not describe the choice only in prose (e.g. "go with X over Y", "Y stays on your bench") without also using the literal SIT tag for the player you're not starting — untagged comparisons cannot be tracked for accuracy grading.`;
 
+    // Anthropic requires the messages array to start with role 'user' and
+  // strictly alternate — defensive guard in case any earlier turn left
+  // MSGS with a leading assistant message (this array's exact shape now
+  // matters, since /api/chat forwards it directly instead of discarding
+  // everything but the last message).
+  let historyForAPI = MSGS.slice(-10);
+  while (historyForAPI.length && historyForAPI[0].role !== 'user') {
+    historyForAPI = historyForAPI.slice(1);
+  }
+
   try {
     const res = await fetch(`${API}/api/chat`, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:systemPrompt, messages:MSGS.slice(-10)})
+      body:JSON.stringify({system:systemPrompt, messages:historyForAPI})
     });
     const data = await res.json();
     const answer = data.answer || "Couldn't reach the AI right now. Try again in a moment.";
@@ -1835,9 +1845,15 @@ RESPONSE RULES:
     const explainGroups = buildExplainGroups(liveCtx, validOdds, validProjections, validNews);
     addMessage('oc', formatResponse(answer), renderExplainBlock(explainGroups));
 
-  } catch(e) {
+    } catch(e) {
     document.getElementById('typing').classList.remove('show');
-    addMessage('oc', 'Having trouble connecting right now. Try again in a moment.');
+    const failMsg = 'Having trouble connecting right now. Try again in a moment.';
+    addMessage('oc', failMsg);
+    // Keep MSGS alternating correctly (user, assistant, user, ...) —
+    // without this, a failed turn here left a dangling unmatched user
+    // message, which could break the next /api/chat call now that the
+    // full array is actually forwarded to Claude.
+    MSGS.push({role:'assistant', content: failMsg});
   }
   WAITING = false;
   document.getElementById('sendBtn').disabled = false;
