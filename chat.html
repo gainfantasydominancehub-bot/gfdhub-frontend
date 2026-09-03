@@ -1735,7 +1735,8 @@ RESPONSE RULES:
 4. 3-5 sentences max — chat interface, not an article
 5. Never hedge or say "it depends" — make the call
 6. Sound like an expert coordinator who's watched the film
-7. For draft advice: always cite consensus ADP/ranking. Never recommend a player more than 2 rounds outside their consensus position`;
+7. For draft advice: always cite consensus ADP/ranking. Never recommend a player more than 2 rounds outside their consensus position
+8. CRITICAL — accuracy tracking depends on this: whenever your answer compares two specific named players for a lineup decision (a start/sit choice), you MUST literally include BOTH "START [Name]" AND "SIT [Name]" somewhere in the response, exact case, even though only one is the lead call from Rule 1. Do not describe the choice only in prose (e.g. "go with X over Y", "Y stays on your bench") without also using the literal SIT tag for the player you're not starting — untagged comparisons cannot be tracked for accuracy grading.`;
 
   try {
     const res = await fetch(`${API}/api/chat`, {
@@ -1753,9 +1754,16 @@ RESPONSE RULES:
       body:JSON.stringify({email:USER?.email, question:q, answer, week:CONTEXT?.week})
     }).catch(()=>{});
 
-    // Capture paired START/SIT calls for accuracy tracking
-    const startMatch = answer.match(/\bSTART\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/);
-    const sitMatch = answer.match(/\bSIT\s+([A-Z][a-zA-Z\s']+?)(?=[.,:—\n]|$)/);
+        // Capture paired START/SIT calls for accuracy tracking. Only consumes
+    // Title-Case-shaped tokens (real names are always Title Case), so it
+    // naturally stops at the first lowercase word instead of grabbing
+    // trailing prose (e.g. old regex captured "Rico Dowdle this week" —
+    // broke grading, since resolvePlayerID() takes the LAST word for
+    // last-name matching). Also handles glued initials (A.J., T.J.) as a
+    // single token, which the old regex failed to capture at all.
+    const NAME_TOKEN = `(?:(?:[A-Z]\\.)+|[A-Z][a-zA-Z''-]*\\.?)`;
+    const startMatch = answer.match(new RegExp(`\\bSTART\\s+(${NAME_TOKEN}(?:\\s${NAME_TOKEN})*)`));
+    const sitMatch = answer.match(new RegExp(`\\bSIT\\s+(${NAME_TOKEN}(?:\\s${NAME_TOKEN})*)`));
     if (startMatch && sitMatch) {
       fetch(`${API}/api/oc-calls/log`, {
         method:'POST',
