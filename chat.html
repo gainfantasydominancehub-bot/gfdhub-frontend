@@ -594,7 +594,24 @@ function extractPlayerNames(text) {
 //                               a dedicated message instead of silently
 //                               falling through to an unrelated answer
 async function extractStartSitPair(text) {
-  const m = text.match(/\b(.+?)\s+or\s+(.+?)(?:[.,!?]|$)/i);
+  // Broadened trigger phrasing (Tier 2 fix): previously only literal "or"
+  // routed to the card ("X or Y"), so natural phrasings like "X versus Y",
+  // "X vs Y", or "should I start X over Y" fell through to general chat
+  // instead, missing the card's grounded data/confidence tier/logging.
+  // Two patterns, tried in order:
+  //   1. "start X over Y" — anchored on the literal word "start" to keep
+  //      the far more common, far more ambiguous word "over" from
+  //      matching ordinary sentences unrelated to a start/sit call.
+  //   2. the broader "X or/versus/vs Y" connector set.
+  // Either way, whatever's extracted still goes through the same
+  // real-player validation (bestMatch below) before anything routes —
+  // that's the actual safety net, not the regex shape. One accepted
+  // trade-off, same as "or" already has today: if exactly one side
+  // resolves to a real player and the other doesn't, this shows
+  // "couldn't find one of those players" instead of quietly falling
+  // through to general chat — a wider net, not a new risk category.
+  const m = text.match(/\bstart\s+(.+?)\s+over\s+(.+?)(?:[.,!?]|$)/i) ||
+            text.match(/\b(.+?)\s+(?:or|versus|vs\.?)\s+(.+?)(?:[.,!?]|$)/i);
   if (!m) return { shape: false };
   const leftWords = m[1].trim().split(/\s+/).slice(-3);
   const rightWords = m[2].trim().split(/\s+/).slice(0, 3);
@@ -1655,8 +1672,15 @@ async function sendMessage() {
           });
           const data = await res.json();
           document.getElementById('typing').classList.remove('show');
-          if (data.ok && data.result) {
+                    if (data.ok && data.result) {
             addStartSitCard(data.result);
+            // Record a concise summary in conversation history so later
+            // general-chat follow-ups have real memory of this call — the
+            // raw card JSON never made it into MSGS before, so a question
+            // like "why did you say that" about a prior card had no
+            // context to answer from. Mirrors general chat's own
+            // START/SIT tagging convention for consistency.
+            MSGS.push({ role: 'assistant', content: `START ${data.result.start}, SIT ${data.result.sit}. ${data.result.reasoning || ''}`.trim() });
             fetch(`${API}/api/oc-calls/log`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -1669,15 +1693,21 @@ async function sendMessage() {
               })
             }).catch(()=>{});
           } else {
-            addMessage('oc', 'Having trouble making that call right now. Try again in a moment.');
+            const msg = 'Having trouble making that call right now. Try again in a moment.';
+            addMessage('oc', msg);
+            MSGS.push({ role: 'assistant', content: msg });
           }
         } catch(e) {
           document.getElementById('typing').classList.remove('show');
-          addMessage('oc', 'Having trouble making that call right now. Try again in a moment.');
+          const msg = 'Having trouble making that call right now. Try again in a moment.';
+          addMessage('oc', msg);
+          MSGS.push({ role: 'assistant', content: msg });
         }
       } else {
         document.getElementById('typing').classList.remove('show');
-        addMessage('oc', "Couldn't find one of those players — try the full name, or ask me directly.");
+        const msg = "Couldn't find one of those players — try the full name, or ask me directly.";
+        addMessage('oc', msg);
+        MSGS.push({ role: 'assistant', content: msg });
       }
       WAITING = false;
       document.getElementById('sendBtn').disabled = false;
