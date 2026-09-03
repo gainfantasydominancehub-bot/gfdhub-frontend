@@ -52,8 +52,10 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .watchlist-empty{font-size:11px;color:var(--t3);padding:6px;line-height:1.5;font-style:italic}
 .wl-tile{display:flex;align-items:center;gap:8px;padding:6px;border-radius:7px;cursor:pointer;transition:background .12s;margin-bottom:3px;position:relative}
 .wl-tile:hover{background:var(--s2)}
-.wl-suggestion{position:absolute;left:0;right:0;top:100%;background:var(--s2);border:1px solid var(--ac);border-radius:0 0 7px 7px;padding:6px 9px;font-size:12px;color:var(--ac);font-family:var(--fd);font-weight:700;cursor:pointer;z-index:10;display:none}
-.wl-suggestion:hover{background:var(--s3)}
+.wl-suggestion{position:absolute;left:0;right:0;top:100%;background:var(--s2);border:1px solid var(--ac);border-radius:0 0 7px 7px;z-index:10;display:none;max-height:160px;overflow-y:auto}
+.wl-sugg-row{padding:6px 9px;font-size:12px;color:var(--ac);font-family:var(--fd);font-weight:700;cursor:pointer;border-bottom:1px solid var(--b1)}
+.wl-sugg-row:last-child{border-bottom:none}
+.wl-sugg-row:hover{background:var(--s3)}
 .wl-init{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;font-family:var(--fd);flex-shrink:0;letter-spacing:-.3px}
 .wl-init.qb{background:rgba(255,179,71,.15);color:var(--qb);border:1px solid rgba(255,179,71,.3)}
 .wl-init.rb{background:rgba(0,229,160,.1);color:var(--rb);border:1px solid rgba(0,229,160,.2)}
@@ -292,7 +294,7 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
         <div style="display:flex;gap:5px;position:relative">
           <div style="flex:1;position:relative">
             <input type="text" id="wlAddInput" placeholder="Player name..." style="width:100%;background:var(--s2);border:1px solid var(--ac);border-radius:7px;padding:6px 9px;font-size:12px;color:var(--t1);font-family:var(--fb);outline:none" oninput="onWLInput(this.value)" onkeydown="if(event.key==='Enter')addPlayerManual()">
-            <div id="wlSuggestion" class="wl-suggestion" onclick="acceptSuggestion()"></div>
+                        <div id="wlSuggestion" class="wl-suggestion"></div>
           </div>
           <button onclick="addPlayerManual()" style="padding:6px 10px;background:var(--ac);color:#041a0f;font-size:11px;font-weight:800;border:none;border-radius:7px;cursor:pointer;font-family:var(--fd)">Add</button>
         </div>
@@ -450,13 +452,26 @@ const PLAYER_LOOKUP = [
   {name:'Tennessee Titans DST',team:'TEN',pos:'DST'},{name:'Washington Commanders DST',team:'WAS',pos:'DST'},
 ];
 
+// Suffix tokens (Jr, Sr, II, III, IV, V) must be stripped before taking
+// the "last word" as a surname — same bug/fix as index.js's
+// resolveCurated(); see that comment for detail. Also used by
+// matchWatchlist() and resolveAllFromLookup() below.
+const NAME_SUFFIXES = new Set(['jr', 'sr', 'ii', 'iii', 'iv', 'v']);
+function getSurname(fullName) {
+  const words = fullName.replace(/[.,]/g, '').trim().toLowerCase().split(/\s+/);
+  while (words.length > 1 && NAME_SUFFIXES.has(words[words.length - 1])) {
+    words.pop();
+  }
+  return words[words.length - 1];
+}
+
 function resolveFromLookup(input) {
   const q = input.toLowerCase().trim();
   // Exact match first
   let match = PLAYER_LOOKUP.find(p => p.name.toLowerCase() === q);
   if (match) return match;
   // Last name match
-  match = PLAYER_LOOKUP.find(p => p.name.toLowerCase().split(' ').pop() === q);
+  match = PLAYER_LOOKUP.find(p => getSurname(p.name) === q);
   if (match) return match;
   // DST: match by city, nickname, or abbreviation e.g. "seahawks", "sea", "seattle"
   match = PLAYER_LOOKUP.find(p => {
@@ -467,8 +482,23 @@ function resolveFromLookup(input) {
   });
   if (match) return match;
   // Partial match for skill players
-  match = PLAYER_LOOKUP.find(p => p.name.toLowerCase().includes(q) || q.includes(p.name.toLowerCase().split(' ').pop()));
+  match = PLAYER_LOOKUP.find(p => p.name.toLowerCase().includes(q) || q.includes(getSurname(p.name)));
   return match || null;
+}
+
+// Multi-match variant of resolveFromLookup() — returns EVERY curated
+// player whose exact full name or exact surname matches the query,
+// instead of stopping at the first. Powers the watchlist "add player"
+// autocomplete (shows all real options for an ambiguous surname like
+// "Brown" instead of silently picking one) and the #28 card's
+// ambiguity detection in bestMatch() below.
+function resolveAllFromLookup(input) {
+  const q = input.toLowerCase().trim();
+  const exact = PLAYER_LOOKUP.filter(p => p.name.toLowerCase() === q);
+  if (exact.length) return exact;
+  const lastName = PLAYER_LOOKUP.filter(p => getSurname(p.name) === q);
+  if (lastName.length) return lastName;
+  return [];
 }
 
 // Checks the user's own watchlist for an exact full-name or exact
@@ -477,12 +507,20 @@ function resolveFromLookup(input) {
 // still resolves correctly, since the backend has no visibility into a
 // given user's personal watchlist. Exact equality only, never substring,
 // so this can't reintroduce the earlier "now"-inside-"Ragnow" bug.
+// Returns {name} for an unambiguous match, {ambiguous: candidates} if
+// the user has multiple watchlisted players sharing the same surname
+// (e.g. both Chase Brown and A.J. Brown watchlisted), or null if
+// nothing matches — mirrors bestMatch()'s contract below. Uses
+// getSurname() so a suffixed watchlist name (e.g. "James Cook III")
+// resolves correctly on "Cook" instead of failing silently.
 function matchWatchlist(candidate) {
   const q = candidate.toLowerCase().trim();
-  let match = WATCHLIST.find(p => p.name.toLowerCase() === q);
-  if (match) return match.name;
-  match = WATCHLIST.find(p => p.name.toLowerCase().split(' ').pop() === q);
-  if (match) return match.name;
+  const exact = WATCHLIST.filter(p => p.name.toLowerCase() === q);
+  if (exact.length === 1) return { name: exact[0].name };
+  if (exact.length > 1) return { ambiguous: exact };
+  const lastName = WATCHLIST.filter(p => getSurname(p.name) === q);
+  if (lastName.length === 1) return { name: lastName[0].name };
+  if (lastName.length > 1) return { ambiguous: lastName };
   return null;
 }
 
@@ -616,15 +654,24 @@ async function extractStartSitPair(text) {
   const leftWords = m[1].trim().split(/\s+/).slice(-3);
   const rightWords = m[2].trim().split(/\s+/).slice(0, 3);
 
-        async function bestMatch(words, fromEnd) {
+            async function bestMatch(words, fromEnd) {
     for (const n of [2, 1]) {
       const slice = fromEnd ? words.slice(-n) : words.slice(0, n);
       const candidate = slice.join(' ');
       if (candidate.length < 3) continue;
 
       // Check the user's own watchlist first — see matchWatchlist() above.
+      // Returns {name} or {ambiguous}.
       const wlMatch = matchWatchlist(candidate);
       if (wlMatch) return wlMatch;
+
+      // Check the curated list for genuine ambiguity (e.g. "Brown"
+      // matching 3 real curated players) before ever hitting the
+      // backend search — there's no point resolving to a silently
+      // guessed single player when real, detectable ambiguity already
+      // exists right here in the list we have on hand.
+      const curatedMatches = resolveAllFromLookup(candidate);
+      if (curatedMatches.length > 1) return { ambiguous: curatedMatches };
 
       try {
         const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(candidate)}`);
@@ -640,7 +687,7 @@ async function extractStartSitPair(text) {
           for (let i = 0; i <= nWords.length - cWords.length; i++) {
             if (cWords.every((w, j) => nWords[i + j] === w)) { wholeWord = true; break; }
           }
-          if (wholeWord) return hit.name;
+          if (wholeWord) return { name: hit.name };
         }
       } catch(e) {}
     }
@@ -648,8 +695,23 @@ async function extractStartSitPair(text) {
   }
 
   const [a, b] = await Promise.all([bestMatch(leftWords, true), bestMatch(rightWords, false)]);
-  if (a && b) return { shape: true, pair: [a, b] };
-  if (a || b) return { shape: true, pair: null };
+
+  // New 4th state: one side matched multiple real curated/watchlisted
+  // players — ask which one instead of silently guessing or showing a
+  // generic "couldn't find" message.
+  if (a?.ambiguous || b?.ambiguous) {
+    return {
+      shape: true,
+      pair: null,
+      ambiguous: {
+        candidates: (a?.ambiguous || b?.ambiguous),
+        otherSide: a?.ambiguous ? (b?.name || null) : (a?.name || null),
+      }
+    };
+  }
+
+  if (a?.name && b?.name) return { shape: true, pair: [a.name, b.name] };
+  if (a?.name || b?.name) return { shape: true, pair: null };
   return { shape: false };
 }
 
@@ -1000,21 +1062,27 @@ async function loadHistorySession(sessionId, fallbackText) {
 
 function onWLInput(val) {
   const sugg = document.getElementById('wlSuggestion');
-  if (!val || val.length < 2) { sugg.style.display = 'none'; return; }
-  const resolved = resolveFromLookup(val);
-  if (resolved) {
-    sugg.textContent = `${resolved.name} · ${resolved.pos} · ${resolved.team}`;
+  if (!val || val.length < 2) { sugg.style.display = 'none'; sugg.innerHTML = ''; return; }
+  // Shows every real curated match, not just the first — an ambiguous
+  // surname (e.g. "Brown") previously silently picked one player with
+  // no way to see the others existed.
+  const matches = resolveAllFromLookup(val);
+  if (matches.length) {
+    sugg.innerHTML = matches.slice(0, 4).map(m =>
+      `<div class="wl-sugg-row" onclick="acceptSuggestion('${m.name.replace(/'/g,"\\'")}')">${m.name} · ${m.pos} · ${m.team}</div>`
+    ).join('');
     sugg.style.display = 'block';
   } else {
     sugg.style.display = 'none';
+    sugg.innerHTML = '';
   }
 }
 
-function acceptSuggestion() {
+function acceptSuggestion(name) {
   const sugg = document.getElementById('wlSuggestion');
-  const parts = sugg.textContent.split(' · ');
-  if (parts.length >= 1) document.getElementById('wlAddInput').value = parts[0];
+  document.getElementById('wlAddInput').value = name;
   sugg.style.display = 'none';
+  sugg.innerHTML = '';
   addPlayerManual();
 }
 
@@ -1703,6 +1771,21 @@ async function sendMessage() {
           addMessage('oc', msg);
           MSGS.push({ role: 'assistant', content: msg });
         }
+            } else if (startSitResult.ambiguous) {
+        // Genuinely ambiguous surname (e.g. "Brown" matching 3 real
+        // players) — ask which one instead of silently guessing or
+        // showing a generic "couldn't find" message. Note: the user's
+        // clarifying reply is handled as a normal new message, not a
+        // resumed card flow — it won't automatically re-render a fresh
+        // card, but general chat will still have full context via MSGS.
+        document.getElementById('typing').classList.remove('show');
+        const names = startSitResult.ambiguous.candidates.map(p => p.name).join(', ');
+        const other = startSitResult.ambiguous.otherSide;
+        const msg = other
+          ? `Which one did you mean — ${names}? (comparing against ${other})`
+          : `Which one did you mean — ${names}?`;
+        addMessage('oc', msg);
+        MSGS.push({ role: 'assistant', content: msg });
       } else {
         document.getElementById('typing').classList.remove('show');
         const msg = "Couldn't find one of those players — try the full name, or ask me directly.";
