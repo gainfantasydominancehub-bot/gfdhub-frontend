@@ -769,7 +769,7 @@ async function openPlayerPanel(idx) {
     const searchData = await searchRes.json();
     const injuryData = await injuryRes.json();
 
-    const lastName = player.name.split(' ').pop().toLowerCase();
+        const lastName = getSurname(player.name);
     const injuryMatch = (injuryData.injuries || []).find(i =>
       i.player.toLowerCase().includes(lastName)
     );
@@ -832,9 +832,10 @@ function getPlayerRankInfo(name) {
     {name:'Drake Maye',rank:34,tier:'TOP QB',bye:11},
     {name:'Travis Hunter',rank:72,tier:'⚠️ TWO-WAY ROOKIE',bye:12},
   ];
-  const q = name.toLowerCase();
+    const q = name.toLowerCase();
+  const surname = getSurname(name);
   return rankings.find(r => r.name.toLowerCase() === q ||
-    r.name.toLowerCase().includes(q.split(' ').pop())) || null;
+    r.name.toLowerCase().includes(surname)) || null;
 }
 
 async function renderOffseasonPanel(player) {
@@ -1611,8 +1612,8 @@ async function fetchLiveContext(question) {
       const injuryRes = await fetch(`${API}/api/injuries`);
       const injuryData = await injuryRes.json();
       if (injuryData.ok && injuryData.injuries) {
-        relevantPlayers.forEach(p => {
-          const lastName = p.name.split(' ').pop().toLowerCase();
+                relevantPlayers.forEach(p => {
+          const lastName = getSurname(p.name);
           const match = injuryData.injuries.find(i => i.player.toLowerCase().includes(lastName));
           if (match) {
             context.injuries.push(`${p.name}: ${match.status}${match.detail ? ' — ' + match.detail : ''}${match.return ? ' (est. return ' + match.return + ')' : ''}`);
@@ -1653,8 +1654,8 @@ async function fetchLiveContext(question) {
       const newsRes = await fetch(`${API}/api/news`);
       const newsData = await newsRes.json();
       if (newsData.ok && newsData.news) {
-        relevantPlayers.forEach(p => {
-          const lastName = p.name.split(' ').pop().toLowerCase();
+                relevantPlayers.forEach(p => {
+          const lastName = getSurname(p.name);
           const match = newsData.news.find(n =>
             (n.player || '').toLowerCase().includes(lastName) ||
             (n.headline || '').toLowerCase().includes(lastName)
