@@ -185,6 +185,8 @@ body{background:var(--bg);font-family:var(--fb);color:var(--t1);height:100vh;hei
 .sscard-player.sit .sscard-proj{color:var(--red)}
 .sscard-proj-label{font-size:10px;color:var(--t3);font-weight:700;text-transform:uppercase;margin-left:4px;font-family:var(--fb)}
 .sscard-reasoning{background:var(--s3);border:1px solid var(--b1);border-radius:9px;padding:12px 14px;font-size:13px;color:var(--t1);line-height:1.6;margin-bottom:14px}
+.sscard-tip{font-size:11.5px;color:var(--t2);line-height:1.5;margin-bottom:14px;padding:8px 12px;background:rgba(0,229,160,.05);border-left:2px solid var(--ac);border-radius:0 6px 6px 0}
+.sscard-tip-label{color:var(--ac);font-weight:700;font-family:var(--fd);font-size:9px;letter-spacing:.5px;text-transform:uppercase;margin-right:6px}
 .sscard-qualifier{font-size:12.5px;color:var(--pur);text-align:center;margin-bottom:14px;font-family:var(--fb);font-weight:600}
 .sscard-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--b1)}
 .sscard-brand{font-family:var(--fd);font-weight:900;font-size:12px;color:var(--t1);letter-spacing:-.3px}
@@ -1117,7 +1119,18 @@ function closePlayerPanel() {
 function buildCardExplainGroups(r) {
   if (!r.facts) return [];
   const allFacts = [r.facts.player1, r.facts.player2].filter(f => f && f.length);
-  const findByName = (name) => allFacts.find(facts => facts[0]?.label === 'Player' && facts[0].text.startsWith(name + ' ('));
+  // Same fallback as index.js's findMeta() — Claude doesn't always
+  // echo the exact prompt-given name back, so fall back to a surname
+  // match instead of silently degrading to unordered groups.
+  const findByName = (name) => {
+    if (!name) return null;
+    let match = allFacts.find(facts => facts[0]?.label === 'Player' && facts[0].text.startsWith(name + ' ('));
+    if (!match) {
+      const surname = getSurname(name);
+      match = allFacts.find(facts => facts[0]?.label === 'Player' && getSurname(facts[0].text.split(' (')[0]) === surname);
+    }
+    return match;
+  };
   const ordered = [findByName(r.start), findByName(r.sit)].filter(Boolean);
   const finalFacts = ordered.length === 2 ? ordered : allFacts;
   return finalFacts.map(facts => {
@@ -1169,7 +1182,8 @@ function addStartSitCard(r) {
             <div class="sscard-proj">${r.sit_proj}<span class="sscard-proj-label">proj pts</span></div>
           </div>
         </div>
-        <div class="sscard-reasoning">${r.reasoning || ''}</div>
+                <div class="sscard-reasoning">${r.reasoning || ''}</div>
+        ${r.tip ? `<div class="sscard-tip"><span class="sscard-tip-label">Tip</span>${r.tip}</div>` : ''}
         <div class="sscard-qualifier">${tier.tagline || ''} — ${tier.qualifier || ''}.</div>
                 <div class="sscard-footer">
           <span class="sscard-brand">GFD<em>HUB</em></span>
