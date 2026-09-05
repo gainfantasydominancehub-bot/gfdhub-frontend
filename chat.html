@@ -1725,7 +1725,71 @@ async function fetchLiveContext(question) {
   return context;
 }
 
-async function sendMessage() {
+// Reusable card-render function — shared by sendMessage()'s normal
+// start/sit flow and the clickable disambiguation links below. Both
+// players are already fully known at call time (no re-parsing, no
+// re-resolution risk). Deliberately does NOT manage WAITING/typing/
+// disabled state itself — each caller already handles that in its own
+// context (sendMessage() has already done so before reaching this;
+// selectDisambiguatedPlayer() below manages its own), so this stays a
+// pure fetch+render+log+history function — exactly what the old inline
+// code inside sendMessage() did, just extracted to be reusable.
+async function renderStartSitCard(player1, player2) {
+  try {
+    const res = await fetch(`${API}/api/ai/startsit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ player1, player2 })
+    });
+    const data = await res.json();
+    document.getElementById('typing').classList.remove('show');
+    if (data.ok && data.result) {
+      addStartSitCard(data.result);
+      MSGS.push({ role: 'assistant', content: `START ${data.result.start}, SIT ${data.result.sit}. ${data.result.reasoning || ''}`.trim() });
+      fetch(`${API}/api/oc-calls/log`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: USER?.email,
+          playerA: data.result.start,
+          playerB: data.result.sit,
+          aiPick: data.result.start,
+          week: CONTEXT?.week
+        })
+      }).catch(()=>{});
+    } else {
+      const msg = 'Having trouble making that call right now. Try again in a moment.';
+      addMessage('oc', msg);
+      MSGS.push({ role: 'assistant', content: msg });
+    }
+  } catch(e) {
+    document.getElementById('typing').classList.remove('show');
+    const msg = 'Having trouble making that call right now. Try again in a moment.';
+    addMessage('oc', msg);
+    MSGS.push({ role: 'assistant', content: msg });
+  }
+}
+
+// Click handler for the disambiguation clarifying message's candidate
+// links — both players are already fully known (the specific candidate
+// clicked, plus the message's own otherSide), so this calls
+// renderStartSitCard() directly. Manages its own WAITING/typing state
+// since it's not invoked through sendMessage()'s normal preamble.
+async function selectDisambiguatedPlayer(chosenName, otherSide) {
+  if (WAITING || !otherSide) return;
+  WAITING = true;
+  document.getElementById('sendBtn').disabled = true;
+  document.getElementById('typing').classList.add('show');
+  document.getElementById('messages').scrollTop = 99999;
+
+  await renderStartSitCard(chosenName, otherSide);
+
+  WAITING = false;
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('inputBox').focus();
+}
+
+  async function sendMessage() {
   if (WAITING) return;
   const box = document.getElementById('inputBox');
   const q = box.value.trim();
@@ -1744,63 +1808,37 @@ async function sendMessage() {
   
     // #28: route genuine 2-player start/sit questions to the grounded
     // /api/ai/startsit endpoint + verdict card, instead of general chat.
-        const startSitResult = await extractStartSitPair(q);
+            const startSitResult = await extractStartSitPair(q);
     if (startSitResult.shape) {
       if (startSitResult.pair) {
-        try {
-          const res = await fetch(`${API}/api/ai/startsit`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ player1: startSitResult.pair[0], player2: startSitResult.pair[1] })
-          });
-          const data = await res.json();
-          document.getElementById('typing').classList.remove('show');
-                    if (data.ok && data.result) {
-            addStartSitCard(data.result);
-            // Record a concise summary in conversation history so later
-            // general-chat follow-ups have real memory of this call — the
-            // raw card JSON never made it into MSGS before, so a question
-            // like "why did you say that" about a prior card had no
-            // context to answer from. Mirrors general chat's own
-            // START/SIT tagging convention for consistency.
-            MSGS.push({ role: 'assistant', content: `START ${data.result.start}, SIT ${data.result.sit}. ${data.result.reasoning || ''}`.trim() });
-            fetch(`${API}/api/oc-calls/log`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                email: USER?.email,
-                playerA: data.result.start,
-                playerB: data.result.sit,
-                aiPick: data.result.start,
-                week: CONTEXT?.week
-              })
-            }).catch(()=>{});
-          } else {
-            const msg = 'Having trouble making that call right now. Try again in a moment.';
-            addMessage('oc', msg);
-            MSGS.push({ role: 'assistant', content: msg });
-          }
-        } catch(e) {
-          document.getElementById('typing').classList.remove('show');
-          const msg = 'Having trouble making that call right now. Try again in a moment.';
+        await renderStartSitCard(startSitResult.pair[0], startSitResult.pair[1]);
+      } else if (startSitResult.ambiguous) {
+        // Genuinely ambiguous surname (e.g. "Brown" matching 3 real
+        // players) — ask which one instead of silently guessing or
+        // showing a generic "couldn't find" message. Candidate names
+        // render as clickable links when the other side is known (the
+        // common case) — clicking renders the correct card directly,
+        // no re-typing/re-parsing needed, since both players are
+        // already fully known at click time.
+        document.getElementById('typing').classList.remove('show');
+        const candidates = startSitResult.ambiguous.candidates;
+        const other = startSitResult.ambiguous.otherSide;
+        const plainNames = candidates.map(p => p.name).join(', ');
+        if (other) {
+          const plainMsg = `Comparing against ${other} — which one did you mean: ${plainNames}?`;
+          MSGS.push({ role: 'assistant', content: plainMsg });
+          const links = candidates.map(p =>
+            `<span class="player-link" onclick="selectDisambiguatedPlayer('${p.name.replace(/'/g,"\\'")}', '${other.replace(/'/g,"\\'")}')">${p.name}</span>`
+          ).join(' · ');
+          addMessage('oc', `Comparing against <b>${other}</b> — tap the player you meant:<br>${links}`);
+        } else {
+          // Both sides were ambiguous simultaneously — no single known
+          // "other side" to pair a click with yet, so fall back to
+          // asking for full names rather than building a 2-step pick.
+          const msg = `Which one did you mean — ${plainNames}? Try the full name for both players.`;
           addMessage('oc', msg);
           MSGS.push({ role: 'assistant', content: msg });
         }
-            } else if (startSitResult.ambiguous) {
-        // Genuinely ambiguous surname (e.g. "Brown" matching 3 real
-        // players) — ask which one instead of silently guessing or
-        // showing a generic "couldn't find" message. Note: the user's
-        // clarifying reply is handled as a normal new message, not a
-        // resumed card flow — it won't automatically re-render a fresh
-        // card, but general chat will still have full context via MSGS.
-        document.getElementById('typing').classList.remove('show');
-        const names = startSitResult.ambiguous.candidates.map(p => p.name).join(', ');
-        const other = startSitResult.ambiguous.otherSide;
-        const msg = other
-          ? `Which one did you mean — ${names}? (comparing against ${other})`
-          : `Which one did you mean — ${names}?`;
-        addMessage('oc', msg);
-        MSGS.push({ role: 'assistant', content: msg });
       } else {
         document.getElementById('typing').classList.remove('show');
         const msg = "Couldn't find one of those players — try the full name, or ask me directly.";
