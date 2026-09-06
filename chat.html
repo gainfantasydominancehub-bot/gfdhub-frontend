@@ -1844,7 +1844,7 @@ async function selectDisambiguatedPlayer(chosenName, otherSide) {
         }
       } else {
         document.getElementById('typing').classList.remove('show');
-        const msg = "Didn't catch both full names clearly — try 'Start [Player] or [Player]' and I'll make the call.";
+        const msg = "Didn't catch both full names clearly — try naming them like 'Jaylen Warren or David Montgomery' and I'll make the call.";
         addMessage('oc', msg);
         MSGS.push({ role: 'assistant', content: msg });
       }
