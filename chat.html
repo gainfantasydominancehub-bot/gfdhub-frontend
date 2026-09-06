@@ -498,7 +498,8 @@ function resolveAllFromLookup(input) {
   const q = input.toLowerCase().trim();
   const exact = PLAYER_LOOKUP.filter(p => p.name.toLowerCase() === q);
   if (exact.length) return exact;
-  const lastName = PLAYER_LOOKUP.filter(p => getSurname(p.name) === q);
+  const qSurname = getSurname(q);
+  const lastName = PLAYER_LOOKUP.filter(p => getSurname(p.name) === qSurname);
   if (lastName.length) return lastName;
   return [];
 }
@@ -520,7 +521,8 @@ function matchWatchlist(candidate) {
   const exact = WATCHLIST.filter(p => p.name.toLowerCase() === q);
   if (exact.length === 1) return { name: exact[0].name };
   if (exact.length > 1) return { ambiguous: exact };
-  const lastName = WATCHLIST.filter(p => getSurname(p.name) === q);
+  const qSurname = getSurname(q);
+  const lastName = WATCHLIST.filter(p => getSurname(p.name) === qSurname);
   if (lastName.length === 1) return { name: lastName[0].name };
   if (lastName.length > 1) return { ambiguous: lastName };
   return null;
@@ -673,6 +675,7 @@ async function extractStartSitPair(text) {
       // guessed single player when real, detectable ambiguity already
       // exists right here in the list we have on hand.
       const curatedMatches = resolveAllFromLookup(candidate);
+      if (curatedMatches.length === 1) return { name: curatedMatches[0].name };
       if (curatedMatches.length > 1) return { ambiguous: curatedMatches };
 
       try {
