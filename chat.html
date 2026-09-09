@@ -664,19 +664,24 @@ async function extractStartSitPair(text) {
       const candidate = slice.join(' ');
       if (candidate.length < 3) continue;
 
-      // Check the user's own watchlist first — see matchWatchlist() above.
-      // Returns {name} or {ambiguous}.
-      const wlMatch = matchWatchlist(candidate);
-      if (wlMatch) return wlMatch;
-
-      // Check the curated list for genuine ambiguity (e.g. "Brown"
+            // Check the curated list for genuine ambiguity (e.g. "Brown"
       // matching 3 real curated players) before ever hitting the
       // backend search — there's no point resolving to a silently
       // guessed single player when real, detectable ambiguity already
-      // exists right here in the list we have on hand.
+      // exists right here in the list we have on hand. Checked BEFORE
+      // the user's own watchlist — found live Sept 6: a coincidental
+      // single watchlist match (e.g. only Amon-Ra St. Brown tracked)
+      // was silently masking real 3-way ambiguity in the curated list
+      // (A.J. Brown, Chase Brown also exist), since the watchlist was
+      // being checked first and returning before this ambiguity check
+      // ever ran.
       const curatedMatches = resolveAllFromLookup(candidate);
-      if (curatedMatches.length === 1) return { name: curatedMatches[0].name };
       if (curatedMatches.length > 1) return { ambiguous: curatedMatches };
+
+      const wlMatch = matchWatchlist(candidate);
+      if (wlMatch) return wlMatch;
+
+      if (curatedMatches.length === 1) return { name: curatedMatches[0].name };
 
       try {
         const res = await fetch(`${API}/api/player/search?name=${encodeURIComponent(candidate)}`);
