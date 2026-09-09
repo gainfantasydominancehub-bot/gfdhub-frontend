@@ -150,39 +150,51 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 48px
 .demo-headline{font-family:var(--fd);font-size:clamp(26px,4vw,48px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;color:var(--t1);text-align:center;position:relative;z-index:1;max-width:560px}
 .demo-headline em{color:var(--ac);font-style:italic}
 .demo-sub{font-family:var(--fb);font-size:16px;color:var(--t2);text-align:center;max-width:460px;line-height:1.65;position:relative;z-index:1}
-.phone-frame{width:320px;background:var(--s1);border:2px solid rgba(255,255,255,0.1);border-radius:44px;position:relative;z-index:1;overflow:hidden}
-.phone-notch{height:30px;background:var(--s1);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--b1)}
-.notch-pill{width:80px;height:12px;background:#000;border-radius:20px}
-.phone-topbar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--b1);background:var(--s1)}
-.oc-ava{width:32px;height:32px;border-radius:50%;background:var(--ac2);border:1px solid rgba(0,229,160,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:10px;font-weight:800;color:var(--ac);flex-shrink:0}
-.oc-name{font-family:var(--fd);font-size:12px;font-weight:800;color:var(--t1)}
-.oc-status{font-size:10px;color:var(--ac);display:flex;align-items:center;gap:4px}
-.oc-status-dot{width:4px;height:4px;border-radius:50%;background:var(--ac)}
-.phone-msgs{min-height:360px;padding:16px 14px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
-.pmsg{display:flex;gap:7px;align-items:flex-end}
-.pmsg.user{flex-direction:row-reverse}
-.pmsg-ava{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;font-family:var(--fd)}
-.pmsg-ava.oc{background:var(--ac2);border:1px solid rgba(0,229,160,.3);color:var(--ac)}
-.pmsg-ava.user{background:var(--s3);border:1px solid var(--b1);color:var(--t2)}
-.pbubble{max-width:218px;padding:9px 12px;border-radius:10px;font-size:11.5px;line-height:1.55;font-family:var(--fb)}
-.pbubble.oc{background:var(--s2);border:1px solid var(--b1);color:var(--t1);border-radius:10px 10px 10px 2px}
-.pbubble.user{background:var(--ac2);border:1px solid rgba(0,229,160,.2);color:var(--t1);border-radius:10px 10px 2px 10px}
-.pbubble b{color:var(--ac);font-weight:700}
-.call-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:800;padding:2px 9px;border-radius:10px;font-family:var(--fd);margin:2px 2px 4px 0}
-.tag-start{background:var(--ac);color:#041a0f}
-.tag-sit{background:var(--red);color:#fff}
-.typing-wrap{display:flex;gap:7px;align-items:flex-end}
-.typing-dots{display:flex;gap:4px;padding:9px 12px;background:var(--s2);border:1px solid var(--b1);border-radius:10px 10px 10px 2px}
-.tdot{width:5px;height:5px;border-radius:50%;background:var(--t3);animation:tbounce .8s infinite}
-.tdot:nth-child(2){animation-delay:.15s}
-.tdot:nth-child(3){animation-delay:.3s}
-@keyframes tbounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px);background:var(--ac)}}
-.phone-inputbar{padding:10px 12px;background:var(--s1);border-top:1px solid var(--b1);display:flex;gap:8px;align-items:center}
-.phone-input-display{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:18px;padding:7px 12px;font-size:10px;color:var(--t2);font-family:var(--fb);line-height:1.4}
-.phone-send{width:28px;height:28px;background:var(--ac);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
-.phone-send:hover{background:#00ffb0;transform:scale(1.08)}
-.phone-send svg{width:11px;height:11px;fill:none;stroke:#041a0f;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
 .demo-note{font-family:var(--fb);font-size:13px;color:var(--t3);text-align:center;position:relative;z-index:1}
+
+  /* ── START/SIT VERDICT CARD ── */
+.sd-card{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:24px;max-width:520px;width:100%;position:relative;z-index:1}
+.sd-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sd-head-label{font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--ac)}
+.sd-pill{font-family:var(--fd);font-size:12px;font-weight:800;color:var(--amb);background:rgba(255,179,71,.1);border:1px solid rgba(255,179,71,.3);padding:5px 14px;border-radius:20px}
+.sd-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sd-panel{border-radius:12px;padding:16px}
+.sd-panel.start{background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.2)}
+.sd-panel.sit{background:rgba(255,77,106,.07);border:1px solid rgba(255,77,106,.2)}
+.sd-panel-label{font-family:var(--fd);font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+.sd-panel.start .sd-panel-label{color:var(--ac)}
+.sd-panel.sit .sd-panel-label{color:var(--red)}
+.sd-player{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sd-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:9px;font-weight:800;flex-shrink:0}
+.sd-panel.start .sd-avatar{background:var(--ac2);border:1px solid rgba(0,229,160,.3);color:var(--ac)}
+.sd-panel.sit .sd-avatar{background:rgba(255,77,106,.1);border:1px solid rgba(255,77,106,.3);color:var(--red)}
+.sd-player-name{font-family:var(--fd);font-size:14px;font-weight:800;color:var(--t1)}
+.sd-player-pos{font-size:11px;color:var(--t2)}
+.sd-pts{font-family:var(--fd);font-size:22px;font-weight:900;letter-spacing:-1px}
+.sd-panel.start .sd-pts{color:var(--ac)}
+.sd-panel.sit .sd-pts{color:var(--red)}
+.sd-pts-label{font-size:9px;color:var(--t3);font-weight:600;margin-left:4px;text-transform:uppercase}
+.sd-reason{font-size:13px;color:var(--t2);line-height:1.6;border:1px solid var(--b1);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.sd-tip{display:flex;gap:10px;background:var(--ac2);border-left:3px solid var(--ac);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12.5px;color:var(--t2);line-height:1.6}
+.sd-tip b{color:var(--ac);font-family:var(--fd);font-size:10px;letter-spacing:.8px;text-transform:uppercase;flex-shrink:0}
+.sd-tagline{text-align:center;font-family:var(--fd);font-weight:800;font-size:13px;color:#b47aff;margin-bottom:14px}
+.sd-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--b1);padding-top:14px}
+.sd-footer-logo{font-family:var(--fd);font-weight:900;font-size:13px}
+.sd-footer-logo em{color:var(--ac);font-style:normal}
+.sd-footer-note{font-size:11px;color:var(--t3)}
+.sd-why{max-width:520px;width:100%;margin-top:2px}
+.sd-why-toggle{font-family:var(--fd);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+.sd-why-box{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:16px}
+.sd-why-row{margin-bottom:12px}
+.sd-why-row:last-child{margin-bottom:0}
+.sd-why-name{font-family:var(--fd);font-size:12px;font-weight:800;color:var(--ac);margin-bottom:4px}
+.sd-why-stats{font-size:12px;color:var(--t2)}
+.sd-timestamp{font-size:11px;color:var(--t3);margin-top:8px}
+
+@media(max-width:480px){
+  .sd-grid{grid-template-columns:1fr}
+}
 
 /* ── PRICING ── */
 .pc{background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:32px;transition:all .15s}
@@ -275,7 +287,6 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
   footer{flex-direction:column;gap:8px;text-align:center;padding:24px 20px}
   .final{padding:60px 20px}
   .demo-outer{padding:60px 20px}
-  .phone-frame{width:290px}
   .player-popup{display:none}
 }
 </style>
@@ -452,22 +463,56 @@ footer{border-top:1px solid var(--b1);padding:32px 48px;display:flex;align-items
 <div class="demo-outer reveal">
   <div class="demo-eyebrow"><div class="demo-dot"></div>Live demo</div>
   <h2 class="demo-headline">Real question.<br><em>Real call. Under 2s.</em></h2>
-  <p class="demo-sub">Full PPR · Week 8 · Pick 3 of 5 to start</p>
-  <div class="phone-frame">
-    <div class="phone-notch"><div class="notch-pill"></div></div>
-    <div class="phone-topbar">
-      <div class="oc-ava">OC</div>
-      <div>
-        <div class="oc-name">AI Offensive Coordinator</div>
-        <div class="oc-status"><div class="oc-status-dot"></div>Online · GFDHub PRO</div>
+<p class="demo-sub">Full PPR · Week 8 · Start/Sit call</p>
+  <div class="sd-card">
+    <div class="sd-head">
+      <div class="sd-head-label">AI OC VERDICT</div>
+      <div class="sd-pill">Clear lean · 85%</div>
+    </div>
+    <div class="sd-grid">
+      <div class="sd-panel start">
+        <div class="sd-panel-label">Start</div>
+        <div class="sd-player">
+          <div class="sd-avatar">CJ</div>
+          <div>
+            <div class="sd-player-name">Chris Rodriguez Jr.</div>
+            <div class="sd-player-pos">RB · JAX</div>
+          </div>
+        </div>
+        <div><span class="sd-pts">14.6-17.6 pts</span><span class="sd-pts-label">Proj pts</span></div>
+      </div>
+      <div class="sd-panel sit">
+        <div class="sd-panel-label">Sit</div>
+        <div class="sd-player">
+          <div class="sd-avatar">JC</div>
+          <div>
+            <div class="sd-player-name">Jacory Croskey-Merritt</div>
+            <div class="sd-player-pos">RB · WSH</div>
+          </div>
+        </div>
+        <div><span class="sd-pts">11.2-14.2 pts</span><span class="sd-pts-label">Proj pts</span></div>
       </div>
     </div>
-    <div class="phone-msgs" id="phoneMsgs"></div>
-    <div class="phone-inputbar">
-      <div class="phone-input-display">Full PPR — start 3 of 5: Swift, McLaurin, Flowers, Sutton, Montgomery</div>
-      <div class="phone-send" id="demoSendBtn" onclick="startPhoneDemo()">
-        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    <div class="sd-reason">Chris Rodriguez Jr. earns the start with 13.7 carries per game and 45.3% snap share over his last three games, outpacing Jacory Croskey-Merritt's 10.7 carries and 40.0% snap share while already delivering 14.2 fantasy points per game compared to Croskey-Merritt's 13.4.</div>
+    <div class="sd-tip"><b>Tip</b><span>Rodriguez's 0.7 targets per game doubles Croskey-Merritt's 0.3, providing a slightly higher floor through passing game involvement despite both being primarily ground-based options.</span></div>
+    <div class="sd-tagline">Clear lean — not a coin flip, not a lock either.</div>
+    <div class="sd-footer">
+      <div class="sd-footer-logo">GFD<em>Hub</em></div>
+      <div class="sd-footer-note">No vibes. No regrets.</div>
+    </div>
+  </div>
+  <div class="sd-why">
+    <div class="sd-why-toggle">▾ Why this call</div>
+    <div class="sd-why-box">
+      <div class="sd-why-row">
+        <div class="sd-why-name">Chris Rodriguez Jr. (RB, JAX)</div>
+        <div class="sd-why-stats">Last 3 games: 0.7 tgt/g, 13.7 car/g, 45.3% snaps, 14.2 fantasy pts/g</div>
       </div>
+      <div class="sd-why-row">
+        <div class="sd-why-name">Jacory Croskey-Merritt (RB, WSH)</div>
+        <div class="sd-why-stats">Last 3 games: 0.3 tgt/g, 10.7 car/g, 40.0% snaps, 13.4 fantasy pts/g</div>
+      </div>
+      <div class="sd-timestamp">AI OC · just now</div>
     </div>
   </div>
   <p class="demo-note">$29.97 · Full season access through playoffs · No auto-renewal</p>
@@ -671,62 +716,6 @@ async function submitModal(){
 /* ── SCROLL REVEAL ── */
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-/* ── PHONE DEMO ── */
-const demoMsgs=document.getElementById('phoneMsgs');
-let demoStarted=false;
-const demoUserQ="Full PPR — which 3 do I start: D'Andre Swift, Terry McLaurin, Zay Flowers, Courtland Sutton, or David Montgomery?";
-const demoReply=[
-  {type:'tags',tags:[{cls:'tag-start',label:'▲ START Swift'},{cls:'tag-start',label:'▲ START McLaurin'},{cls:'tag-start',label:'▲ START Flowers'},{cls:'tag-sit',label:'▽ SIT Sutton'},{cls:'tag-sit',label:'▽ SIT Montgomery'}]},
-  {type:'text',html:"<b>Swift</b> leads PHI in routes and targets — PPR lock. <b>McLaurin</b> is WSH's WR1 with 27% target share and an elite floor."},
-  {type:'text',html:"<b>Flowers</b> has 8+ targets in 4 straight weeks. Sit <b>Sutton</b> — shadow coverage, DEN running heavy. Sit <b>Montgomery</b> — goal-line only, 2.1 PPR pts/game. Easy call."},
-];
-
-function demoAddMsg(role,content){
-  const wrap=document.createElement('div');
-  wrap.className='pmsg'+(role==='user'?' user':'');
-  wrap.style.cssText='opacity:0;transform:translateY(6px);transition:all .25s ease';
-  let inner='';
-  if(role==='user'){inner=`<div class="pmsg-ava user">ME</div><div class="pbubble user">${content}</div>`;}
-  else if(content.type==='tags'){const tags=content.tags.map(t=>`<span class="call-tag ${t.cls}">${t.label}</span>`).join('');inner=`<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${tags}</div>`;}
-  else{inner=`<div class="pmsg-ava oc">OC</div><div class="pbubble oc">${content.html}</div>`;}
-  wrap.innerHTML=inner;
-  demoMsgs.appendChild(wrap);
-  setTimeout(()=>{wrap.style.opacity='1';wrap.style.transform='translateY(0)';},30);
-  demoMsgs.scrollTop=demoMsgs.scrollHeight;
-}
-
-function demoAddTyping(){
-  const wrap=document.createElement('div');
-  wrap.className='pmsg';wrap.id='demoTyping';
-  wrap.innerHTML=`<div class="pmsg-ava oc">OC</div><div class="typing-dots"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>`;
-  demoMsgs.appendChild(wrap);
-  demoMsgs.scrollTop=demoMsgs.scrollHeight;
-}
-
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-
-async function startPhoneDemo(){
-  if(demoStarted)return;
-  demoStarted=true;
-  const btn=document.getElementById('demoSendBtn');
-  btn.style.opacity='0.4';btn.style.pointerEvents='none';
-  demoAddMsg('user',demoUserQ);
-  await sleep(700);
-  demoAddTyping();
-  await sleep(1800);
-  document.getElementById('demoTyping')?.remove();
-  for(let i=0;i<demoReply.length;i++){
-    demoAddMsg('oc',demoReply[i]);
-    if(i<demoReply.length-1)await sleep(750);
-  }
-}
-
-const demoObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting&&!demoStarted){setTimeout(startPhoneDemo,600);demoObs.disconnect();}});
-},{threshold:0.4});
-const demoEl=document.querySelector('.demo-outer');
-if(demoEl)demoObs.observe(demoEl);
 
 /* ── LOGIN MODAL ── */
 function openLoginModal() {
