@@ -122,7 +122,12 @@ select.text-input{cursor:pointer}
   <h1>Tell your AI OC<br><em>how you play.</em></h1>
   <p class="sub">Four quick questions. Your AI OC uses this to make calls specific to your league — not generic advice.</p>
 
-  <!-- SMS ACTIVATION CARD -->
+  <!-- SMS ACTIVATION CARD — INTENTIONALLY DISABLED. DO NOT REMOVE style="display:none".
+     Telnyx A2P 10DLC registration was rejected for gambling-adjacent content
+     classification. This entire card + its backend routes (/api/sms/register,
+     sms_subscribers table, /webhooks/telnyx) are fully built and wired but MUST
+     stay hidden until A2P compliance is resolved. If you're "cleaning up" inline
+     styles or dead-looking hidden elements, skip this one. -->
   <div class="sms-card" style="display:none">
     <div class="sms-card-eyebrow"><div class="sms-dot"></div>SMS AI OC · PRO Feature <span class="opt-badge" style="margin-left:6px">optional</span></div>
     <div class="sms-card-title">🏈 Text your AI OC like a friend.</div>
