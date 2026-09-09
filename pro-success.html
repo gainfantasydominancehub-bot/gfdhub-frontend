@@ -113,9 +113,13 @@ async function confirmPayment() {
     if (data.ok && data.email) {
       localStorage.setItem('gfd_email', data.email);
     }
-    // If paid with coupon, total may be $0 — update display
-    if (data.amount_total === 0) {
-      document.getElementById('totalCharged').textContent = '$0.00';
+    // Always reflect the real charged amount — not just the $0 coupon
+    // case. Found live Sept 9: a partial-discount purchase (20% off)
+    // correctly charged $23.98 (confirmed via Stripe receipt), but this
+    // page kept showing the hardcoded $29.97 placeholder, since the old
+    // check only ever updated the display for a 100%-off ($0) coupon.
+    if (typeof data.amount_total === 'number') {
+      document.getElementById('totalCharged').textContent = '$' + (data.amount_total / 100).toFixed(2);
     }
   } catch(e) {
     console.log('Confirm error:', e.message);
