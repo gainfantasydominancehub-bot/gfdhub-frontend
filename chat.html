@@ -623,6 +623,22 @@ function extractPlayerNames(text) {
   return [...new Set(found)];
 }
   
+// extractPlayerNames() only matches 2-3 word capitalized sequences, so
+// a question referring to a player by surname alone (e.g. "What
+// happened to Bowers?") never matches at all — mentionedNames stays
+// empty and getRelevantPlayers() silently falls back to the whole
+// watchlist, fetching data for unrelated players instead of the one
+// actually asked about (see Bug B). This extracts single capitalized
+// words as candidates; each is only treated as a real player if it
+// resolves via the watchlist or curated lookup below — the same
+// resolution every other name already goes through — so this can't
+// false-positive on ordinary capitalized words.
+function extractSingleWordCandidates(text) {
+  const words = text.match(/\b[A-Z][a-zA-Z'-]{2,}\b/g) || [];
+  const skipWords = new Set(['What','Who','Should','Tell','This','Week','Last','Trade','Waiver','Wire','Fantasy','Points','Full','Lineup','Must','Start','Drop','Add','Sit','Hey','Hi','Hello','NFL','PPR','ADP','RB','WR','QB','TE','Round','Pick','Draft','Season','Team','League','Super','Bowl','The','Elite','Lock','Call','Coming','Going','With','From','Into','After','Their','Your','That','Have','Been','Will','Make','More','Also','Both','Even','When','Then','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','January','February','March','April','May','June','July','August','September','October','November','December','New','York','Los','Angeles','San','Green','Bay','Kansas','City']);
+  return [...new Set(words.filter(w => !skipWords.has(w)))];
+}
+  
 // Validates candidates against the real player database (/api/player/search)
 // instead of guessing from sentence shape (capitalization, skipwords) — the
 // old approach couldn't distinguish "Start Dart or Maye" from "Start now or
@@ -1553,6 +1569,18 @@ function getRelevantPlayers(question) {
       mentioned.push(onWatchlist);
     } else {
       const resolved = resolveFromLookup(name);
+      if (resolved) mentioned.push(resolved);
+    }
+  });
+  // Bug B fix: also try single-surname candidates (e.g. "Bowers" alone),
+  // each still only added if it resolves to a real known player.
+  extractSingleWordCandidates(question).forEach(word => {
+    if (mentioned.some(m => getSurname(m.name) === word.toLowerCase())) return;
+    const onWatchlist = WATCHLIST.find(p => getSurname(p.name) === word.toLowerCase());
+    if (onWatchlist) {
+      mentioned.push(onWatchlist);
+    } else {
+      const resolved = resolveFromLookup(word);
       if (resolved) mentioned.push(resolved);
     }
   });
