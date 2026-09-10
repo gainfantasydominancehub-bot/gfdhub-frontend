@@ -295,7 +295,7 @@ function toggleCard(el) {
 }
 
 function renderTrending() {
-  const notable = INJURIES.filter(i => badgeClass(i.status) !== 'badge-active').slice(0, 6);
+  const notable = INJURIES.filter(i => badgeClass(i.status) !== 'badge-active' && isRelevantPlayer(i.player)).slice(0, 6);
   document.getElementById('trendingList').innerHTML = notable.map(i =>
     `<div class="side-item"><b>${i.player}</b> — ${i.status}</div>`
   ).join('') || `<div class="side-item">Nothing notable right now.</div>`;
