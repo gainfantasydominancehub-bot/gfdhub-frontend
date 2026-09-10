@@ -98,6 +98,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px
       <span>Real injuries, real time. Want the AI OC's take on every one?</span>
       <button onclick="goToPro()">Get PRO Access</button>
     </div>
+    <div id="refreshNote" style="padding:8px 20px;font-size:11.5px;color:var(--t3)"></div>
     <input type="text" class="search-box" id="searchBox" placeholder="Search a player..." oninput="renderFeed()">
     <div class="filters" id="filters">
       <div class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</div>
@@ -129,6 +130,13 @@ let NEWS = [];
 let WATCHLIST = [];
 let CURRENT_FILTER = 'all';
 let USER_EMAIL = localStorage.getItem('gfd_email');
+  let LAST_REFRESHED = null;
+// Shows when GFDHub last pulled fresh data from the API — an honest
+// "feed refreshed at" claim we can actually back up, since individual
+// injury entries have no per-item timestamp from ESPN to show instead.
+function formatRefreshTime(d) {
+  return d.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'});
+}
   // Same curated fantasy-relevant player list used in index.js/chat.html —
 // duplicated here rather than fetched, matching the existing pattern
 // (chat.html already duplicates its own copy independently). Filters
@@ -151,6 +159,17 @@ const CURATED_SURNAMES = new Set([
 ]);
 function isRelevantPlayer(name) {
   return CURATED_SURNAMES.has(getSurname(name));
+}
+  
+// Formats an ISO date string (e.g. "2026-09-13") as US-style M/D/YY,
+// matching how the rest of the product displays dates. Returns the
+// raw string unchanged if it doesn't parse cleanly, rather than
+// showing "Invalid Date" or silently hiding a real return date.
+function formatUSDate(isoStr) {
+  if (!isoStr) return '';
+  const d = new Date(isoStr + 'T00:00:00');
+  if (isNaN(d.getTime())) return isoStr;
+  return `${d.getMonth()+1}/${d.getDate()}/${String(d.getFullYear()).slice(-2)}`;
 }
 
 function getSurname(fullName) {
@@ -202,6 +221,7 @@ async function init() {
     const newsData = await newsRes.json();
     INJURIES = (injData.injuries || []).map(i => ({...i, _type:'injury'}));
     NEWS = (newsData.news || []).map(n => ({...n, _type:'news', player:n.player}));
+        LAST_REFRESHED = new Date();
   } catch(e) {
     document.getElementById('feedList').innerHTML = `<div class="empty-state">Couldn't load the feed right now. Try refreshing.</div>`;
     return;
@@ -213,6 +233,9 @@ async function init() {
 
   renderFeed();
   renderTrending();
+  if (LAST_REFRESHED) {
+  document.getElementById('refreshNote').textContent = `Feed refreshed ${formatRefreshTime(LAST_REFRESHED)}`;
+}
 }
 
 function setFilter(f) {
@@ -259,7 +282,7 @@ function renderFeed() {
         ${badge}
         <div class="card-detail">${item.detail || item.headline || 'No details available.'}</div>
         <div class="card-expand">
-          ${item.return ? `<div>Est. return: <b style="color:var(--t1)">${item.return}</b></div>` : ''}
+          ${item.return ? `<div>Est. return: <b style="color:var(--t1)">${formatUSDate(item.return)}</b></div>` : ''}
           <a href="/chat.html">Ask AI OC about ${item.player} →</a>
         </div>
       </div>
