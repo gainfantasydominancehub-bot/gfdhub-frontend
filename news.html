@@ -142,25 +142,33 @@ function formatRefreshTime(d) {
 // (chat.html already duplicates its own copy independently). Filters
 // the feed down to players people actually care about, instead of
 // every ESPN/Tank01 mention including backup defensive linemen.
-const CURATED_SURNAMES = new Set([
-  'robinson','gibbs','chase','nacua','smith-njigba','st. brown','mccaffrey','lamb',
-  'taylor','jefferson','cook','london','jeanty','achane','collins','brown','bowers',
-  'barkley','pickens','mcbride','hampton','olave','henry','walker','allen','rice',
-  'nabers','mcmillan','love','higgins','jackson','maye','williams','jacobs','hall',
-  'flowers','wilson','mcconkey','loveland','mclaurin','burrow','etienne','adams',
-  'egbuka','waddle','burden','daniels','odunze','warren','moore','purdy','goff',
-  'doubs','coleman','worthy','freiermuth','conner','white','ridley','thomas',
-  'cooper','hunter','dell','harrison','kincaid','richardson','levis','charbonnet',
-  'godwin','hurts','hockenson','andrews','penny','hopkins','sutton','cooks','engram',
-  'herbert','nix','lawrence','addison','robinson','kelce','pearsall','jones','kittle',
-  'reed','goedert','mayfield','shakir','montgomery','kraft','tuten','metcalf','pitts',
-  'laporta','mahomes','darnold','prescott','murray','ferguson','fannin','harvey',
-  'hubbard','pollard','stevenson','dowdle','henderson','tate','price','dart','harris'
-]);
-function isRelevantPlayer(name) {
-  return CURATED_SURNAMES.has(getSurname(name));
-}
-  
+    // Curated fantasy-relevant players with real position data attached —
+    // same names as before, now storing {pos} too, so injury entries (which
+    // have pos:"?" from ESPN's broken response, see prior fix notes) can
+    // still get a correct position color by looking up the known position
+    // here instead of relying on ESPN's field. Positions kept minimal
+    // (just what's needed for avatar coloring), not a full player record.
+    const CURATED_PLAYERS = {
+      'robinson':'RB','gibbs':'RB','chase':'WR','nacua':'WR','smith-njigba':'WR','st. brown':'WR','mccaffrey':'RB','lamb':'WR',
+      'taylor':'RB','jefferson':'WR','cook':'RB','london':'WR','jeanty':'RB','achane':'RB','collins':'WR','brown':'WR','bowers':'TE',
+      'barkley':'RB','pickens':'WR','mcbride':'TE','hampton':'RB','olave':'WR','henry':'RB','walker':'RB','allen':'QB','rice':'WR',
+      'nabers':'WR','mcmillan':'WR','love':'QB','higgins':'WR','jackson':'QB','maye':'QB','williams':'RB','jacobs':'RB','hall':'RB',
+      'flowers':'WR','wilson':'WR','mcconkey':'WR','loveland':'TE','mclaurin':'WR','burrow':'QB','etienne':'RB','adams':'WR',
+      'egbuka':'WR','waddle':'WR','burden':'WR','daniels':'QB','odunze':'WR','warren':'TE','moore':'WR','purdy':'QB','goff':'QB',
+      'doubs':'WR','coleman':'WR','worthy':'WR','freiermuth':'TE','conner':'RB','white':'RB','ridley':'WR','thomas':'WR',
+      'cooper':'WR','hunter':'WR','dell':'WR','harrison':'WR','kincaid':'TE','richardson':'QB','levis':'QB','charbonnet':'RB',
+      'godwin':'WR','hurts':'QB','hockenson':'TE','andrews':'TE','penny':'RB','hopkins':'WR','sutton':'WR','cooks':'WR','engram':'TE',
+      'herbert':'QB','nix':'QB','lawrence':'QB','addison':'WR','kelce':'TE','pearsall':'WR','jones':'RB','kittle':'TE',
+      'reed':'WR','goedert':'TE','mayfield':'QB','shakir':'WR','montgomery':'RB','kraft':'TE','tuten':'RB','metcalf':'WR','pitts':'TE',
+      'laporta':'TE','mahomes':'QB','darnold':'QB','prescott':'QB','murray':'QB','ferguson':'TE','fannin':'TE','harvey':'RB',
+      'hubbard':'RB','pollard':'RB','stevenson':'RB','dowdle':'RB','henderson':'RB','tate':'WR','price':'RB','dart':'QB','harris':'RB'
+    };
+    function isRelevantPlayer(name) {
+      return CURATED_PLAYERS.hasOwnProperty(getSurname(name));
+    }
+    function curatedPos(name) {
+      return CURATED_PLAYERS[getSurname(name)] || null;
+    }  
 // Formats an ISO date string (e.g. "2026-09-13") as US-style M/D/YY,
 // matching how the rest of the product displays dates. Returns the
 // raw string unchanged if it doesn't parse cleanly, rather than
@@ -290,7 +298,7 @@ function renderFeed() {
     const badge = isInjury ? `<span class="card-badge ${badgeClass(item.status)}">${item.status?.toUpperCase()}</span><br>` : '';
     const shouldOpen = playerParam && getSurname(item.player) === getSurname(playerParam);
     return `<div class="card ${shouldOpen ? 'open' : ''}" onclick="toggleCard(this)">
-      <div class="card-ava" style="background:${posColor(item.pos).bg};border:1px solid ${posColor(item.pos).border};color:${posColor(item.pos).text}">${initials(item.player)}</div>
+      <div class="card-ava" style="background:${posColor(item.pos && item.pos !== '?' ? item.pos : curatedPos(item.player)).bg};border:1px solid ${posColor(item.pos && item.pos !== '?' ? item.pos : curatedPos(item.player)).border};color:${posColor(item.pos && item.pos !== '?' ? item.pos : curatedPos(item.player)).text}">${initials(item.player)}</div>
       <div class="card-body">
         <div class="card-head">
           <span class="card-name">${item.player||'Unknown'}</span>
