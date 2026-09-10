@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GFDHub — Player News Feed</title>
+<meta name="description" content="Real-time NFL injury reports and player news, powered by the same data your AI Offensive Coordinator uses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,700;0,800;0,900;1,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080d;--s1:#0d0f17;--s2:#12141e;--s3:#181b27;
+  --b1:rgba(255,255,255,0.055);--b2:rgba(255,255,255,0.1);
+  --ac:#00e5a0;--ac2:rgba(0,229,160,0.1);
+  --red:#ff4d6a;--amb:#ffb347;--blu:#4da6ff;--pur:#b47aff;
+  --t1:#f0f2f9;--t2:#6e7a94;--t3:#353c52;
+  --fd:'Exo 2',sans-serif;--fb:'Figtree',sans-serif;
+}
+body{background:var(--bg);color:var(--t1);font-family:var(--fb)}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;background:rgba(7,8,13,0.9);border-bottom:1px solid var(--b1);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.logo{font-family:var(--fd);font-weight:900;font-size:19px;letter-spacing:-0.5px;color:var(--t1);text-decoration:none}
+.logo em{color:var(--ac);font-style:normal}
+.nav-r{display:flex;align-items:center;gap:16px}
+.nav-link{font-size:13px;font-weight:600;color:var(--t2);text-decoration:none;padding-bottom:2px}
+.nav-link.active{color:var(--ac);border-bottom:2px solid var(--ac)}
+.nav-cta{padding:8px 18px;background:var(--ac);color:#041a0f;font-size:13px;font-weight:800;border:none;border-radius:7px;cursor:pointer;font-family:var(--fd)}
+.nav-login{font-size:12px;color:var(--t2);background:none;border:none;cursor:pointer;text-decoration:underline}
+
+/* LAYOUT */
+.wrap{display:flex;max-width:1100px;margin:0 auto}
+.feed-col{flex:1;min-width:0;border-right:1px solid var(--b1)}
+.side-col{width:280px;flex-shrink:0;padding:20px;display:none}
+@media(min-width:860px){.side-col{display:block}}
+
+/* PRO BANNER */
+.pro-banner{padding:12px 20px;background:var(--ac2);border-bottom:1px solid rgba(0,229,160,.15);display:flex;align-items:center;justify-content:space-between;gap:14px}
+.pro-banner span{font-size:13px;color:var(--t1);line-height:1.4}
+.pro-banner button{flex-shrink:0;padding:8px 16px;background:var(--ac);color:#041a0f;font-size:12.5px;font-weight:800;border:none;border-radius:7px;cursor:pointer;font-family:var(--fd);white-space:nowrap}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;padding:14px 20px;overflow-x:auto}
+.filter-chip{padding:7px 16px;background:var(--s2);border:1px solid var(--b1);border-radius:20px;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;white-space:nowrap;transition:all .12s}
+.filter-chip.active{background:var(--ac2);border-color:rgba(0,229,160,.3);color:var(--ac)}
+.search-box{margin:0 20px 14px;background:var(--s2);border:1px solid var(--b2);border-radius:9px;padding:9px 14px;font-size:13px;color:var(--t1);width:calc(100% - 40px);outline:none;font-family:var(--fb)}
+.search-box::placeholder{color:var(--t3)}
+
+/* CARDS */
+.card{padding:16px 20px;border-bottom:1px solid var(--b1);display:flex;gap:12px;cursor:pointer;transition:background .12s}
+.card:hover{background:var(--s2)}
+.card-ava{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:var(--fd)}
+.card-body{flex:1;min-width:0}
+.card-head{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.card-name{font-weight:700;font-size:14.5px;color:var(--t1);font-family:var(--fd)}
+.card-meta{font-size:11.5px;color:var(--t2)}
+.card-badge{font-size:10px;font-weight:800;letter-spacing:.4px;padding:3px 9px;border-radius:6px;margin-bottom:7px;display:inline-block;font-family:var(--fd)}
+.badge-out,.badge-ir{background:rgba(255,77,106,.1);color:var(--red);border:1px solid rgba(255,77,106,.25)}
+.badge-doubtful,.badge-questionable{background:rgba(255,179,71,.1);color:var(--amb);border:1px solid rgba(255,179,71,.25)}
+.badge-active{background:rgba(0,229,160,.1);color:var(--ac);border:1px solid rgba(0,229,160,.25)}
+.card-detail{font-size:13.5px;color:#c5cad8;line-height:1.55}
+.card-expand{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--b1);font-size:12.5px;color:var(--t2)}
+.card.open .card-expand{display:block}
+.card-expand a{color:var(--ac);font-weight:700;text-decoration:none;font-size:12.5px}
+
+/* SIDEBAR */
+.side-box{background:rgba(255,255,255,.02);border:1px solid var(--b1);border-radius:12px;padding:16px;margin-bottom:16px}
+.side-title{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ac);margin-bottom:10px;font-family:var(--fd)}
+.side-item{font-size:12.5px;color:var(--t2);padding:4px 0}
+.side-item b{color:var(--t1)}
+.empty-state{padding:40px 20px;text-align:center;color:var(--t3);font-size:13px}
+
+/* CHECKOUT MODAL (reused pattern from index.html) */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--s1);border:1px solid rgba(0,229,160,.25);border-radius:16px;padding:28px;max-width:400px;width:100%}
+.modal h3{font-family:var(--fd);font-size:19px;font-weight:900;margin-bottom:14px}
+.modal input{width:100%;background:var(--s2);border:1.5px solid var(--b2);border-radius:9px;padding:11px 14px;color:var(--t1);font-size:14px;margin-bottom:10px;outline:none}
+.modal button.go{width:100%;padding:12px;background:var(--ac);color:#041a0f;font-weight:800;border:none;border-radius:9px;cursor:pointer;font-family:var(--fd)}
+.modal-close{float:right;cursor:pointer;color:var(--t3);font-size:14px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="logo">GFD<em>Hub</em></a>
+  <div class="nav-r">
+    <a href="/news.html" class="nav-link active">News Feed</a>
+    <button class="nav-login" onclick="location.href='/index.html'">Already a member?</button>
+    <button class="nav-cta" id="navCta" onclick="goToPro()">Get PRO Access</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="feed-col">
+    <div class="pro-banner">
+      <span>Real injuries, real time. Want the AI OC's take on every one?</span>
+      <button onclick="goToPro()">Get PRO Access</button>
+    </div>
+    <input type="text" class="search-box" id="searchBox" placeholder="Search a player..." oninput="renderFeed()">
+    <div class="filters" id="filters">
+      <div class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</div>
+      <div class="filter-chip" data-filter="injuries" onclick="setFilter('injuries')">Injuries</div>
+    </div>
+    <div id="feedList"></div>
+  </div>
+  <div class="side-col">
+    <div class="side-box">
+      <div class="side-title">Trending today</div>
+      <div id="trendingList"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal">
+    <span class="modal-close" onclick="document.getElementById('checkoutModal').classList.remove('show')">✕</span>
+    <h3>Get <em style="color:var(--ac);font-style:italic">PRO Access</em></h3>
+    <input type="email" id="modalEmail" placeholder="your@email.com">
+    <button class="go" onclick="submitCheckout()">Continue to checkout →</button>
+  </div>
+</div>
+
+<script>
+const API = 'https://api.gfdhub.com';
+let INJURIES = [];
+let NEWS = [];
+let WATCHLIST = [];
+let CURRENT_FILTER = 'all';
+let USER_EMAIL = localStorage.getItem('gfd_email');
+
+function getSurname(fullName) {
+  const words = (fullName||'').replace(/[.,]/g,'').trim().toLowerCase().split(/\s+/);
+  const suffixes = new Set(['jr','sr','ii','iii','iv','v']);
+  while (words.length > 1 && suffixes.has(words[words.length-1])) words.pop();
+  return words[words.length-1] || '';
+}
+
+function initials(name) {
+  const parts = (name||'?').trim().split(' ');
+  return parts.length >= 2 ? (parts[0][0]+parts[parts.length-1][0]).toUpperCase() : name.slice(0,2).toUpperCase();
+}
+
+function badgeClass(status) {
+  const s = (status||'').toLowerCase();
+  if (s.includes('out') || s.includes('ir')) return 'badge-out';
+  if (s.includes('doubtful') || s.includes('quest')) return 'badge-doubtful';
+  return 'badge-active';
+}
+
+async function init() {
+  if (USER_EMAIL) {
+    document.getElementById('navCta').textContent = 'My Dashboard →';
+    document.getElementById('navCta').onclick = () => location.href = '/chat.html';
+    try {
+      const res = await fetch(`${API}/api/user/context?email=${encodeURIComponent(USER_EMAIL)}`);
+      const data = await res.json();
+      if (data.ok) {
+        WATCHLIST = data.context.watchlist || [];
+        if (WATCHLIST.length) {
+          const chip = document.createElement('div');
+          chip.className = 'filter-chip';
+          chip.dataset.filter = 'watchlist';
+          chip.textContent = 'My watchlist';
+          chip.onclick = () => setFilter('watchlist');
+          document.getElementById('filters').appendChild(chip);
+        }
+      }
+    } catch(e) {}
+  }
+
+  try {
+    const [injRes, newsRes] = await Promise.all([
+      fetch(`${API}/api/injuries`),
+      fetch(`${API}/api/news`)
+    ]);
+    const injData = await injRes.json();
+    const newsData = await newsRes.json();
+    INJURIES = (injData.injuries || []).map(i => ({...i, _type:'injury'}));
+    NEWS = (newsData.news || []).map(n => ({...n, _type:'news', player:n.player}));
+  } catch(e) {
+    document.getElementById('feedList').innerHTML = `<div class="empty-state">Couldn't load the feed right now. Try refreshing.</div>`;
+    return;
+  }
+
+  const params = new URLSearchParams(location.search);
+  const playerParam = params.get('player');
+  if (playerParam) document.getElementById('searchBox').value = playerParam;
+
+  renderFeed();
+  renderTrending();
+}
+
+function setFilter(f) {
+  CURRENT_FILTER = f;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === f));
+  renderFeed();
+}
+
+function getMergedFeed() {
+  let list = [...INJURIES];
+  if (CURRENT_FILTER !== 'injuries') list = list.concat(NEWS);
+  if (CURRENT_FILTER === 'watchlist') {
+    list = list.filter(item => WATCHLIST.some(w => getSurname(w.name) === getSurname(item.player)));
+  }
+  const q = (document.getElementById('searchBox').value || '').trim().toLowerCase();
+  if (q) list = list.filter(item => (item.player||'').toLowerCase().includes(q));
+  return list;
+}
+
+function renderFeed() {
+  const list = getMergedFeed();
+  const wrap = document.getElementById('feedList');
+  if (!list.length) {
+    wrap.innerHTML = `<div class="empty-state">No matching news right now.</div>`;
+    return;
+  }
+  const params = new URLSearchParams(location.search);
+  const playerParam = (params.get('player') || '').toLowerCase();
+
+  wrap.innerHTML = list.map((item, idx) => {
+    const isInjury = item._type === 'injury';
+    const badge = isInjury ? `<span class="card-badge ${badgeClass(item.status)}">${item.status?.toUpperCase()}</span><br>` : '';
+    const shouldOpen = playerParam && getSurname(item.player) === getSurname(playerParam);
+    return `<div class="card ${shouldOpen ? 'open' : ''}" onclick="toggleCard(this)">
+      <div class="card-ava" style="background:${isInjury?'rgba(255,179,71,.12)':'rgba(0,229,160,.1)'};border:1px solid ${isInjury?'rgba(255,179,71,.3)':'rgba(0,229,160,.3)'};color:${isInjury?'var(--amb)':'var(--ac)'}">${initials(item.player)}</div>
+      <div class="card-body">
+        <div class="card-head">
+          <span class="card-name">${item.player||'Unknown'}</span>
+          ${item.team && item.team !== '?' ? `<span class="card-meta">${item.pos||''} · ${item.team}</span>` : ''}
+        </div>
+        ${badge}
+        <div class="card-detail">${item.detail || item.headline || 'No details available.'}</div>
+        <div class="card-expand">
+          ${item.return ? `<div>Est. return: <b style="color:var(--t1)">${item.return}</b></div>` : ''}
+          <a href="/chat.html">Ask AI OC about ${item.player} →</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCard(el) {
+  el.classList.toggle('open');
+}
+
+function renderTrending() {
+  const notable = INJURIES.filter(i => badgeClass(i.status) !== 'badge-active').slice(0, 6);
+  document.getElementById('trendingList').innerHTML = notable.map(i =>
+    `<div class="side-item"><b>${i.player}</b> — ${i.status}</div>`
+  ).join('') || `<div class="side-item">Nothing notable right now.</div>`;
+}
+
+function goToPro() {
+  document.getElementById('checkoutModal').classList.add('show');
+}
+
+async function submitCheckout() {
+  const email = document.getElementById('modalEmail').value.trim();
+  if (!email || !email.includes('@')) return;
+  try {
+    const res = await fetch(`${API}/api/stripe/checkout`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email})
+    });
+    const data = await res.json();
+    if (data.ok && data.url) window.location.href = data.url;
+  } catch(e) {}
+}
+
+init();
+</script>
+</body>
+</html>
