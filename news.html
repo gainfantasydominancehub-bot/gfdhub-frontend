@@ -190,6 +190,23 @@ function badgeClass(status) {
   if (s.includes('doubtful') || s.includes('quest')) return 'badge-doubtful';
   return 'badge-active';
 }
+  // Matches chat.html's position color palette (--qb/--rb/--wr/--te) so
+// the news feed's avatars feel consistent with the rest of the
+// product, instead of the flat two-tone injury/news scheme used
+// before. Falls back to a neutral gray when position isn't known —
+// currently true for every /api/injuries entry (see Bug-fix notes:
+// ESPN's ref-based response doesn't expose pos without a third fetch
+// deliberately skipped last night for latency reasons), so injuries
+// stay neutral until that's revisited; /api/news items do carry real
+// pos values and get real position colors immediately.
+function posColor(pos) {
+  const p = (pos||'').toUpperCase();
+  if (p.startsWith('QB')) return {bg:'rgba(255,179,71,.12)', border:'rgba(255,179,71,.3)', text:'#ffb347'};
+  if (p.startsWith('RB')) return {bg:'rgba(0,229,160,.1)', border:'rgba(0,229,160,.3)', text:'#00e5a0'};
+  if (p.startsWith('WR')) return {bg:'rgba(77,166,255,.1)', border:'rgba(77,166,255,.3)', text:'#4da6ff'};
+  if (p.startsWith('TE')) return {bg:'rgba(180,122,255,.1)', border:'rgba(180,122,255,.3)', text:'#b47aff'};
+  return {bg:'rgba(255,255,255,.06)', border:'rgba(255,255,255,.15)', text:'#6e7a94'};
+}
 
 async function init() {
   if (USER_EMAIL) {
@@ -273,7 +290,7 @@ function renderFeed() {
     const badge = isInjury ? `<span class="card-badge ${badgeClass(item.status)}">${item.status?.toUpperCase()}</span><br>` : '';
     const shouldOpen = playerParam && getSurname(item.player) === getSurname(playerParam);
     return `<div class="card ${shouldOpen ? 'open' : ''}" onclick="toggleCard(this)">
-      <div class="card-ava" style="background:${isInjury?'rgba(255,179,71,.12)':'rgba(0,229,160,.1)'};border:1px solid ${isInjury?'rgba(255,179,71,.3)':'rgba(0,229,160,.3)'};color:${isInjury?'var(--amb)':'var(--ac)'}">${initials(item.player)}</div>
+      <div class="card-ava" style="background:${posColor(item.pos).bg};border:1px solid ${posColor(item.pos).border};color:${posColor(item.pos).text}">${initials(item.player)}</div>
       <div class="card-body">
         <div class="card-head">
           <span class="card-name">${item.player||'Unknown'}</span>
