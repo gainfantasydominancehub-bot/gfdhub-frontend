@@ -129,6 +129,29 @@ let NEWS = [];
 let WATCHLIST = [];
 let CURRENT_FILTER = 'all';
 let USER_EMAIL = localStorage.getItem('gfd_email');
+  // Same curated fantasy-relevant player list used in index.js/chat.html —
+// duplicated here rather than fetched, matching the existing pattern
+// (chat.html already duplicates its own copy independently). Filters
+// the feed down to players people actually care about, instead of
+// every ESPN/Tank01 mention including backup defensive linemen.
+const CURATED_SURNAMES = new Set([
+  'robinson','gibbs','chase','nacua','smith-njigba','st. brown','mccaffrey','lamb',
+  'taylor','jefferson','cook','london','jeanty','achane','collins','brown','bowers',
+  'barkley','pickens','mcbride','hampton','olave','henry','walker','allen','rice',
+  'nabers','mcmillan','love','higgins','jackson','maye','williams','jacobs','hall',
+  'flowers','wilson','mcconkey','loveland','mclaurin','burrow','etienne','adams',
+  'egbuka','waddle','burden','daniels','odunze','warren','moore','purdy','goff',
+  'doubs','coleman','worthy','freiermuth','conner','white','ridley','thomas',
+  'cooper','hunter','dell','harrison','kincaid','richardson','levis','charbonnet',
+  'godwin','hurts','hockenson','andrews','penny','hopkins','sutton','cooks','engram',
+  'herbert','nix','lawrence','addison','robinson','kelce','pearsall','jones','kittle',
+  'reed','goedert','mayfield','shakir','montgomery','kraft','tuten','metcalf','pitts',
+  'laporta','mahomes','darnold','prescott','murray','ferguson','fannin','harvey',
+  'hubbard','pollard','stevenson','dowdle','henderson','tate','price','dart','harris'
+]);
+function isRelevantPlayer(name) {
+  return CURATED_SURNAMES.has(getSurname(name));
+}
 
 function getSurname(fullName) {
   const words = (fullName||'').replace(/[.,]/g,'').trim().toLowerCase().split(/\s+/);
@@ -203,6 +226,9 @@ function getMergedFeed() {
   if (CURRENT_FILTER !== 'injuries') list = list.concat(NEWS);
   if (CURRENT_FILTER === 'watchlist') {
     list = list.filter(item => WATCHLIST.some(w => getSurname(w.name) === getSurname(item.player)));
+  }
+    else {
+    list = list.filter(item => isRelevantPlayer(item.player));
   }
   const q = (document.getElementById('searchBox').value || '').trim().toLowerCase();
   if (q) list = list.filter(item => (item.player||'').toLowerCase().includes(q));
