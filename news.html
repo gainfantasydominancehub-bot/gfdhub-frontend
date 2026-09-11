@@ -302,12 +302,16 @@ function getMergedFeed() {
   if (CURRENT_FILTER !== 'injuries') list = list.concat(NEWS);
   if (CURRENT_FILTER === 'watchlist') {
     list = list.filter(item => WATCHLIST.some(w => getSurname(w.name) === getSurname(item.player)));
-  }
-    else {
+  } else {
     list = list.filter(item => isRelevantPlayer(item.player));
   }
   const q = (document.getElementById('searchBox').value || '').trim().toLowerCase();
   if (q) list = list.filter(item => (item.player||'').toLowerCase().includes(q));
+  list.sort((a, b) => {
+    const aTime = new Date(a._type === 'injury' ? a.date : a.time).getTime() || 0;
+    const bTime = new Date(b._type === 'injury' ? b.date : b.time).getTime() || 0;
+    return bTime - aTime;
+  });
   return list;
 }
 
