@@ -187,6 +187,26 @@ function formatUSDate(isoStr) {
   if (isNaN(d.getTime())) return isoStr;
   return `${d.getMonth()+1}/${d.getDate()}/${String(d.getFullYear()).slice(-2)}`;
 }
+  
+// Converts a timestamp into "Xm"/"Xh"/"Xd" relative format, X-style,
+// for the feed's recency display. Falls back to formatUSDate() for
+// anything older than 7 days, since "23d ago" is less useful than an
+// actual date at that point.
+function formatRelativeTime(timestamp) {
+  if (!timestamp) return '';
+  const then = new Date(timestamp);
+  if (isNaN(then.getTime())) return '';
+  const now = new Date();
+  const diffMs = now - then;
+  const diffMin = Math.floor(diffMs / 60000);
+  const diffHr = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHr / 24);
+  if (diffMin < 1) return 'just now';
+  if (diffMin < 60) return `${diffMin}m`;
+  if (diffHr < 24) return `${diffHr}h`;
+  if (diffDay < 7) return `${diffDay}d`;
+  return formatUSDate(timestamp.split('T')[0]);
+}
 
 function getSurname(fullName) {
   const words = (fullName||'').replace(/[.,]/g,'').trim().toLowerCase().split(/\s+/);
@@ -309,9 +329,10 @@ function renderFeed() {
       <div class="card-ava" style="background:${posColor(item.pos && item.pos !== '?' ? item.pos : curatedPos(item.player)).bg};border:1px solid ${posColor(item.pos && item.pos !== '?' ? item.pos : curatedPos(item.player)).border};color:${posColor(item.pos && item.pos !== '?' ? item.pos : curatedPos(item.player)).text}">${initials(item.player)}</div>
       <div class="card-body">
         <div class="card-head">
-          <span class="card-name">${item.player||'Unknown'}</span>
-          ${item.team && item.team !== '?' ? `<span class="card-meta">${item.pos||''} · ${item.team}</span>` : ''}
-        </div>
+  <span class="card-name">${item.player||'Unknown'}</span>
+  ${item.team && item.team !== '?' ? `<span class="card-meta">${item.pos||''} · ${item.team}</span>` : ''}
+  <span class="card-meta" style="margin-left:auto">${formatRelativeTime(isInjury ? item.date : item.time)}</span>
+</div>
         ${badge}
         <div class="card-detail">${item.detail || item.headline || 'No details available.'}</div>
         <div class="card-expand">
