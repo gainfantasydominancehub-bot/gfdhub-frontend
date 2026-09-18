@@ -379,71 +379,16 @@ let ACTIVE_PLAYER = null;
 
 const NFL_FIRST_NAMES = new Set(['Josh','Patrick','Lamar','Joe','Justin','Dak','Jalen','Tua','Trevor','Brock','Baker','Kirk','Jordan','Derek','Sam','Geno','Kenny','Deshaun','Russell','Mac','Jimmy','Daniel','Matthew','Ryan','Aaron','Tom','Kyler','Tyler','Jared','Carson','Davis','Caleb','Drake','Bo','CeeDee','Davante','Tyreek','Stefon','Justin','Cooper','Deebo','Michael','Keenan','Chris','Amari','DK','Tee','Gabe','Tank','Puka','Amon-Ra','Jaylen','Rashee','Xavier','Zay','Courtland','Quentin','Marvin','Malik','Jaylen','Rome','Saquon','Christian','Derrick','Nick','Tony','Najee','Jonathan','Dalvin','Alvin','Cam','Josh','De\'Von','Rhamondre','Isiah','Zack','Miles','Travis','Mark','Sam','Dawson','Cole','Dallas','Evan','Jake','T.J.','Micah','Nick','Myles','Maxx','Aidan','Will','Joey','Sauce','Jaire','Stephon','Darius','Tariq','Sauce','Trevon','Sauce']);
 
-const PLAYER_LOOKUP = [
-  {name:'Bijan Robinson',team:'ATL',pos:'RB'},{name:'Jahmyr Gibbs',team:'DET',pos:'RB'},
-  {name:"Ja'Marr Chase",team:'CIN',pos:'WR'},{name:'Puka Nacua',team:'LAR',pos:'WR'},
-  {name:'Jaxon Smith-Njigba',team:'SEA',pos:'WR'},{name:'Amon-Ra St. Brown',team:'DET',pos:'WR'},
-  {name:'Christian McCaffrey',team:'SF',pos:'RB'},{name:'CeeDee Lamb',team:'DAL',pos:'WR'},
-  {name:'Jonathan Taylor',team:'IND',pos:'RB'},{name:'Justin Jefferson',team:'MIN',pos:'WR'},
-  {name:'James Cook III',team:'BUF',pos:'RB'},{name:'Drake London',team:'ATL',pos:'WR'},
-  {name:'Ashton Jeanty',team:'LV',pos:'RB'},{name:"De'Von Achane",team:'MIA',pos:'RB'},
-  {name:'Nico Collins',team:'HOU',pos:'WR'},{name:'Chase Brown',team:'CIN',pos:'RB'},
-  {name:'Brock Bowers',team:'LV',pos:'TE'},{name:'Saquon Barkley',team:'PHI',pos:'RB'},
-  {name:'George Pickens',team:'DAL',pos:'WR'},{name:'Trey McBride',team:'ARI',pos:'TE'},
-  {name:'A.J. Brown',team:'NE',pos:'WR'},{name:'Omarion Hampton',team:'LAC',pos:'RB'},
-  {name:'Chris Olave',team:'NO',pos:'WR'},{name:'Derrick Henry',team:'BAL',pos:'RB'},
-  {name:'Kenneth Walker III',team:'KC',pos:'RB'},{name:'Josh Allen',team:'BUF',pos:'QB'},
-  {name:'Rashee Rice',team:'KC',pos:'WR'},{name:'Malik Nabers',team:'NYG',pos:'WR'},
-  {name:'Tetairoa McMillan',team:'CAR',pos:'WR'},{name:'Jeremiyah Love',team:'ARI',pos:'RB'},
-  {name:'Tee Higgins',team:'CIN',pos:'WR'},{name:'DeVonta Smith',team:'PHI',pos:'WR'},
-  {name:'Lamar Jackson',team:'BAL',pos:'QB'},{name:'Drake Maye',team:'NE',pos:'QB'},
-  {name:'Kyren Williams',team:'LAR',pos:'RB'},{name:'Josh Jacobs',team:'GB',pos:'RB'},
-  {name:'Breece Hall',team:'NYJ',pos:'RB'},{name:'Zay Flowers',team:'BAL',pos:'WR'},
-  {name:'Garrett Wilson',team:'NYJ',pos:'WR'},{name:'Ladd McConkey',team:'LAC',pos:'WR'},
-  {name:'Javonte Williams',team:'DAL',pos:'RB'},{name:'Colston Loveland',team:'CHI',pos:'TE'},
-  {name:'Terry McLaurin',team:'WAS',pos:'WR'},{name:'Joe Burrow',team:'CIN',pos:'QB'},
-  {name:'Travis Etienne Jr.',team:'NO',pos:'RB'},{name:'Davante Adams',team:'LAR',pos:'WR'},
-  {name:'Emeka Egbuka',team:'TB',pos:'WR'},{name:'Jaylen Waddle',team:'DEN',pos:'WR'},
-  {name:'Luther Burden III',team:'CHI',pos:'WR'},{name:'Jameson Williams',team:'DET',pos:'WR'},
-  {name:'Cam Skattebo',team:'NYG',pos:'RB'},{name:'Bucky Irving',team:'TB',pos:'RB'},
-  {name:'Mike Evans',team:'SF',pos:'WR'},{name:'Christian Watson',team:'GB',pos:'WR'},
-  {name:'Quinshon Judkins',team:'CLE',pos:'RB'},{name:"D'Andre Swift",team:'CHI',pos:'RB'},
-  {name:'Jayden Daniels',team:'WAS',pos:'QB'},{name:'Rome Odunze',team:'CHI',pos:'WR'},
-  {name:'Tyler Warren',team:'IND',pos:'TE'},{name:'DJ Moore',team:'BUF',pos:'WR'},
-  {name:'Brock Purdy',team:'SF',pos:'QB'},{name:'Jared Goff',team:'DET',pos:'QB'},
-  {name:'Romeo Doubs',team:'GB',pos:'WR'},{name:'Keon Coleman',team:'BUF',pos:'WR'},
-  {name:'Xavier Worthy',team:'KC',pos:'WR'},{name:'Pat Freiermuth',team:'PIT',pos:'TE'},
-  {name:'James Conner',team:'ARI',pos:'RB'},{name:'Rachaad White',team:'TB',pos:'RB'},
-  {name:'Calvin Ridley',team:'TEN',pos:'WR'},{name:'Brian Thomas Jr.',team:'JAC',pos:'WR'},
-  {name:'Amari Cooper',team:'CLE',pos:'WR'},{name:'Travis Hunter',team:'JAC',pos:'WR'},
-  {name:'Tank Dell',team:'HOU',pos:'WR'},{name:'Marvin Harrison Jr.',team:'ARI',pos:'WR'},
-  {name:'Dalton Kincaid',team:'BUF',pos:'TE'},{name:'Anthony Richardson',team:'IND',pos:'QB'},
-  {name:'Will Levis',team:'TEN',pos:'QB'},{name:'Zach Charbonnet',team:'SEA',pos:'RB'},
-  {name:'Chris Godwin',team:'TB',pos:'WR'},{name:'Jalen McMillan',team:'TB',pos:'WR'},
-  {name:'Jalen Hurts',team:'PHI',pos:'QB'},{name:'T.J. Hockenson',team:'MIN',pos:'TE'},
-  {name:'Mark Andrews',team:'BAL',pos:'TE'},{name:'Rashaad Penny',team:'LV',pos:'RB'},
-  {name:'DeAndre Hopkins',team:'KC',pos:'WR'},{name:'Courtland Sutton',team:'DEN',pos:'WR'},
-  {name:'Brandin Cooks',team:'DAL',pos:'WR'},{name:'Evan Engram',team:'JAC',pos:'TE'},
-  {name:'Justin Herbert',team:'LAC',pos:'QB'},{name:'Bo Nix',team:'DEN',pos:'QB'},
-  {name:'Trevor Lawrence',team:'JAC',pos:'QB'},{name:'Jordan Addison',team:'MIN',pos:'WR'},
-  {name:"Wan'Dale Robinson",team:'TEN',pos:'WR'},{name:'Travis Kelce',team:'KC',pos:'TE'},
-  {name:'Ricky Pearsall',team:'SF',pos:'WR'},{name:'Aaron Jones Sr.',team:'MIN',pos:'RB'},
-  {name:'George Kittle',team:'SF',pos:'TE'},{name:'Jayden Reed',team:'GB',pos:'WR'},
-  {name:'Jordan Love',team:'GB',pos:'QB'},{name:'Dallas Goedert',team:'PHI',pos:'TE'},
-  {name:'Baker Mayfield',team:'TB',pos:'QB'},{name:'Khalil Shakir',team:'BUF',pos:'WR'},
-  {name:'David Montgomery',team:'HOU',pos:'RB'},{name:'Tucker Kraft',team:'GB',pos:'TE'},
-  {name:'Bhayshul Tuten',team:'JAC',pos:'RB'},{name:'DK Metcalf',team:'PIT',pos:'WR'},
-  {name:'Kyle Pitts',team:'ATL',pos:'TE'},{name:'Sam LaPorta',team:'DET',pos:'TE'},
-  {name:'Patrick Mahomes',team:'KC',pos:'QB'},{name:'Caleb Williams',team:'CHI',pos:'QB'},
-  {name:'Sam Darnold',team:'SEA',pos:'QB'},{name:'Dak Prescott',team:'DAL',pos:'QB'},
-  {name:'Kyler Murray',team:'MIN',pos:'QB'},{name:'Jake Ferguson',team:'DAL',pos:'TE'},
-  {name:'Harold Fannin Jr.',team:'CLE',pos:'TE'},{name:'RJ Harvey',team:'DEN',pos:'RB'},
-  {name:'Chuba Hubbard',team:'CAR',pos:'RB'},{name:'Tony Pollard',team:'TEN',pos:'RB'},
-  {name:'Rhamondre Stevenson',team:'NE',pos:'RB'},{name:'Rico Dowdle',team:'PIT',pos:'RB'},
-  {name:'TreVeyon Henderson',team:'NE',pos:'RB'},{name:'Carnell Tate',team:'TEN',pos:'WR'},
-  {name:'Jadarian Price',team:'SEA',pos:'RB'},{name:'Jaylen Warren',team:'PIT',pos:'RB'},
-  {name:'Jaxson Dart',team:'NYG',pos:'QB'},{name:'Najee Harris',team:'LAC',pos:'RB'},
-  // ── DST ──
+// PLAYER_LOOKUP is now fetched from /api/players/curated (single source
+// of truth — see index.js) instead of hardcoded here, closing the drift
+// bug that let this file's copy silently diverge from index.js's and
+// news.html's (see the Watson news-feed gap). Starts empty; init()
+// populates it before anything else runs. DST entries aren't in the
+// backend's curated list (skill players only), so they stay local here
+// and get concatenated on once the fetch resolves.
+let PLAYER_LOOKUP = [];
+
+const DST_LOOKUP = [
   {name:'Arizona Cardinals DST',team:'ARI',pos:'DST'},{name:'Atlanta Falcons DST',team:'ATL',pos:'DST'},
   {name:'Baltimore Ravens DST',team:'BAL',pos:'DST'},{name:'Buffalo Bills DST',team:'BUF',pos:'DST'},
   {name:'Carolina Panthers DST',team:'CAR',pos:'DST'},{name:'Chicago Bears DST',team:'CHI',pos:'DST'},
@@ -1435,6 +1380,21 @@ CRITICAL: If usage, injury, odds, or trend data has been provided in this conver
 async function init() {
   const email = localStorage.getItem('gfd_email');
   if (!email) { window.location.href = '/index.html'; return; }
+
+  // Fetch the shared curated player list before anything that depends
+  // on it runs (resolveFromLookup, resolveAllFromLookup, watchlist
+  // autocomplete, start/sit extraction). Falls back to DST-only if the
+  // fetch fails, so the page degrades gracefully instead of breaking
+  // every player-name lookup on the page.
+  try {
+    const curatedRes = await fetch(`${API}/api/players/curated`);
+    const curatedData = await curatedRes.json();
+    PLAYER_LOOKUP = (curatedData.ok && curatedData.players ? curatedData.players : []).concat(DST_LOOKUP);
+  } catch(e) {
+    console.error('Curated player list fetch failed:', e.message);
+    PLAYER_LOOKUP = [...DST_LOOKUP];
+  }
+
   try {
     const res = await fetch(`${API}/api/user/context?email=${encodeURIComponent(email)}`);
     const data = await res.json();
