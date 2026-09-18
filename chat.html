@@ -1405,10 +1405,13 @@ PICKS 51-100:
 PICKS 101-200 (condensed):
 101.Dalton Kincaid(BUF)TE 102.Kenneth Gainwell(TB)RB⚠️SLEEPER — signed with Tampa replacing White; monitor camp 103.Jared Goff(DET)QB 104.Jake Ferguson(DAL)TE 105.Quentin Johnston(LAC)WR 106.Kyler Murray(MIN)QB 107.George Kittle(SF)TE 108.Jayden Reed(GB)WR 109.Jacory Croskey-Merritt(WAS)RB 110.Josh Downs(IND)WR 111.Rachaad White(WAS)RB 112.Jordan Love(GB)QB 113.Dallas Goedert(PHI)TE 114.Jayden Higgins(HOU)WR 115.Baker Mayfield(TB)QB 116.Jordan Mason(MIN)RB 117.Tyrone Tracy Jr.(NYG)RB 118.Isaiah Likely(NYG)TE 119.Xavier Worthy(KC)WR 120.Tyler Shough(NO)QB 121.Khalil Shakir(BUF)WR 122.Woody Marks(HOU)RB 123.Tyler Allgeier(ARI)RB 124.Mark Andrews(BAL)TE 125.KC Concepcion(CLE)WR 126.Chris Rodriguez Jr.(JAC)RB 127.Malik Willis(MIA)QB 128.TreVeyon Henderson(NE)RB 129.David Montgomery(HOU)RB 130.Tucker Kraft(GB)TE 131.Bhayshul Tuten(JAC)RB⚠️SLEEPER home-run threat 132.Carnell Tate(TEN)WR 133.Jadarian Price(SEA)RB 134.Jaylen Warren(PIT)RB 135.Caleb Williams(CHI)QB 136.Sam Darnold(SEA)QB⚠️Super Bowl winner 2025 — QB2 streamer value but run-heavy offense limits ceiling; monitor camp 137.Alec Pierce(IND)WR 138.DK Metcalf(PIT)WR 139.Harold Fannin Jr.(CLE)TE 140.Chuba Hubbard(CAR)RB 141.Jaxson Dart(NYG)QB 142.Tony Pollard(TEN)RB 143.Dak Prescott(DAL)QB 144.Rhamondre Stevenson(NE)RB 145.Rico Dowdle(PIT)RB 146.RJ Harvey(DEN)RB 147.Kyle Pitts(ATL)TE 148.Sam LaPorta(DET)TE 149.Michael Wilson(ARI)WR 150.Jordyn Tyson(NO)WR 151.Kyle Monangai(CHI)RB 152.Makai Lemon(PHI)WR 153.Parker Washington(JAC)WR 154.Jakobi Meyers(JAC)WR 155.Blake Corum(LAR)RB 156.Michael Pittman Jr.(PIT)WR 157.Pittsburgh Steelers DST 158.J.K. Dobbins(DEN)RB 159.Patrick Mahomes(KC)QB 160.Matthew Stafford(LAR)QB 161.Wan'Dale Robinson(TEN)WR 162.Ricky Pearsall(SF)WR 163.Aaron Jones(MIN)RB 164.Jake Ferguson(DAL)TE 165.Quentin Johnston(LAC)WR 166.George Kittle(SF)TE 167.Jayden Reed(GB)WR 168.Jacory Croskey-Merritt(WAS)RB 169.Josh Downs(IND)WR 170.Jordan Love(GB)QB 171.Dallas Goedert(PHI)TE 172.Jayden Higgins(HOU)WR 173.Baker Mayfield(TB)QB 174.Jordan Mason(MIN)RB 175.Tyrone Tracy Jr.(NYG)RB 176.Isaiah Likely(NYG)TE 177.Khalil Shakir(BUF)WR 178.Tyler Allgeier(ARI)RB 179.KC Concepcion(CLE)WR 180.TreVeyon Henderson(NE)RB 181.David Montgomery(HOU)RB 182.Tucker Kraft(GB)TE 183.Bhayshul Tuten(JAC)RB 184.Carnell Tate(TEN)WR 185.Jadarian Price(SEA)RB 186.Jaylen Warren(PIT)RB 187.Caleb Williams(CHI)QB 188.Alec Pierce(IND)WR 189.DK Metcalf(PIT)WR 190.Courtland Sutton(DEN)WR 191.Harold Fannin Jr.(CLE)TE 192.Chuba Hubbard(CAR)RB 193.Jaxson Dart(NYG)QB 194.Trevor Lawrence(JAC)QB 195.Tony Pollard(TEN)RB 196.Dak Prescott(DAL)QB 197.Rhamondre Stevenson(NE)RB 198.Rico Dowdle(PIT)RB 199.Jordan Love(GB)QB 200.Dallas Goedert(PHI)TE`;
   }
-  if (now < playoffPush) {
+    if (now < playoffPush) {
     const week = Math.min(Math.floor((now - opener) / (7*24*60*60*1000)) + 1, 17);
+    const week1Note = week === 1
+      ? `\nNOTE: The 2026 season opener was an outlier Wednesday kickoff (Sept 9), not the usual Thu–Mon schedule. Do not assume "this Sunday" for Week 1 games — check each player's actual game date in the live data below, since some Week 1 games may already be finished.`
+      : '';
     return `Current date: ${dateStr}.
-We are in the 2026 NFL REGULAR SEASON, Week ${week}.
+We are in the 2026 NFL REGULAR SEASON, Week ${week}.${week1Note}
 CRITICAL: Reference 2026 season stats, current injury reports, and current depth charts. Do NOT reference 2024 or 2025 season stats unless directly relevant. Focus on 2026 matchups, usage trends, and weekly lineup decisions.
 CRITICAL: If usage, injury, odds, or trend data has been provided in this conversation's live context, treat it as authoritative and cite it directly. Do not substitute general knowledge or assumptions where live data is available.`;
   }
@@ -1626,8 +1629,8 @@ async function fetchLiveContext(question) {
               const home = g.home.toUpperCase(), away = g.away.toUpperCase();
               teamOpponentMap[home] = away;
               teamOpponentMap[away] = home;
-              teamGameMap[home] = { isHome: true, opponent: away, spread: g.homeSpread, total: g.totalLine };
-              teamGameMap[away] = { isHome: false, opponent: home, spread: g.awaySpread, total: g.totalLine };
+              teamGameMap[home] = { isHome: true, opponent: away, spread: g.homeSpread, total: g.totalLine, gameDate: g.gameDate };
+              teamGameMap[away] = { isHome: false, opponent: home, spread: g.awaySpread, total: g.totalLine, gameDate: g.gameDate };
             }
         });
       }
@@ -1749,8 +1752,16 @@ async function fetchLiveContext(question) {
         // #21 home/away + #20 game script — derived from data already in
         // teamGameMap, no new fetch
         const gameInfo = teamGameMap[teamUp];
-        if (gameInfo) {
-          context.homeAway.push(`${p.name} (${teamUp}): ${gameInfo.isHome ? 'Home' : 'Away'} vs ${gameInfo.opponent}`);
+                if (gameInfo) {
+          let timingNote = '';
+          if (gameInfo.gameDate && gameInfo.gameDate.length === 8) {
+            const y = gameInfo.gameDate.slice(0,4), m = gameInfo.gameDate.slice(4,6), d = gameInfo.gameDate.slice(6,8);
+            const gameDay = new Date(`${y}-${m}-${d}`);
+            const dayName = gameDay.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            const alreadyPlayed = gameDay < new Date(new Date().toDateString());
+            timingNote = ` — ${dayName}${alreadyPlayed ? ' (ALREADY PLAYED)' : ' (upcoming)'}`;
+          }
+          context.homeAway.push(`${p.name} (${teamUp}): ${gameInfo.isHome ? 'Home' : 'Away'} vs ${gameInfo.opponent}${timingNote}`);
           const scriptDesc = describeGameScript(gameInfo.spread);
           if (scriptDesc) context.gameScript.push(`${p.name}: ${scriptDesc} (spread ${gameInfo.spread})`);
         }
